@@ -3,10 +3,12 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { getStoredBlogPosts, BlogPost } from "@/lib/db";
+import { useLanguage } from "@/context/LanguageContext";
 
 type TabId = "quienes-somos" | "red-medica" | "paquetes" | "garantias" | "blog-faq";
 
 export default function Nosotros() {
+  const { language, t } = useLanguage();
   const [activeTab, setActiveTab] = useState<TabId>("quienes-somos");
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [mounted, setMounted] = useState(false);
@@ -49,12 +51,12 @@ export default function Nosotros() {
 
       <section className="nosotros-hero">
         <div className="container text-center">
-          <span className="nosotros-subtitle">Conoce Bridge Care</span>
-          <h1>Excelencia Médica sin Fronteras</h1>
+          <span className="nosotros-subtitle">{t("about.title")}</span>
+          <h1>
+            {language === "es" ? "Excelencia Médica sin Fronteras" : "Medical Excellence Without Borders"}
+          </h1>
           <div className="header-bar"></div>
-          <p className="nosotros-hero-desc">
-            Te acompañamos en tu proceso de salud y recuperación, brindándote tranquilidad, confort y acceso a la mejor medicina de Colombia.
-          </p>
+          <p className="nosotros-hero-desc">{t("about.subtitle")}</p>
         </div>
       </section>
 
@@ -66,31 +68,31 @@ export default function Nosotros() {
               className={`tab-btn ${activeTab === "quienes-somos" ? "active" : ""}`}
               onClick={() => selectTab("quienes-somos")}
             >
-              Quiénes Somos
+              {t("about.tab.who")}
             </button>
             <button 
               className={`tab-btn ${activeTab === "red-medica" ? "active" : ""}`}
               onClick={() => selectTab("red-medica")}
             >
-              Red Médica y Clínicas
+              {language === "es" ? "Red Médica y Clínicas" : "Medical Network & Clinics"}
             </button>
             <button 
               className={`tab-btn ${activeTab === "paquetes" ? "active" : ""}`}
               onClick={() => selectTab("paquetes")}
             >
-              Paquetes Todo Incluido
+              {language === "es" ? "Paquetes Todo Incluido" : "All-Inclusive Packages"}
             </button>
             <button 
               className={`tab-btn ${activeTab === "garantias" ? "active" : ""}`}
               onClick={() => selectTab("garantias")}
             >
-              Seguridad y Garantías
+              {t("footer.guarantees")}
             </button>
             <button 
               className={`tab-btn ${activeTab === "blog-faq" ? "active" : ""}`}
               onClick={() => selectTab("blog-faq")}
             >
-              Blog y FAQ
+              {t("about.tab.blog")}
             </button>
           </div>
         </div>
@@ -105,15 +107,14 @@ export default function Nosotros() {
             <div className="tab-pane animate-fade-in">
               <div className="two-col-layout">
                 <div className="text-pane glass-card info-card-padding">
-                  <h2>Nuestra Misión y Visión</h2>
-                  <p className="lead-text">
-                    Bridge Care nace con el propósito de derribar las barreras geográficas y económicas de la salud, actuando como un puente transparente y seguro hacia la medicina de élite en Colombia.
-                  </p>
+                  <h2>{language === "es" ? "Nuestra Misión y Visión" : "Our Mission & Vision"}</h2>
+                  <p className="lead-text">{t("about.who.title")}</p>
+                  <p>{t("about.who.p1")}</p>
+                  <p>{t("about.who.p2")}</p>
                   <p>
-                    Entendemos que viajar para someterse a un procedimiento médico requiere de una confianza absoluta. Por ello, no somos solo intermediarios: somos tu equipo de soporte integral en destino. Nos encargamos de coordinar tus citas, seleccionar a los mejores profesionales certificados y supervisar cada detalle de tu estadía y recuperación.
-                  </p>
-                  <p>
-                    Nuestros valores fundamentales se centran en la <strong>seguridad del paciente</strong>, la <strong>transparencia de costos</strong> y la <strong>empatía humana</strong> en cada interacción.
+                    {language === "es"
+                      ? "Nuestros valores fundamentales se centran en la seguridad del paciente, la transparencia de costos y la empatía humana en cada interacción."
+                      : "Our core values center on patient safety, cost transparency, and human empathy in every interaction."}
                   </p>
                 </div>
                 <div className="image-pane">
@@ -126,33 +127,51 @@ export default function Nosotros() {
           {/* 2. RED MÉDICA Y CLÍNICAS */}
           {activeTab === "red-medica" && (
             <div className="tab-pane animate-fade-in">
-              <h2>Profesionales y Centros de Alta Complejidad</h2>
-              <p className="section-intro">
-                Trabajamos exclusivamente con especialistas certificados que cuentan con credenciales verificables y clínicas autorizadas por los entes gubernamentales.
-              </p>
+              <h2>{t("about.network.title")}</h2>
+              <p className="section-intro">{t("about.network.p1")}</p>
 
               <div className="grid grid-2 medical-grid">
                 <div className="medical-card glass-card">
-                  <h3>Nuestros Especialistas</h3>
+                  <h3>
+                    {language === "es" ? "Nuestros Especialistas" : "Our Specialists"}
+                  </h3>
                   <p>
-                    Todos nuestros cirujanos plásticos, odontólogos estéticos y cirujanos bariátricos pertenecen a las sociedades científicas oficiales de Colombia (ej. SCCP, FOC). Cuentan con un promedio de más de 12 años de experiencia y son bilingües.
+                    {language === "es"
+                      ? "Todos nuestros cirujanos plásticos, odontólogos estéticos y cirujanos bariátricos pertenecen a las sociedades científicas oficiales de Colombia (ej. SCCP, FOC). Cuentan con un promedio de más de 12 años de experiencia y son bilingües."
+                      : "All our plastic surgeons, cosmetic dentists, and bariatric surgeons belong to official scientific societies in Colombia (e.g. SCCP, FOC). They average over 12 years of experience and are bilingual."}
                   </p>
                   <ul className="accent-list">
-                    <li>Miembros SCCP (Sociedad Colombiana de Cirugía Plástica)</li>
-                    <li>Especialistas en Implantología CAD/CAM digital</li>
-                    <li>Certificaciones internacionales y de prestigio</li>
+                    <li>{t("about.network.li1")}</li>
+                    <li>{t("about.network.li2")}</li>
+                    <li>
+                      {language === "es" 
+                        ? "Certificaciones internacionales y de gran prestigio" 
+                        : "Highly prestigious and international certifications"}
+                    </li>
                   </ul>
                 </div>
 
                 <div className="medical-card glass-card">
-                  <h3>Infraestructura Hospitalaria</h3>
+                  <h3>
+                    {language === "es" ? "Infraestructura Hospitalaria" : "Hospital Infrastructure"}
+                  </h3>
                   <p>
-                    Las cirugías de alta complejidad se realizan en clínicas que cuentan con unidades de cuidados intensivos (UCI) propias, quirófanos inteligentes y laboratorios clínicos integrados, asegurando la máxima protección ante cualquier eventualidad.
+                    {language === "es"
+                      ? "Las cirugías de alta complejidad se realizan en clínicas que cuentan con unidades de cuidados intensivos (UCI) propias, quirófanos inteligentes y laboratorios clínicos integrados, asegurando la máxima protección ante cualquier eventualidad."
+                      : "High-complexity surgeries are performed in clinics featuring their own intensive care units (ICU), smart operating rooms, and integrated clinical laboratories, ensuring maximum safety for any eventuality."}
                   </p>
                   <ul className="accent-list">
-                    <li>Clínica El Tesoro (Medellín) - Acreditación de vanguardia</li>
-                    <li>Fundación Santa Fe (Bogotá) - Certificación Joint Commission</li>
-                    <li>Hospital Valle del Lili (Cali) - Catalogado entre los mejores de LATAM</li>
+                    <li>
+                      {language === "es"
+                        ? "Clínica El Tesoro (Medellín) - Acreditación de vanguardia"
+                        : "El Tesoro Clinic (Medellin) - Cutting-edge accreditation"}
+                    </li>
+                    <li>
+                      {language === "es"
+                        ? "Fundación Santa Fe (Bogotá) - Certificación Joint Commission"
+                        : "Santa Fe Foundation (Bogota) - Joint Commission Certification"}
+                    </li>
+                    <li>{t("about.network.li3")}</li>
                   </ul>
                 </div>
               </div>
@@ -162,63 +181,117 @@ export default function Nosotros() {
           {/* 3. PAQUETES TODO INCLUIDO */}
           {activeTab === "paquetes" && (
             <div className="tab-pane animate-fade-in">
-              <h2>Viaja sin Preocupaciones: Todo está Cubierto</h2>
+              <h2>
+                {language === "es" ? "Viaja sin Preocupaciones: Todo está Cubierto" : "Travel Worry-Free: Everything is Covered"}
+              </h2>
               <p className="section-intro">
-                Nuestros paquetes están diseñados para brindarte un servicio tipo conserjería. Desde tu llegada al aeropuerto hasta tu regreso a casa.
+                {language === "es"
+                  ? "Nuestros paquetes están diseñados para brindarte un servicio tipo conserjería. Desde tu llegada al aeropuerto hasta tu regreso a casa."
+                  : "Our packages are designed to provide you with concierge-style service. From your arrival at the airport to your return back home."}
               </p>
 
               <div className="grid grid-3 packages-grid">
                 <div className="package-card glass-card">
                   <div className="package-header">
-                    <h3>Plan Básico de Soporte</h3>
-                    <div className="package-subtitle">Logística Médica</div>
+                    <h3>
+                      {language === "es" ? "Plan Básico de Soporte" : "Basic Support Plan"}
+                    </h3>
+                    <div className="package-subtitle">
+                      {language === "es" ? "Logística Médica" : "Medical Logistics"}
+                    </div>
                   </div>
                   <ul className="package-features">
-                    <li>Valoración y cotización formal</li>
-                    <li>Asignación de cirujano certificado</li>
-                    <li>Gestión de citas médicas y quirúrgicas</li>
-                    <li>Acompañamiento telefónico 24/7</li>
-                    <li>Traducción de historial médico</li>
+                    <li>
+                      {language === "es" ? "Valoración y cotización formal" : "Evaluation and formal quote"}
+                    </li>
+                    <li>
+                      {language === "es" ? "Asignación de cirujano certificado" : "Certified surgeon assignment"}
+                    </li>
+                    <li>
+                      {language === "es" ? "Gestión de citas médicas y quirúrgicas" : "Medical & surgical appointment booking"}
+                    </li>
+                    <li>
+                      {language === "es" ? "Acompañamiento telefónico 24/7" : "24/7 telephone support"}
+                    </li>
+                    <li>
+                      {language === "es" ? "Traducción de historial médico" : "Medical history translation"}
+                    </li>
                   </ul>
                   <div className="package-footer">
-                    <Link href="/contacto" className="btn btn-secondary btn-sm w-full">Solicitar Información</Link>
+                    <Link href="/contacto" className="btn btn-secondary btn-sm w-full">
+                      {language === "es" ? "Solicitar Información" : "Request Information"}
+                    </Link>
                   </div>
                 </div>
 
                 <div className="package-card glass-card featured-package">
-                  <div className="package-tag">MÁS POPULAR</div>
+                  <div className="package-tag">
+                    {language === "es" ? "MÁS POPULAR" : "MOST POPULAR"}
+                  </div>
                   <div className="package-header">
-                    <h3>Plan Integral Premium</h3>
-                    <div className="package-subtitle">Logística + Traslados + Hotel</div>
+                    <h3>
+                      {language === "es" ? "Plan Integral Premium" : "Premium Comprehensive Plan"}
+                    </h3>
+                    <div className="package-subtitle">
+                      {language === "es" ? "Logística + Traslados + Hotel" : "Logistics + Transfers + Hotel"}
+                    </div>
                   </div>
                   <ul className="package-features">
-                    <li><strong>Todo lo del Plan Básico</strong></li>
-                    <li>Chofer privado bilingüe en destino</li>
-                    <li>Hospedaje de 10 noches en hotel aliado</li>
-                    <li>Alimentación balanceada postoperatoria</li>
-                    <li>Enfermera bilingüe para curaciones</li>
-                    <li>Seguro médico de complicaciones</li>
+                    <li>
+                      <strong>
+                        {language === "es" ? "Todo lo del Plan Básico" : "Everything in Basic Plan"}
+                      </strong>
+                    </li>
+                    <li>{t("about.packages.li2")}</li>
+                    <li>{t("about.packages.li1")}</li>
+                    <li>
+                      {language === "es" ? "Alimentación balanceada postoperatoria" : "Balanced post-operative meals"}
+                    </li>
+                    <li>{t("about.packages.li3")}</li>
+                    <li>{t("about.guarantees.li1")}</li>
                   </ul>
                   <div className="package-footer">
-                    <Link href="/contacto" className="btn btn-accent btn-sm w-full">Cotizar Plan Premium</Link>
+                    <Link href="/contacto" className="btn btn-accent btn-sm w-full">
+                      {language === "es" ? "Cotizar Plan Premium" : "Quote Premium Plan"}
+                    </Link>
                   </div>
                 </div>
 
                 <div className="package-card glass-card">
                   <div className="package-header">
-                    <h3>Plan VIP Deluxe</h3>
-                    <div className="package-subtitle">Experiencia 5 Estrellas</div>
+                    <h3>
+                      {language === "es" ? "Plan VIP Deluxe" : "VIP Deluxe Plan"}
+                    </h3>
+                    <div className="package-subtitle">
+                      {language === "es" ? "Experiencia 5 Estrellas" : "5-Star Experience"}
+                    </div>
                   </div>
                   <ul className="package-features">
-                    <li><strong>Todo lo del Plan Premium</strong></li>
-                    <li>Hospedaje en Suite Ejecutiva 5 estrellas</li>
-                    <li>Servicio de enfermería privada 24 horas</li>
-                    <li>Tours turísticos suaves post-alta</li>
-                    <li>Gestión de pasajes aéreos y maletas</li>
-                    <li>Asistente personal en destino</li>
+                    <li>
+                      <strong>
+                        {language === "es" ? "Todo lo del Plan Premium" : "Everything in Premium Plan"}
+                      </strong>
+                    </li>
+                    <li>
+                      {language === "es" ? "Hospedaje en Suite Ejecutiva 5 estrellas" : "5-star Executive Suite stay"}
+                    </li>
+                    <li>
+                      {language === "es" ? "Servicio de enfermería privada 24 horas" : "24-hour private nursing service"}
+                    </li>
+                    <li>
+                      {language === "es" ? "Tours turísticos suaves post-alta" : "Mild post-op sightseeing tours"}
+                    </li>
+                    <li>
+                      {language === "es" ? "Gestión de pasajes aéreos y maletas" : "Airfare and baggage management"}
+                    </li>
+                    <li>
+                      {language === "es" ? "Asistente personal en destino" : "Personal destination assistant"}
+                    </li>
                   </ul>
                   <div className="package-footer">
-                    <Link href="/contacto" className="btn btn-secondary btn-sm w-full">Solicitar VIP</Link>
+                    <Link href="/contacto" className="btn btn-secondary btn-sm w-full">
+                      {language === "es" ? "Solicitar VIP" : "Request VIP"}
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -230,25 +303,41 @@ export default function Nosotros() {
             <div className="tab-pane animate-fade-in">
               <div className="two-col-layout">
                 <div className="text-pane glass-card info-card-padding">
-                  <h2>Pólizas de Seguridad y Calidad Verificada</h2>
-                  <p className="lead-text">
-                    La tranquilidad del paciente es nuestro indicador de éxito. Implementamos un protocolo de tres capas de protección médica y legal.
-                  </p>
+                  <h2>{t("about.guarantees.title")}</h2>
+                  <p className="lead-text">{t("about.guarantees.p1")}</p>
                   
                   <div className="safety-layers">
                     <div className="safety-layer-item">
-                      <h4>1. Filtro de Especialista</h4>
-                      <p>No trabajamos con médicos generales que realizan procedimientos estéticos. Únicamente cirujanos con especializaciones universitarias oficiales y membresías activas en la sociedad de su área.</p>
+                      <h4>
+                        {language === "es" ? "1. Filtro de Especialista" : "1. Specialist Screening"}
+                      </h4>
+                      <p>
+                        {language === "es"
+                          ? "No trabajamos con médicos generales que realizan procedimientos estéticos. Únicamente cirujanos con especializaciones universitarias oficiales y membresías activas en la sociedad de su área."
+                          : "We do not work with general practitioners performing cosmetic procedures. Only surgeons with official university credentials and active memberships in their respective medical society."}
+                      </p>
                     </div>
 
                     <div className="safety-layer-item">
-                      <h4>2. Seguro de Complicaciones Internacionales</h4>
-                      <p>Incluimos en nuestros paquetes premium una póliza de seguro médico internacional que cubre gastos adicionales derivados de imprevistos quirúrgicos, garantizando protección financiera completa.</p>
+                      <h4>
+                        {language === "es" ? "2. Seguro de Complicaciones Internacionales" : "2. International Complications Insurance"}
+                      </h4>
+                      <p>
+                        {language === "es"
+                          ? "Incluimos en nuestros paquetes premium una póliza de seguro médico internacional que cubre gastos adicionales derivados de imprevistos quirúrgicos, garantizando protección financiera completa."
+                          : "We include an international medical insurance policy in our premium packages that covers additional expenses arising from surgical emergencies, guaranteeing complete financial protection."}
+                      </p>
                     </div>
 
                     <div className="safety-layer-item">
-                      <h4>3. Historial de Consentimientos Claros</h4>
-                      <p>Proporcionamos toda la documentación de consentimientos informados traducida, permitiéndote tomar decisiones informadas antes de salir de tu país de origen.</p>
+                      <h4>
+                        {language === "es" ? "3. Historial de Consentimientos Claros" : "3. Clear Informed Consents"}
+                      </h4>
+                      <p>
+                        {language === "es"
+                          ? "Proporcionamos toda la documentación de consentimientos informados traducida, permitiéndote tomar decisiones informadas antes de salir de tu país de origen."
+                          : "We provide all informed consent documentation fully translated, allowing you to make informed decisions before leaving your home country."}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -262,21 +351,27 @@ export default function Nosotros() {
           {/* 5. BLOG Y FAQ */}
           {activeTab === "blog-faq" && (
             <div className="tab-pane animate-fade-in">
-              <h2>Blog de Bridge Care</h2>
-              <p className="section-intro">Mantente informado con artículos redactados por nuestro equipo médico asesor.</p>
+              <h2>{language === "es" ? "Blog de Bridge Care" : "Bridge Care Blog"}</h2>
+              <p className="section-intro">{t("about.blog.p1")}</p>
 
               <div className="grid grid-3 blog-grid">
                 {mounted && blogPosts.map((post) => (
                   <article key={post.id} className="blog-card glass-card">
                     <div className="blog-card-meta">
-                      <span className="blog-cat">{post.category}</span>
+                      <span className="blog-cat">
+                        {language === "es" ? post.category : post.categoryEn}
+                      </span>
                       <span className="blog-date">{post.date}</span>
                     </div>
-                    <h3>{post.title}</h3>
-                    <p>{post.excerpt}</p>
-                    <p className="blog-content-preview">{post.content.substring(0, 120)}...</p>
+                    <h3>{language === "es" ? post.title : post.titleEn}</h3>
+                    <p>{language === "es" ? post.excerpt : post.excerptEn}</p>
+                    <p className="blog-content-preview">
+                      {(language === "es" ? post.content : post.contentEn).substring(0, 120)}...
+                    </p>
                     <div className="blog-footer">
-                      <span className="blog-author">Por: {post.author}</span>
+                      <span className="blog-author">
+                        {language === "es" ? "Por" : "By"}: {post.author}
+                      </span>
                     </div>
                   </article>
                 ))}
@@ -284,19 +379,43 @@ export default function Nosotros() {
 
               {/* MOCK FAQ */}
               <div className="faq-wrapper">
-                <h2>Preguntas Frecuentes</h2>
+                <h2>{language === "es" ? "Preguntas Frecuentes" : "Frequently Asked Questions"}</h2>
                 <div className="faq-list">
                   <div className="faq-item glass-card">
-                    <h4>¿Necesito visa para viajar a Colombia por tratamiento médico?</h4>
-                    <p>Los ciudadanos de EE. UU., Canadá, la Unión Europea y la mayoría de países de Latinoamérica no requieren visa para estadías de turismo o tratamientos médicos cortos inferiores a 90 días; solo necesitan su pasaporte vigente.</p>
+                    <h4>
+                      {language === "es" 
+                        ? "¿Necesito visa para viajar a Colombia por tratamiento médico?" 
+                        : "Do I need a visa to travel to Colombia for medical treatment?"}
+                    </h4>
+                    <p>
+                      {language === "es"
+                        ? "Los ciudadanos de EE. UU., Canadá, la Unión Europea y la mayoría de países de Latinoamérica no requieren visa para estadías de turismo o tratamientos médicos cortos inferiores a 90 días; solo necesitan su pasaporte vigente."
+                        : "Citizens of the US, Canada, the European Union, and most Latin American countries do not require a visa for tourism or short medical treatments under 90 days; they only need a valid passport."}
+                    </p>
                   </div>
                   <div className="faq-item glass-card">
-                    <h4>¿Cómo realizan el seguimiento cuando regrese a mi país?</h4>
-                    <p>Coordinamos un calendario de revisiones virtuales por videollamada durante los primeros 3 a 6 meses. Además, te facilitamos un informe médico detallado para que puedas compartirlo con tu doctor local en caso de ser necesario.</p>
+                    <h4>
+                      {language === "es" 
+                        ? "¿Cómo realizan el seguimiento cuando regrese a mi país?" 
+                        : "How do you handle follow-ups when I return to my home country?"}
+                    </h4>
+                    <p>
+                      {language === "es"
+                        ? "Coordinamos un calendario de revisiones virtuales por videollamada durante los primeros 3 a 6 meses. Además, te facilitamos un informe médico detallado para que puedas compartirlo con tu doctor local en caso de ser necesario."
+                        : "We coordinate a calendar of virtual check-ups via video call during the first 3 to 6 months. Additionally, we provide a detailed medical report for you to share with your local doctor if needed."}
+                    </p>
                   </div>
                   <div className="faq-item glass-card">
-                    <h4>¿Por qué son tan bajos los precios en comparación con EE. UU.?</h4>
-                    <p>La diferencia de costos radica principalmente en el menor costo operativo de las clínicas en Colombia, el valor de la moneda local (Peso Colombiano) frente al Dólar, y costos significativamente menores en seguros de mala práctica para los médicos.</p>
+                    <h4>
+                      {language === "es" 
+                        ? "¿Por qué son tan bajos los precios en comparación con EE. UU.?" 
+                        : "Why are prices so low compared to the United States?"}
+                    </h4>
+                    <p>
+                      {language === "es"
+                        ? "La diferencia de costos radica principalmente en el menor costo operativo de las clínicas en Colombia, el valor de la moneda local (Peso Colombiano) frente al Dólar, y costos significativamente menores en seguros de mala práctica para los médicos."
+                        : "The cost difference is primarily due to lower operating expenses of clinics in Colombia, the exchange rate of the local currency (Colombian Peso) against the Dollar, and significantly lower malpractice insurance costs for physicians."}
+                    </p>
                   </div>
                 </div>
               </div>

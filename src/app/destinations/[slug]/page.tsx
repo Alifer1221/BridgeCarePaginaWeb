@@ -3,12 +3,14 @@
 import React, { use, useState, useEffect } from "react";
 import Link from "next/link";
 import { getStoredDestinations, Destination } from "@/lib/db";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface DestinationDetailProps {
   params: Promise<{ slug: string }>;
 }
 
 export default function DestinationDetail({ params }: DestinationDetailProps) {
+  const { language, t } = useLanguage();
   const { slug } = use(params);
   const [destination, setDestination] = useState<Destination | null>(null);
   const [loading, setLoading] = useState(true);
@@ -36,7 +38,9 @@ export default function DestinationDetail({ params }: DestinationDetailProps) {
     return (
       <div className="loading-container">
         <div className="spinner"></div>
-        <p>Cargando información del destino...</p>
+        <p>
+          {language === "es" ? "Cargando información del destino..." : "Loading destination details..."}
+        </p>
         <style jsx>{`
           .loading-container {
             display: flex;
@@ -67,9 +71,17 @@ export default function DestinationDetail({ params }: DestinationDetailProps) {
   if (!destination) {
     return (
       <div className="container error-container text-center">
-        <h2>Destino no encontrado</h2>
-        <p>La ciudad solicitada no está registrada en nuestra red.</p>
-        <Link href="/" className="btn btn-primary">Volver al Inicio</Link>
+        <h2>
+          {language === "es" ? "Destino no encontrado" : "Destination not found"}
+        </h2>
+        <p>
+          {language === "es" 
+            ? "La ciudad solicitada no está registrada en nuestra red." 
+            : "The requested city is not registered in our network."}
+        </p>
+        <Link href="/" className="btn btn-primary">
+          {language === "es" ? "Volver al Inicio" : "Return to Home"}
+        </Link>
         <style jsx>{`
           .error-container {
             padding: 8rem 1.5rem;
@@ -82,6 +94,13 @@ export default function DestinationDetail({ params }: DestinationDetailProps) {
     );
   }
 
+  // Bilingual fields fallback
+  const description = language === "es" ? destination.description : (destination.descriptionEn || destination.description);
+  const climate = language === "es" ? destination.climate : (destination.climateEn || destination.climate);
+  const airConnectivity = language === "es" ? destination.airConnectivity : (destination.airConnectivityEn || destination.airConnectivity);
+  const costOfLiving = language === "es" ? destination.costOfLiving : (destination.costOfLivingEn || destination.costOfLiving);
+  const tourism = language === "es" ? destination.tourism : (destination.tourismEn || destination.tourism);
+
   return (
     <div className="destination-detail-page">
       <div className="glow-sphere glow-1"></div>
@@ -93,10 +112,15 @@ export default function DestinationDetail({ params }: DestinationDetailProps) {
       >
         <div className="hero-overlay"></div>
         <div className="container hero-content">
-          <Link href="/" className="back-link">&larr; Volver al inicio</Link>
-          <span className="dest-badge">Destino Médico Aliado</span>
+          <Link href="/" className="back-link">
+            &larr; {language === "es" ? "Volver al inicio" : "Back to home"}
+          </Link>
+          <br />
+          <span className="dest-badge">
+            {language === "es" ? "Destino Médico Aliado" : "Partner Medical Destination"}
+          </span>
           <h1>{destination.name}, Colombia</h1>
-          <p className="hero-description">{destination.description}</p>
+          <p className="hero-description">{description}</p>
         </div>
       </section>
 
@@ -107,38 +131,42 @@ export default function DestinationDetail({ params }: DestinationDetailProps) {
             
             {/* Left Block: Logistics & Environment Details */}
             <div className="logistics-cards">
-              <h2>Guía del Destino para Tu Recuperación</h2>
+              <h2>
+                {language === "es" ? "Guía del Destino para Tu Recuperación" : "Destination Recovery Guide"}
+              </h2>
               <p className="section-intro-text">
-                Planifica tu viaje conociendo los detalles prácticos de tu ciudad de destino. Cada ciudad ha sido seleccionada por sus altos estándares médicos y su potencial turístico.
+                {language === "es"
+                  ? "Planifica tu viaje conociendo los detalles prácticos de tu ciudad de destino. Cada ciudad ha sido seleccionada por sus altos estándares médicos y su potencial turístico."
+                  : "Plan your trip by knowing the practical details of your destination city. Each city has been chosen for its high medical standards and tourism potential."}
               </p>
 
               <div className="grid grid-2 cards-layout">
                 {/* 1. Clima */}
                 <div className="detail-card glass-card">
                   <div className="card-icon">☀️</div>
-                  <h3>Clima y Entorno</h3>
-                  <p>{destination.climate}</p>
+                  <h3>{language === "es" ? "Clima y Entorno" : "Climate & Environment"}</h3>
+                  <p>{climate}</p>
                 </div>
 
                 {/* 2. Conectividad aérea */}
                 <div className="detail-card glass-card">
                   <div className="card-icon">✈️</div>
-                  <h3>Conectividad Aérea</h3>
-                  <p>{destination.airConnectivity}</p>
+                  <h3>{language === "es" ? "Conectividad Aérea" : "Air Connectivity"}</h3>
+                  <p>{airConnectivity}</p>
                 </div>
 
                 {/* 3. Costo de vida */}
                 <div className="detail-card glass-card">
                   <div className="card-icon">💰</div>
-                  <h3>Costo de Vida Relativo</h3>
-                  <p>{destination.costOfLiving}</p>
+                  <h3>{language === "es" ? "Costo de Vida Relativo" : "Relative Cost of Living"}</h3>
+                  <p>{costOfLiving}</p>
                 </div>
 
                 {/* 4. Turismo */}
                 <div className="detail-card glass-card">
                   <div className="card-icon">🌴</div>
-                  <h3>Turismo de Recuperación</h3>
-                  <p>{destination.tourism}</p>
+                  <h3>{language === "es" ? "Turismo de Recuperación" : "Recovery Tourism"}</h3>
+                  <p>{tourism}</p>
                 </div>
               </div>
             </div>
@@ -146,8 +174,14 @@ export default function DestinationDetail({ params }: DestinationDetailProps) {
             {/* Right Block: Clinics in the city */}
             <div className="clinics-sidebar">
               <div className="sidebar-card clinics-card glass-card">
-                <h3>Clínicas y Hospitales Aliados</h3>
-                <p>Centros médicos de alta complejidad donde se programarán tus intervenciones quirúrgicas:</p>
+                <h3>
+                  {language === "es" ? "Clínicas y Hospitales Aliados" : "Partner Clinics & Hospitals"}
+                </h3>
+                <p>
+                  {language === "es"
+                    ? "Centros médicos de alta complejidad donde se programarán tus intervenciones quirúrgicas:"
+                    : "High-complexity medical facilities where your surgical procedures will be scheduled:"}
+                </p>
                 
                 <ul className="clinics-list">
                   {destination.clinics && destination.clinics.map((clinic, index) => (
@@ -155,14 +189,18 @@ export default function DestinationDetail({ params }: DestinationDetailProps) {
                       <span className="bullet">✓</span>
                       <div>
                         <strong>{clinic}</strong>
-                        <span className="clinic-sub">Acreditación Nacional / Internacional</span>
+                        <span className="clinic-sub">
+                          {language === "es" ? "Acreditación Nacional / Internacional" : "National / International Accreditation"}
+                        </span>
                       </div>
                     </li>
                   ))}
                 </ul>
 
                 <Link href="/contacto" className="btn btn-accent w-full text-center bold-btn mt-2">
-                  Planificar Viaje a {destination.name}
+                  {language === "es" 
+                    ? `Planificar Viaje a ${destination.name}` 
+                    : `Plan Trip to ${destination.name}`}
                 </Link>
               </div>
             </div>

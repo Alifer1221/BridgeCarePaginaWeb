@@ -3,12 +3,14 @@
 import React, { use, useState, useEffect } from "react";
 import Link from "next/link";
 import { getStoredSpecialties, Specialty } from "@/lib/db";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface SpecialtyDetailProps {
   params: Promise<{ slug: string }>;
 }
 
 export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
+  const { language, t } = useLanguage();
   const { slug } = use(params);
   const [specialty, setSpecialty] = useState<Specialty | null>(null);
   const [loading, setLoading] = useState(true);
@@ -36,7 +38,9 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
     return (
       <div className="loading-container">
         <div className="spinner"></div>
-        <p>Cargando información médica...</p>
+        <p>
+          {language === "es" ? "Cargando información médica..." : "Loading medical information..."}
+        </p>
         <style jsx>{`
           .loading-container {
             display: flex;
@@ -67,9 +71,17 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
   if (!specialty) {
     return (
       <div className="container error-container text-center">
-        <h2>Especialidad no encontrada</h2>
-        <p>El tratamiento solicitado no existe o fue removido del catálogo.</p>
-        <Link href="/" className="btn btn-primary">Volver al Inicio</Link>
+        <h2>
+          {language === "es" ? "Especialidad no encontrada" : "Specialty not found"}
+        </h2>
+        <p>
+          {language === "es" 
+            ? "El tratamiento solicitado no existe o fue removido del catálogo." 
+            : "The requested treatment does not exist or has been removed from the catalog."}
+        </p>
+        <Link href="/" className="btn btn-primary">
+          {language === "es" ? "Volver al Inicio" : "Return to Home"}
+        </Link>
         <style jsx>{`
           .error-container {
             padding: 8rem 1.5rem;
@@ -86,6 +98,13 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
   const costUS = parseFloat(specialty.avgCostUS.replace(/[^0-9.]/g, ""));
   const savingsPct = costUS ? Math.round(((costUS - costCol) / costUS) * 100) : 0;
 
+  // Bilingual fields fallback
+  const name = language === "es" ? specialty.name : (specialty.nameEn || specialty.name);
+  const description = language === "es" ? specialty.description : (specialty.descriptionEn || specialty.description);
+  const fullDescription = language === "es" ? specialty.fullDescription : (specialty.fullDescriptionEn || specialty.fullDescription);
+  const procedures = language === "es" ? specialty.procedures : (specialty.proceduresEn || specialty.procedures || []);
+  const recoveryDays = language === "es" ? specialty.recoveryDays : (specialty.recoveryDaysEn || specialty.recoveryDays);
+
   return (
     <div className="specialty-detail-page">
       <div className="glow-sphere glow-1"></div>
@@ -97,10 +116,15 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
       >
         <div className="hero-overlay"></div>
         <div className="container hero-content">
-          <Link href="/" className="back-link">&larr; Volver al catálogo</Link>
-          <span className="spec-badge">Especialidad Médica</span>
-          <h1>{specialty.name}</h1>
-          <p className="hero-description">{specialty.description}</p>
+          <Link href="/" className="back-link">
+            &larr; {language === "es" ? "Volver al catálogo" : "Back to catalog"}
+          </Link>
+          <br />
+          <span className="spec-badge">
+            {language === "es" ? "Especialidad Médica" : "Medical Specialty"}
+          </span>
+          <h1>{name}</h1>
+          <p className="hero-description">{description}</p>
         </div>
       </section>
 
@@ -110,15 +134,19 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
           {/* Left Column: Details */}
           <div className="main-details">
             <div className="detail-card glass-card">
-              <h2>Sobre el Tratamiento</h2>
-              <p className="large-p">{specialty.fullDescription}</p>
+              <h2>{language === "es" ? "Sobre el Tratamiento" : "About the Treatment"}</h2>
+              <p className="large-p">{fullDescription}</p>
             </div>
 
             <div className="detail-card glass-card mt-3">
-              <h2>Procedimientos Comunes</h2>
-              <p>Ofrecemos una amplia variedad de técnicas dentro de esta categoría, adaptadas a tus objetivos anatómicos y de salud.</p>
+              <h2>{language === "es" ? "Procedimientos Comunes" : "Common Procedures"}</h2>
+              <p>
+                {language === "es"
+                  ? "Ofrecemos una amplia variedad de técnicas dentro de esta categoría, adaptadas a tus objetivos anatómicos y de salud."
+                  : "We offer a wide variety of techniques within this category, adapted to your anatomical and health goals."}
+              </p>
               <ul className="procedures-list">
-                {specialty.procedures && specialty.procedures.map((proc, i) => (
+                {procedures.map((proc, i) => (
                   <li key={i}>
                     <span className="check-bullet">✓</span>
                     <span>{proc}</span>
@@ -131,39 +159,53 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
           {/* Right Column: Cost and Logistics Summary */}
           <div className="logistics-sidebar">
             <div className="sidebar-card cost-card glass-card">
-              <div className="savings-badge">Ahorra hasta un {savingsPct}%</div>
-              <h3>Comparativa de Costos</h3>
+              <div className="savings-badge">
+                {language === "es" ? `Ahorra hasta un ${savingsPct}%` : `Save up to ${savingsPct}%`}
+              </div>
+              <h3>{language === "es" ? "Comparativa de Costos" : "Cost Comparison"}</h3>
               
               <div className="cost-row">
-                <div className="cost-label">Costo Promedio EE. UU.</div>
+                <div className="cost-label">
+                  {language === "es" ? "Costo Promedio EE. UU." : "Avg. US Cost"}
+                </div>
                 <div className="cost-value us">{specialty.avgCostUS}</div>
               </div>
               
               <div className="cost-row">
-                <div className="cost-label">Costo Promedio Colombia</div>
+                <div className="cost-label">
+                  {language === "es" ? "Costo Promedio Colombia" : "Avg. Colombia Cost"}
+                </div>
                 <div className="cost-value col">{specialty.avgCostColombia}</div>
               </div>
 
               <div className="savings-text text-center">
-                Te ahorras aproximadamente <strong>{(costUS - costCol).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })} USD</strong>
+                {language === "es" ? (
+                  <>
+                    Te ahorras aproximadamente <strong>{(costUS - costCol).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })} USD</strong>
+                  </>
+                ) : (
+                  <>
+                    You save approximately <strong>{(costUS - costCol).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })} USD</strong>
+                  </>
+                )}
               </div>
             </div>
 
             <div className="sidebar-card logistics-info-card glass-card mt-2">
-              <h3>Detalles Clínicos</h3>
+              <h3>{language === "es" ? "Detalles Clínicos" : "Clinical Details"}</h3>
               
               <div className="log-item">
                 <span className="log-icon">⏱</span>
                 <div>
-                  <h4>Tiempo de Recuperación</h4>
-                  <p>{specialty.recoveryDays}</p>
+                  <h4>{language === "es" ? "Tiempo de Recuperación" : "Recovery Time"}</h4>
+                  <p>{recoveryDays}</p>
                 </div>
               </div>
 
               <div className="log-item">
                 <span className="log-icon">🏥</span>
                 <div>
-                  <h4>Clínicas Aliadas</h4>
+                  <h4>{language === "es" ? "Clínicas Aliadas" : "Partner Clinics"}</h4>
                   <ul>
                     {specialty.clinics && specialty.clinics.map((clinic, i) => (
                       <li key={i}>{clinic}</li>
@@ -173,7 +215,7 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
               </div>
 
               <Link href={`/contacto?specialty=${specialty.id}`} className="btn btn-accent w-full text-center bold-btn mt-2">
-                Solicitar Cotización Gratis
+                {t("nav.book")}
               </Link>
             </div>
           </div>

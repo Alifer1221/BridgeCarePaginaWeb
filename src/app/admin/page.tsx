@@ -6,10 +6,18 @@ import {
   getStoredDestinations, saveDestinations, Destination,
   getStoredBlogPosts, saveBlogPosts, BlogPost
 } from "@/lib/db";
+import { useLanguage } from "@/context/LanguageContext";
 
 type AdminTab = "specialties" | "destinations" | "blog";
 
 export default function AdminPanel() {
+  const { language, t } = useLanguage();
+  
+  // Auth state
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState("");
+  const [authError, setAuthError] = useState("");
+
   const [activeTab, setActiveTab] = useState<AdminTab>("specialties");
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [destinations, setDestinations] = useState<Destination[]>([]);
@@ -22,12 +30,17 @@ export default function AdminPanel() {
   // Specialty Form Fields
   const [specForm, setSpecForm] = useState({
     name: "",
+    nameEn: "",
     description: "",
+    descriptionEn: "",
     fullDescription: "",
+    fullDescriptionEn: "",
     procedures: "",
+    proceduresEn: "",
     avgCostColombia: "",
     avgCostUS: "",
     recoveryDays: "",
+    recoveryDaysEn: "",
     clinics: "",
     image: ""
   });
@@ -36,29 +49,67 @@ export default function AdminPanel() {
   const [destForm, setDestForm] = useState({
     name: "",
     description: "",
+    descriptionEn: "",
     clinics: "",
     climate: "",
+    climateEn: "",
     tourism: "",
+    tourismEn: "",
     costOfLiving: "",
+    costOfLivingEn: "",
     airConnectivity: "",
+    airConnectivityEn: "",
     image: ""
   });
 
   // Blog Form Fields
   const [blogForm, setBlogForm] = useState({
     title: "",
+    titleEn: "",
     excerpt: "",
+    excerptEn: "",
     content: "",
+    contentEn: "",
     author: "",
-    category: ""
+    category: "",
+    categoryEn: ""
   });
 
   useEffect(() => {
     setMounted(true);
+    
+    // Check URL query parameters or localStorage for existing authentication
+    const searchParams = new URLSearchParams(window.location.search);
+    const hasKey = searchParams.get("key") === "admin";
+    const isLocalAuth = localStorage.getItem("bc_admin_auth") === "true";
+
+    if (hasKey || isLocalAuth) {
+      setIsAuthenticated(true);
+      if (hasKey) {
+        localStorage.setItem("bc_admin_auth", "true");
+      }
+    }
+
     setSpecialties(getStoredSpecialties());
     setDestinations(getStoredDestinations());
     setBlogPosts(getStoredBlogPosts());
   }, []);
+
+  const handleLoginSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === "BridgeAdmin2026") {
+      setIsAuthenticated(true);
+      setAuthError("");
+      localStorage.setItem("bc_admin_auth", "true");
+    } else {
+      setAuthError(t("lock.error"));
+    }
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem("bc_admin_auth");
+  };
 
   // Helper to convert text to URL slug
   const slugify = (text: string) => {
@@ -79,6 +130,7 @@ export default function AdminPanel() {
     e.preventDefault();
     const list = [...specialties];
     const proceduresArray = specForm.procedures.split(",").map(p => p.trim()).filter(p => p !== "");
+    const proceduresEnArray = specForm.proceduresEn.split(",").map(p => p.trim()).filter(p => p !== "");
     const clinicsArray = specForm.clinics.split(",").map(c => c.trim()).filter(c => c !== "");
 
     if (editingId) {
@@ -88,12 +140,17 @@ export default function AdminPanel() {
         list[index] = {
           ...list[index],
           name: specForm.name,
+          nameEn: specForm.nameEn || specForm.name,
           description: specForm.description,
+          descriptionEn: specForm.descriptionEn || specForm.description,
           fullDescription: specForm.fullDescription,
+          fullDescriptionEn: specForm.fullDescriptionEn || specForm.fullDescription,
           procedures: proceduresArray,
+          proceduresEn: proceduresEnArray.length > 0 ? proceduresEnArray : proceduresArray,
           avgCostColombia: specForm.avgCostColombia,
           avgCostUS: specForm.avgCostUS,
           recoveryDays: specForm.recoveryDays,
+          recoveryDaysEn: specForm.recoveryDaysEn || specForm.recoveryDays,
           clinics: clinicsArray,
           image: specForm.image || "https://images.unsplash.com/photo-1579684389782-64d84b5e901a?auto=format&fit=crop&q=80&w=800"
         };
@@ -108,12 +165,17 @@ export default function AdminPanel() {
       list.push({
         id: newId,
         name: specForm.name,
+        nameEn: specForm.nameEn || specForm.name,
         description: specForm.description,
+        descriptionEn: specForm.descriptionEn || specForm.description,
         fullDescription: specForm.fullDescription,
+        fullDescriptionEn: specForm.fullDescriptionEn || specForm.fullDescription,
         procedures: proceduresArray,
+        proceduresEn: proceduresEnArray.length > 0 ? proceduresEnArray : proceduresArray,
         avgCostColombia: specForm.avgCostColombia,
         avgCostUS: specForm.avgCostUS,
         recoveryDays: specForm.recoveryDays,
+        recoveryDaysEn: specForm.recoveryDaysEn || specForm.recoveryDays,
         clinics: clinicsArray,
         image: specForm.image || "https://images.unsplash.com/photo-1579684389782-64d84b5e901a?auto=format&fit=crop&q=80&w=800"
       });
@@ -128,12 +190,17 @@ export default function AdminPanel() {
     setEditingId(spec.id);
     setSpecForm({
       name: spec.name,
+      nameEn: spec.nameEn || "",
       description: spec.description,
+      descriptionEn: spec.descriptionEn || "",
       fullDescription: spec.fullDescription,
+      fullDescriptionEn: spec.fullDescriptionEn || "",
       procedures: spec.procedures.join(", "),
+      proceduresEn: (spec.proceduresEn || []).join(", "),
       avgCostColombia: spec.avgCostColombia,
       avgCostUS: spec.avgCostUS,
       recoveryDays: spec.recoveryDays,
+      recoveryDaysEn: spec.recoveryDaysEn || "",
       clinics: spec.clinics.join(", "),
       image: spec.image
     });
@@ -152,12 +219,17 @@ export default function AdminPanel() {
     setEditingId(null);
     setSpecForm({
       name: "",
+      nameEn: "",
       description: "",
+      descriptionEn: "",
       fullDescription: "",
+      fullDescriptionEn: "",
       procedures: "",
+      proceduresEn: "",
       avgCostColombia: "",
       avgCostUS: "",
       recoveryDays: "",
+      recoveryDaysEn: "",
       clinics: "",
       image: ""
     });
@@ -178,11 +250,16 @@ export default function AdminPanel() {
           ...list[index],
           name: destForm.name,
           description: destForm.description,
+          descriptionEn: destForm.descriptionEn || destForm.description,
           clinics: clinicsArray,
           climate: destForm.climate,
+          climateEn: destForm.climateEn || destForm.climate,
           tourism: destForm.tourism,
+          tourismEn: destForm.tourismEn || destForm.tourism,
           costOfLiving: destForm.costOfLiving,
+          costOfLivingEn: destForm.costOfLivingEn || destForm.costOfLiving,
           airConnectivity: destForm.airConnectivity,
+          airConnectivityEn: destForm.airConnectivityEn || destForm.airConnectivity,
           image: destForm.image || "https://images.unsplash.com/photo-1596120202271-925206ee85cf?auto=format&fit=crop&q=80&w=800"
         };
       }
@@ -197,11 +274,16 @@ export default function AdminPanel() {
         id: newId,
         name: destForm.name,
         description: destForm.description,
+        descriptionEn: destForm.descriptionEn || destForm.description,
         clinics: clinicsArray,
         climate: destForm.climate,
+        climateEn: destForm.climateEn || destForm.climate,
         tourism: destForm.tourism,
+        tourismEn: destForm.tourismEn || destForm.tourism,
         costOfLiving: destForm.costOfLiving,
+        costOfLivingEn: destForm.costOfLivingEn || destForm.costOfLiving,
         airConnectivity: destForm.airConnectivity,
+        airConnectivityEn: destForm.airConnectivityEn || destForm.airConnectivity,
         image: destForm.image || "https://images.unsplash.com/photo-1596120202271-925206ee85cf?auto=format&fit=crop&q=80&w=800"
       });
     }
@@ -216,11 +298,16 @@ export default function AdminPanel() {
     setDestForm({
       name: dest.name,
       description: dest.description,
+      descriptionEn: dest.descriptionEn || "",
       clinics: dest.clinics.join(", "),
       climate: dest.climate,
+      climateEn: dest.climateEn || "",
       tourism: dest.tourism,
+      tourismEn: dest.tourismEn || "",
       costOfLiving: dest.costOfLiving,
+      costOfLivingEn: dest.costOfLivingEn || "",
       airConnectivity: dest.airConnectivity,
+      airConnectivityEn: dest.airConnectivityEn || "",
       image: dest.image
     });
   };
@@ -239,11 +326,16 @@ export default function AdminPanel() {
     setDestForm({
       name: "",
       description: "",
+      descriptionEn: "",
       clinics: "",
       climate: "",
+      climateEn: "",
       tourism: "",
+      tourismEn: "",
       costOfLiving: "",
+      costOfLivingEn: "",
       airConnectivity: "",
+      airConnectivityEn: "",
       image: ""
     });
   };
@@ -261,10 +353,14 @@ export default function AdminPanel() {
         list[index] = {
           ...list[index],
           title: blogForm.title,
+          titleEn: blogForm.titleEn || blogForm.title,
           excerpt: blogForm.excerpt,
+          excerptEn: blogForm.excerptEn || blogForm.excerpt,
           content: blogForm.content,
+          contentEn: blogForm.contentEn || blogForm.content,
           author: blogForm.author,
           category: blogForm.category,
+          categoryEn: blogForm.categoryEn || blogForm.category,
         };
       }
     } else {
@@ -277,10 +373,14 @@ export default function AdminPanel() {
       list.push({
         id: newId,
         title: blogForm.title,
+        titleEn: blogForm.titleEn || blogForm.title,
         excerpt: blogForm.excerpt,
+        excerptEn: blogForm.excerptEn || blogForm.excerpt,
         content: blogForm.content,
+        contentEn: blogForm.contentEn || blogForm.content,
         author: blogForm.author,
         category: blogForm.category,
+        categoryEn: blogForm.categoryEn || blogForm.category,
         date: new Date().toISOString().split("T")[0]
       });
     }
@@ -294,10 +394,14 @@ export default function AdminPanel() {
     setEditingId(post.id);
     setBlogForm({
       title: post.title,
+      titleEn: post.titleEn || "",
       excerpt: post.excerpt,
+      excerptEn: post.excerptEn || "",
       content: post.content,
+      contentEn: post.contentEn || "",
       author: post.author,
-      category: post.category
+      category: post.category,
+      categoryEn: post.categoryEn || ""
     });
   };
 
@@ -314,14 +418,96 @@ export default function AdminPanel() {
     setEditingId(null);
     setBlogForm({
       title: "",
+      titleEn: "",
       excerpt: "",
+      excerptEn: "",
       content: "",
+      contentEn: "",
       author: "",
-      category: ""
+      category: "",
+      categoryEn: ""
     });
   };
 
   if (!mounted) return null;
+
+  // Render LOCK SCREEN if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="lock-screen-wrapper">
+        <div className="glass-card lock-card text-center">
+          <div className="lock-icon">🔒</div>
+          <h2>{t("lock.title")}</h2>
+          <p>{t("lock.desc")}</p>
+          
+          <form onSubmit={handleLoginSubmit} className="mt-2">
+            <div className="form-group">
+              <input 
+                type="password" 
+                required 
+                className="form-control text-center" 
+                placeholder={t("lock.password")}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            {authError && <p className="error-text">{authError}</p>}
+            <button type="submit" className="btn btn-accent w-full bold-btn mt-1">
+              {t("lock.submit")}
+            </button>
+          </form>
+        </div>
+
+        <style jsx>{`
+          .lock-screen-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            padding: 2rem;
+            position: relative;
+          }
+          .lock-card {
+            max-width: 420px;
+            width: 100%;
+            padding: 3rem 2rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+          }
+          .lock-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+          }
+          h2 {
+            color: var(--white);
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+          }
+          p {
+            color: var(--gris-texto);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+          }
+          .error-text {
+            color: #ff6b6b;
+            font-size: 0.85rem;
+            margin: 0.5rem 0;
+          }
+          .w-full {
+            width: 100%;
+          }
+          .bold-btn {
+            font-weight: 700;
+          }
+          .mt-1 {
+            margin-top: 0.5rem;
+          }
+          .text-center {
+            text-align: center;
+          }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
     <div className="admin-dashboard container">
@@ -330,6 +516,9 @@ export default function AdminPanel() {
       <div className="admin-header text-center">
         <h1>Panel de Administración</h1>
         <p>Gestiona las especialidades médicas, los destinos turísticos y las entradas de blog.</p>
+        <button className="btn btn-secondary logout-btn" onClick={handleLogout}>
+          Cerrar Sesión 🔓
+        </button>
         <div className="header-bar"></div>
       </div>
 
@@ -365,36 +554,71 @@ export default function AdminPanel() {
           {/* SPECIALTY FORM */}
           {activeTab === "specialties" && (
             <form onSubmit={handleSpecSubmit} className="mt-2">
-              <div className="form-group">
-                <label className="form-label">Nombre de Especialidad</label>
-                <input 
-                  type="text" required className="form-control" placeholder="Ej. Cirugía estética"
-                  value={specForm.name} onChange={(e) => setSpecForm({...specForm, name: e.target.value})}
-                />
+              <div className="grid grid-2" style={{ gap: "1rem" }}>
+                <div className="form-group">
+                  <label className="form-label">Nombre de Especialidad (ES)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Ej. Cirugía estética"
+                    value={specForm.name} onChange={(e) => setSpecForm({...specForm, name: e.target.value})}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Specialty Name (EN)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Ej. Aesthetic Surgery"
+                    value={specForm.nameEn} onChange={(e) => setSpecForm({...specForm, nameEn: e.target.value})}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-2" style={{ gap: "1rem" }}>
+                <div className="form-group">
+                  <label className="form-label">Descripción Corta (ES)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Ej. Procedimientos plásticos..."
+                    value={specForm.description} onChange={(e) => setSpecForm({...specForm, description: e.target.value})}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Short Description (EN)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Ej. High-quality plastic..."
+                    value={specForm.descriptionEn} onChange={(e) => setSpecForm({...specForm, descriptionEn: e.target.value})}
+                  />
+                </div>
               </div>
 
               <div className="form-group">
-                <label className="form-label">Descripción Corta</label>
-                <input 
-                  type="text" required className="form-control" placeholder="Ej. Procedimientos plásticos corporales..."
-                  value={specForm.description} onChange={(e) => setSpecForm({...specForm, description: e.target.value})}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Descripción Detallada (HTML / Texto)</label>
+                <label className="form-label">Descripción Detallada (ES)</label>
                 <textarea 
-                  required className="form-control" rows={3} placeholder="Describa el servicio..."
+                  required className="form-control" rows={2} placeholder="Describa el servicio..."
                   value={specForm.fullDescription} onChange={(e) => setSpecForm({...specForm, fullDescription: e.target.value})}
                 />
               </div>
 
               <div className="form-group">
-                <label className="form-label">Procedimientos Incluidos (Separados por coma)</label>
-                <input 
-                  type="text" required className="form-control" placeholder="Rinoplastia, Liposucción, Abdominoplastia"
-                  value={specForm.procedures} onChange={(e) => setSpecForm({...specForm, procedures: e.target.value})}
+                <label className="form-label">Detailed Description (EN)</label>
+                <textarea 
+                  required className="form-control" rows={2} placeholder="Describe the service..."
+                  value={specForm.fullDescriptionEn} onChange={(e) => setSpecForm({...specForm, fullDescriptionEn: e.target.value})}
                 />
+              </div>
+
+              <div className="grid grid-2" style={{ gap: "1rem" }}>
+                <div className="form-group">
+                  <label className="form-label">Procedimientos Incluidos (ES, separados por coma)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Rinoplastia, Liposucción"
+                    value={specForm.procedures} onChange={(e) => setSpecForm({...specForm, procedures: e.target.value})}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Included Procedures (EN, comma separated)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Rhinoplasty, Liposuction"
+                    value={specForm.proceduresEn} onChange={(e) => setSpecForm({...specForm, proceduresEn: e.target.value})}
+                  />
+                </div>
               </div>
 
               <div className="grid grid-2" style={{ gap: "1rem" }}>
@@ -414,12 +638,21 @@ export default function AdminPanel() {
                 </div>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Tiempo de Recuperación</label>
-                <input 
-                  type="text" required className="form-control" placeholder="Ej. 7 - 10 días"
-                  value={specForm.recoveryDays} onChange={(e) => setSpecForm({...specForm, recoveryDays: e.target.value})}
-                />
+              <div className="grid grid-2" style={{ gap: "1rem" }}>
+                <div className="form-group">
+                  <label className="form-label">Tiempo de Recuperación (ES)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Ej. 7 - 10 días"
+                    value={specForm.recoveryDays} onChange={(e) => setSpecForm({...specForm, recoveryDays: e.target.value})}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Recovery Time (EN)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Ej. 7 - 10 days"
+                    value={specForm.recoveryDaysEn} onChange={(e) => setSpecForm({...specForm, recoveryDaysEn: e.target.value})}
+                  />
+                </div>
               </div>
 
               <div className="form-group">
@@ -456,12 +689,21 @@ export default function AdminPanel() {
                 />
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Descripción</label>
-                <textarea 
-                  required className="form-control" rows={2} placeholder="Descripción corta del destino..."
-                  value={destForm.description} onChange={(e) => setDestForm({...destForm, description: e.target.value})}
-                />
+              <div className="grid grid-2" style={{ gap: "1rem" }}>
+                <div className="form-group">
+                  <label className="form-label">Descripción (ES)</label>
+                  <textarea 
+                    required className="form-control" rows={2} placeholder="Descripción..."
+                    value={destForm.description} onChange={(e) => setDestForm({...destForm, description: e.target.value})}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Description (EN)</label>
+                  <textarea 
+                    required className="form-control" rows={2} placeholder="Description..."
+                    value={destForm.descriptionEn} onChange={(e) => setDestForm({...destForm, descriptionEn: e.target.value})}
+                  />
+                </div>
               </div>
 
               <div className="form-group">
@@ -472,36 +714,72 @@ export default function AdminPanel() {
                 />
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Clima Promedio</label>
-                <input 
-                  type="text" required className="form-control" placeholder="Ej. Templado, 22°C promedio."
-                  value={destForm.climate} onChange={(e) => setDestForm({...destForm, climate: e.target.value})}
-                />
+              <div className="grid grid-2" style={{ gap: "1rem" }}>
+                <div className="form-group">
+                  <label className="form-label">Clima Promedio (ES)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Ej. Templado, 22°C promedio."
+                    value={destForm.climate} onChange={(e) => setDestForm({...destForm, climate: e.target.value})}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Climate (EN)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Ej. Temperate, 22°C average."
+                    value={destForm.climateEn} onChange={(e) => setDestForm({...destForm, climateEn: e.target.value})}
+                  />
+                </div>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Sitios Turísticos Clave</label>
-                <input 
-                  type="text" required className="form-control" placeholder="Ej. Plaza Botero, Peñol de Guatapé..."
-                  value={destForm.tourism} onChange={(e) => setDestForm({...destForm, tourism: e.target.value})}
-                />
+              <div className="grid grid-2" style={{ gap: "1rem" }}>
+                <div className="form-group">
+                  <label className="form-label">Sitios Turísticos Clave (ES)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Ej. Plaza Botero, Parque Arví..."
+                    value={destForm.tourism} onChange={(e) => setDestForm({...destForm, tourism: e.target.value})}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Tourist Hotspots (EN)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Ej. Botero Square, Arvi Park..."
+                    value={destForm.tourismEn} onChange={(e) => setDestForm({...destForm, tourismEn: e.target.value})}
+                  />
+                </div>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Costo de Vida Relativo</label>
-                <input 
-                  type="text" required className="form-control" placeholder="Ej. Bajo (65% menor que EE. UU.)"
-                  value={destForm.costOfLiving} onChange={(e) => setDestForm({...destForm, costOfLiving: e.target.value})}
-                />
+              <div className="grid grid-2" style={{ gap: "1rem" }}>
+                <div className="form-group">
+                  <label className="form-label">Costo de Vida Relativo (ES)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Ej. Bajo (65% menor que EE. UU.)"
+                    value={destForm.costOfLiving} onChange={(e) => setDestForm({...destForm, costOfLiving: e.target.value})}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Relative Cost of Living (EN)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Ej. Low (65% lower than US)"
+                    value={destForm.costOfLivingEn} onChange={(e) => setDestForm({...destForm, costOfLivingEn: e.target.value})}
+                  />
+                </div>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Conectividad Aérea</label>
-                <input 
-                  type="text" required className="form-control" placeholder="Ej. Aeropuerto MDE con vuelos directos..."
-                  value={destForm.airConnectivity} onChange={(e) => setDestForm({...destForm, airConnectivity: e.target.value})}
-                />
+              <div className="grid grid-2" style={{ gap: "1rem" }}>
+                <div className="form-group">
+                  <label className="form-label">Conectividad Aérea (ES)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Ej. Aeropuerto MDE..."
+                    value={destForm.airConnectivity} onChange={(e) => setDestForm({...destForm, airConnectivity: e.target.value})}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Air Connectivity (EN)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Ej. MDE Airport..."
+                    value={destForm.airConnectivityEn} onChange={(e) => setDestForm({...destForm, airConnectivityEn: e.target.value})}
+                  />
+                </div>
               </div>
 
               <div className="form-group">
@@ -522,43 +800,76 @@ export default function AdminPanel() {
           {/* BLOG FORM */}
           {activeTab === "blog" && (
             <form onSubmit={handleBlogSubmit} className="mt-2">
-              <div className="form-group">
-                <label className="form-label">Título del Artículo / FAQ</label>
-                <input 
-                  type="text" required className="form-control" placeholder="Ej. Guía de recuperación..."
-                  value={blogForm.title} onChange={(e) => setBlogForm({...blogForm, title: e.target.value})}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Resumen (Excerpt)</label>
-                <input 
-                  type="text" required className="form-control" placeholder="Un breve resumen que enganche al lector..."
-                  value={blogForm.excerpt} onChange={(e) => setBlogForm({...blogForm, excerpt: e.target.value})}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Contenido Completo</label>
-                <textarea 
-                  required className="form-control" rows={5} placeholder="Redacte el cuerpo de la nota aquí..."
-                  value={blogForm.content} onChange={(e) => setBlogForm({...blogForm, content: e.target.value})}
-                />
+              <div className="grid grid-2" style={{ gap: "1rem" }}>
+                <div className="form-group">
+                  <label className="form-label">Título del Artículo (ES)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Ej. Guía de recuperación..."
+                    value={blogForm.title} onChange={(e) => setBlogForm({...blogForm, title: e.target.value})}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Article Title (EN)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Ej. Recovery guide..."
+                    value={blogForm.titleEn} onChange={(e) => setBlogForm({...blogForm, titleEn: e.target.value})}
+                  />
+                </div>
               </div>
 
               <div className="grid grid-2" style={{ gap: "1rem" }}>
                 <div className="form-group">
+                  <label className="form-label">Resumen / Excerpt (ES)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Breve resumen..."
+                    value={blogForm.excerpt} onChange={(e) => setBlogForm({...blogForm, excerpt: e.target.value})}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Excerpt / Summary (EN)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Brief summary..."
+                    value={blogForm.excerptEn} onChange={(e) => setBlogForm({...blogForm, excerptEn: e.target.value})}
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Contenido Completo (ES)</label>
+                <textarea 
+                  required className="form-control" rows={3} placeholder="Redacte el cuerpo de la nota..."
+                  value={blogForm.content} onChange={(e) => setBlogForm({...blogForm, content: e.target.value})}
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Full Content (EN)</label>
+                <textarea 
+                  required className="form-control" rows={3} placeholder="Write the article content..."
+                  value={blogForm.contentEn} onChange={(e) => setBlogForm({...blogForm, contentEn: e.target.value})}
+                />
+              </div>
+
+              <div className="grid grid-3" style={{ gap: "1rem" }}>
+                <div className="form-group">
                   <label className="form-label">Autor</label>
                   <input 
-                    type="text" required className="form-control" placeholder="Ej. Dr. Carlos Restrepo"
+                    type="text" required className="form-control" placeholder="Ej. Dr. Carlos"
                     value={blogForm.author} onChange={(e) => setBlogForm({...blogForm, author: e.target.value})}
                   />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Categoría</label>
+                  <label className="form-label">Categoría (ES)</label>
                   <input 
-                    type="text" required className="form-control" placeholder="Consejos de viaje, FAQ, Procedimientos"
+                    type="text" required className="form-control" placeholder="Ej. Consejos"
                     value={blogForm.category} onChange={(e) => setBlogForm({...blogForm, category: e.target.value})}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Category (EN)</label>
+                  <input 
+                    type="text" required className="form-control" placeholder="Ej. Travel Tips"
+                    value={blogForm.categoryEn} onChange={(e) => setBlogForm({...blogForm, categoryEn: e.target.value})}
                   />
                 </div>
               </div>
@@ -583,9 +894,9 @@ export default function AdminPanel() {
             {activeTab === "specialties" && specialties.map((spec) => (
               <div key={spec.id} className="list-item">
                 <div className="item-details">
-                  <h4>{spec.name}</h4>
+                  <h4>{language === "es" ? spec.name : spec.nameEn}</h4>
                   <span className="badge">ID: {spec.id}</span>
-                  <p>{spec.description}</p>
+                  <p>{language === "es" ? spec.description : spec.descriptionEn}</p>
                 </div>
                 <div className="item-actions">
                   <button className="btn btn-primary btn-xs" onClick={() => startEditSpec(spec)}>Editar</button>
@@ -600,7 +911,7 @@ export default function AdminPanel() {
                 <div className="item-details">
                   <h4>{dest.name}</h4>
                   <span className="badge">ID: {dest.id}</span>
-                  <p>{dest.description}</p>
+                  <p>{language === "es" ? dest.description : dest.descriptionEn}</p>
                 </div>
                 <div className="item-actions">
                   <button className="btn btn-primary btn-xs" onClick={() => startEditDest(dest)}>Editar</button>
@@ -613,9 +924,9 @@ export default function AdminPanel() {
             {activeTab === "blog" && blogPosts.map((post) => (
               <div key={post.id} className="list-item">
                 <div className="item-details">
-                  <h4>{post.title}</h4>
-                  <span className="badge">{post.category}</span>
-                  <p>{post.excerpt}</p>
+                  <h4>{language === "es" ? post.title : post.titleEn}</h4>
+                  <span className="badge">{language === "es" ? post.category : post.categoryEn}</span>
+                  <p>{language === "es" ? post.excerpt : post.excerptEn}</p>
                 </div>
                 <div className="item-actions">
                   <button className="btn btn-primary btn-xs" onClick={() => startEditBlog(post)}>Editar</button>
@@ -652,6 +963,15 @@ export default function AdminPanel() {
 
         .admin-header {
           margin-bottom: 3rem;
+          position: relative;
+        }
+        .logout-btn {
+          position: absolute;
+          top: 0;
+          right: 0;
+          font-size: 0.8rem;
+          padding: 0.45rem 1rem;
+          border-radius: var(--radius-full);
         }
         .header-bar {
           width: 80px;
@@ -786,6 +1106,11 @@ export default function AdminPanel() {
         @media (max-width: 992px) {
           .admin-grid {
             grid-template-columns: 1fr;
+          }
+          .logout-btn {
+            position: static;
+            display: block;
+            margin: 1rem auto 0 auto;
           }
         }
       `}</style>

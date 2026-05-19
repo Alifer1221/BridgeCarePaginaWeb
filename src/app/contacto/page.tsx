@@ -2,8 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { getStoredSpecialties, Specialty } from "@/lib/db";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Contacto() {
+  const { language, t } = useLanguage();
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [formData, setFormData] = useState({
     name: "",
@@ -35,11 +37,17 @@ export default function Contacto() {
       
       <section className="contact-hero">
         <div className="container text-center">
-          <span className="contact-subtitle">Comienza tu viaje</span>
-          <h1>Contáctanos y obtén una cotización gratis</h1>
+          <span className="contact-subtitle">{t("contact.title")}</span>
+          <h1>
+            {language === "es" 
+              ? "Contáctanos y obtén una cotización gratis" 
+              : "Contact us and get a free quote"}
+          </h1>
           <div className="header-bar"></div>
           <p className="contact-hero-desc">
-            Estamos listos para guiarte en cada paso. Escríbenos o agenda una videollamada de valoración gratuita con nuestros especialistas.
+            {language === "es" 
+              ? "Estamos listos para guiarte en cada paso. Escríbenos o agenda una videollamada de valoración gratuita con nuestros especialistas." 
+              : "We are ready to guide you at every step. Message us or schedule a free virtual evaluation call with our specialists."}
           </p>
         </div>
       </section>
@@ -48,8 +56,14 @@ export default function Contacto() {
         <div className="container contact-grid">
           {/* Contact Information & CTAs */}
           <div className="contact-info-panel animate-fade-in">
-            <h2>Canales de Atención Inmediata</h2>
-            <p>Elige el canal de tu preferencia para recibir atención personalizada por parte de nuestros coordinadores médicos.</p>
+            <h2>
+              {language === "es" ? "Canales de Atención Inmediata" : "Immediate Support Channels"}
+            </h2>
+            <p>
+              {language === "es" 
+                ? "Elige el canal de tu preferencia para recibir atención personalizada por parte de nuestros coordinadores médicos." 
+                : "Choose your preferred channel to receive personalized assistance from our medical coordinators."}
+            </p>
             
             <div className="info-cards-list">
               {/* WhatsApp direct card */}
@@ -60,10 +74,25 @@ export default function Contacto() {
                   </svg>
                 </div>
                 <div>
-                  <h3>WhatsApp Inmediato</h3>
-                  <p>Obtén respuestas rápidas chateando directamente con un asesor médico.</p>
-                  <a href="https://wa.me/573000000000" target="_blank" rel="noopener noreferrer" className="btn btn-accent btn-sm mt-1">
-                    Chatear Ahora
+                  <h3>
+                    {language === "es" ? "WhatsApp Inmediato" : "Instant WhatsApp"}
+                  </h3>
+                  <p>
+                    {language === "es" 
+                      ? "Obtén respuestas rápidas chateando directamente con un asesor médico." 
+                      : "Get quick answers by chatting directly with a medical advisor."}
+                  </p>
+                  <a 
+                    href={`https://wa.me/573001234567?text=${encodeURIComponent(
+                      language === "es" 
+                        ? "Hola, quiero agendar una cita con Bridge Care." 
+                        : "Hello, I want to book an appointment with Bridge Care."
+                    )}`}
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="btn btn-accent btn-sm mt-1"
+                  >
+                    {language === "es" ? "Chatear Ahora" : "Chat Now"}
                   </a>
                 </div>
               </div>
@@ -76,13 +105,19 @@ export default function Contacto() {
                   </svg>
                 </div>
                 <div>
-                  <h3>Videollamada Gratis</h3>
-                  <p>Programa una sesión de consulta de 15 minutos para aclarar dudas diagnósticas.</p>
+                  <h3>
+                    {language === "es" ? "Videollamada Gratis" : "Free Video Call"}
+                  </h3>
+                  <p>
+                    {language === "es" 
+                      ? "Programa una sesión de consulta de 15 minutos para aclarar dudas diagnósticas." 
+                      : "Schedule a 15-minute consultation session to clarify diagnostic questions."}
+                  </p>
                   <a href="#agendar" className="btn btn-secondary btn-sm mt-1" onClick={(e) => {
                     e.preventDefault();
-                    alert("Integración con Calendly de simulación.");
+                    alert(language === "es" ? "Integración con Calendly de simulación." : "Simulated Calendly integration.");
                   }}>
-                    Agendar Videollamada
+                    {language === "es" ? "Agendar Videollamada" : "Schedule Video Call"}
                   </a>
                 </div>
               </div>
@@ -96,8 +131,14 @@ export default function Contacto() {
                   </svg>
                 </div>
                 <div>
-                  <h3>Correo de Soporte</h3>
-                  <p>Para envío de expedientes médicos y documentos de alta complejidad.</p>
+                  <h3>
+                    {language === "es" ? "Correo de Soporte" : "Support Email"}
+                  </h3>
+                  <p>
+                    {language === "es" 
+                      ? "Para envío de expedientes médicos y documentos de alta complejidad." 
+                      : "For sending medical records and high-complexity documents."}
+                  </p>
                   <a href="mailto:info@bridgecare.co" className="info-link">info@bridgecare.co</a>
                 </div>
               </div>
@@ -109,21 +150,23 @@ export default function Contacto() {
             {submitted ? (
               <div className="submission-success">
                 <div className="success-icon">✓</div>
-                <h2>¡Solicitud Recibida con Éxito!</h2>
+                <h2>{t("contact.success").split("!")[0] + "!"}</h2>
                 <p>
-                  Gracias por confiar en Bridge Care. Uno de nuestros coordinadores de pacientes internacionales se contactará contigo por correo electrónico o WhatsApp dentro de las próximas 24 horas hábiles.
+                  {language === "es"
+                    ? "Gracias por confiar en Bridge Care. Uno de nuestros coordinadores de pacientes internacionales se contactará contigo por correo electrónico o WhatsApp dentro de las próximas 24 horas hábiles."
+                    : "Thank you for trusting Bridge Care. One of our international patient coordinators will contact you via email or WhatsApp within the next 24 business hours."}
                 </p>
                 <button className="btn btn-primary" onClick={() => setSubmitted(false)}>
-                  Enviar otro mensaje
+                  {language === "es" ? "Enviar otro mensaje" : "Send another message"}
                 </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="contact-form">
-                <h2>Formulario de Valoración</h2>
-                <p className="form-intro">Por favor completa los siguientes datos para iniciar la asignación de tu asesor.</p>
+                <h2>{language === "es" ? "Formulario de Valoración" : "Evaluation Form"}</h2>
+                <p className="form-intro">{t("contact.subtitle")}</p>
 
                 <div className="form-group">
-                  <label className="form-label" htmlFor="name">Nombre Completo</label>
+                  <label className="form-label" htmlFor="name">{t("contact.name")}</label>
                   <input
                     type="text"
                     id="name"
@@ -137,7 +180,7 @@ export default function Contacto() {
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label" htmlFor="email">Correo Electrónico</label>
+                  <label className="form-label" htmlFor="email">{t("contact.email")}</label>
                   <input
                     type="email"
                     id="email"
@@ -151,7 +194,7 @@ export default function Contacto() {
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label" htmlFor="phone">Número de WhatsApp (con indicativo de país)</label>
+                  <label className="form-label" htmlFor="phone">{t("contact.phone")}</label>
                   <input
                     type="tel"
                     id="phone"
@@ -165,7 +208,7 @@ export default function Contacto() {
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label" htmlFor="specialty">Especialidad de Interés</label>
+                  <label className="form-label" htmlFor="specialty">{t("contact.spec")}</label>
                   <select
                     id="specialty"
                     name="specialty"
@@ -174,17 +217,19 @@ export default function Contacto() {
                     onChange={handleChange}
                     className="form-control"
                   >
-                    <option value="">Selecciona un procedimiento...</option>
+                    <option value="">
+                      {language === "es" ? "Selecciona una especialidad..." : "Select a specialty..."}
+                    </option>
                     {specialties.map((spec) => (
                       <option key={spec.id} value={spec.id}>
-                        {spec.name}
+                        {language === "es" ? spec.name : spec.nameEn}
                       </option>
                     ))}
                   </select>
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label" htmlFor="message">Cuéntanos sobre tu caso (procedimiento deseado, dudas, etc.)</label>
+                  <label className="form-label" htmlFor="message">{t("contact.msg")}</label>
                   <textarea
                     id="message"
                     name="message"
@@ -193,12 +238,16 @@ export default function Contacto() {
                     value={formData.message}
                     onChange={handleChange}
                     className="form-control"
-                    placeholder="Escribe brevemente los detalles de tu consulta..."
+                    placeholder={
+                      language === "es" 
+                        ? "Escribe brevemente los detalles de tu consulta..." 
+                        : "Briefly write the details of your inquiry..."
+                    }
                   ></textarea>
                 </div>
 
                 <button type="submit" className="btn btn-accent w-full">
-                  Enviar Solicitud
+                  {t("contact.submit")}
                 </button>
               </form>
             )}

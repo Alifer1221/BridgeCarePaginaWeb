@@ -3,8 +3,10 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { getStoredSpecialties, getStoredDestinations, Specialty, Destination } from "@/lib/db";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Footer() {
+  const { language, t } = useLanguage();
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [destinations, setDestinations] = useState<Destination[]>([]);
 
@@ -27,10 +29,10 @@ export default function Footer() {
         {/* Brand Info */}
         <div className="footer-col brand-col">
           <Link href="/" className="footer-logo">
-            <img src="/logo.svg" alt="Bridge Care" className="footer-logo-img" />
+            <img src="/isotipo.svg" alt="Bridge Care" className="footer-logo-img" />
           </Link>
           <p className="footer-desc">
-            Tu puente de confianza hacia servicios médicos y odontológicos de primer nivel en Colombia. Cuidado experto, calidez humana y ahorros excepcionales.
+            {t("footer.desc")}
           </p>
           <div className="footer-socials">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon">FB</a>
@@ -41,12 +43,12 @@ export default function Footer() {
 
         {/* Specialties */}
         <div className="footer-col">
-          <h4 className="footer-title">Especialidades</h4>
+          <h4 className="footer-title">{t("nav.specialties")}</h4>
           <ul className="footer-links">
             {specialties.map((spec) => (
               <li key={spec.id}>
                 <Link href={`/specialties/${spec.id}`}>
-                  {spec.name}
+                  {language === "es" ? spec.name : spec.nameEn}
                 </Link>
               </li>
             ))}
@@ -55,7 +57,7 @@ export default function Footer() {
 
         {/* Destinations */}
         <div className="footer-col">
-          <h4 className="footer-title">Destinos</h4>
+          <h4 className="footer-title">{t("nav.destinations")}</h4>
           <ul className="footer-links">
             {destinations.map((dest) => (
               <li key={dest.id}>
@@ -69,19 +71,19 @@ export default function Footer() {
 
         {/* Contact Info */}
         <div className="footer-col">
-          <h4 className="footer-title">Contacto</h4>
+          <h4 className="footer-title">{t("footer.contact")}</h4>
           <ul className="footer-contact">
             <li>
-              <span className="contact-label">Soporte y Consultas:</span>
+              <span className="contact-label">{t("footer.support")}</span>
               <a href="mailto:info@bridgecare.co">info@bridgecare.co</a>
             </li>
             <li>
-              <span className="contact-label">WhatsApp Internacional:</span>
-              <a href="https://wa.me/573000000000" target="_blank" rel="noopener noreferrer" className="wa-link">+57 (300) 000-0000</a>
+              <span className="contact-label">{t("footer.whatsapp")}</span>
+              <a href="https://wa.me/573001234567" target="_blank" rel="noopener noreferrer" className="wa-link">+57 (300) 123-4567</a>
             </li>
             <li>
-              <span className="contact-label">Ubicación Central:</span>
-              <span>El Poblado, Medellín, Colombia</span>
+              <span className="contact-label">{t("footer.location")}</span>
+              <span>{t("footer.location.val")}</span>
             </li>
           </ul>
         </div>
@@ -89,11 +91,10 @@ export default function Footer() {
 
       <div className="footer-bottom">
         <div className="container bottom-container">
-          <p>&copy; {new Date().getFullYear()} Bridge Care. Todos los derechos reservados.</p>
+          <p>&copy; {new Date().getFullYear()} Bridge Care. {t("footer.rights")}</p>
           <div className="bottom-links">
-            <Link href="/nosotros#garantias">Seguridad y Garantías</Link>
-            <Link href="/contacto">Consulta Gratis</Link>
-            <Link href="/admin">Administración</Link>
+            <Link href="/nosotros#garantias">{t("footer.guarantees")}</Link>
+            <Link href="/contacto">{t("nav.book")}</Link>
           </div>
         </div>
       </div>

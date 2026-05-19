@@ -3,15 +3,17 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { getStoredSpecialties, getStoredDestinations, Specialty, Destination } from "@/lib/db";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Header() {
+  const { language, setLanguage, t } = useLanguage();
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
-    // Load initial data
     setSpecialties(getStoredSpecialties());
     setDestinations(getStoredDestinations());
 
@@ -21,27 +23,31 @@ export default function Header() {
     };
 
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setScrolled(true);
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false); // Hide on scroll down
+        setIsOpen(false);   // Close mobile menu if open
       } else {
-        setScrolled(false);
+        setIsVisible(true);  // Show on scroll up
       }
+      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener("bc_db_update", handleUpdate);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener("bc_db_update", handleUpdate);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [lastScrollY]);
 
   return (
-    <header className="site-header-wrapper">
-      <div className={`container header-capsule ${scrolled ? "scrolled" : ""}`}>
-        <Link href="/" className="logo-link">
-          <img src="/logo.svg" alt="Bridge Care" className="logo-img" />
+    <header className={`site-header-wrapper ${isVisible ? "" : "hidden"}`}>
+      <div className="header-capsule">
+        {/* Left Side: Isotipo Home link */}
+        <Link href="/" className="logo-link" onClick={() => setIsOpen(false)}>
+          <img src="/isotipo.svg" alt="Bridge Care Home" className="isotipo-img" />
         </Link>
 
         {/* Mobile menu toggle */}
@@ -55,17 +61,12 @@ export default function Header() {
           <span className="bar"></span>
         </button>
 
+        {/* Center: Navigation */}
         <nav className={`nav-menu ${isOpen ? "open" : ""}`}>
           <ul className="nav-list">
-            <li>
-              <Link href="/" onClick={() => setIsOpen(false)} className="nav-link">
-                Inicio
-              </Link>
-            </li>
-            
             <li className="nav-item-dropdown">
               <span className="nav-link dropdown-trigger">
-                Especialidades <span className="arrow">▾</span>
+                {t("nav.specialties")} <span className="arrow">▾</span>
               </span>
               <ul className="dropdown-menu glass-dropdown">
                 {specialties.map((spec) => (
@@ -75,7 +76,7 @@ export default function Header() {
                       onClick={() => setIsOpen(false)}
                       className="dropdown-item"
                     >
-                      {spec.name}
+                      {language === "es" ? spec.name : spec.nameEn}
                     </Link>
                   </li>
                 ))}
@@ -84,7 +85,7 @@ export default function Header() {
 
             <li className="nav-item-dropdown">
               <span className="nav-link dropdown-trigger">
-                Destinos <span className="arrow">▾</span>
+                {t("nav.destinations")} <span className="arrow">▾</span>
               </span>
               <ul className="dropdown-menu glass-dropdown">
                 {destinations.map((dest) => (
@@ -101,57 +102,49 @@ export default function Header() {
               </ul>
             </li>
 
-            <li className="nav-item-dropdown">
-              <span className="nav-link dropdown-trigger">
-                Nosotros <span className="arrow">▾</span>
-              </span>
-              <ul className="dropdown-menu glass-dropdown">
-                <li>
-                  <Link href="/nosotros#quienes-somos" onClick={() => setIsOpen(false)} className="dropdown-item">
-                    Quiénes somos
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/nosotros#red-medica" onClick={() => setIsOpen(false)} className="dropdown-item">
-                    Red de médicos y clínicas
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/nosotros#paquetes" onClick={() => setIsOpen(false)} className="dropdown-item">
-                    Paquetes todo incluido
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/nosotros#garantias" onClick={() => setIsOpen(false)} className="dropdown-item">
-                    Seguridad y garantías
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/nosotros#blog-faq" onClick={() => setIsOpen(false)} className="dropdown-item">
-                    Blog / FAQ
-                  </Link>
-                </li>
-              </ul>
-            </li>
-
             <li>
-              <Link href="/admin" onClick={() => setIsOpen(false)} className="nav-link admin-link">
-                Panel Admin
+              <Link href="/nosotros" onClick={() => setIsOpen(false)} className="nav-link">
+                {t("nav.about")}
               </Link>
             </li>
 
-            <li className="mobile-cta-item">
-              <Link href="/contacto" onClick={() => setIsOpen(false)} className="btn btn-accent header-btn-pill">
-                Consulta Gratis
+            <li>
+              <Link href="/contacto" onClick={() => setIsOpen(false)} className="nav-link">
+                {t("nav.contact")}
               </Link>
             </li>
           </ul>
         </nav>
 
-        {/* Desktop CTA Button */}
-        <div className="desktop-cta">
-          <Link href="/contacto" className="btn btn-accent header-btn-pill">
-            Consulta Gratis
+        {/* Right Side: Language + WhatsApp Link + CTA Book */}
+        <div className="header-actions">
+          {/* Language toggle */}
+          <button 
+            onClick={() => setLanguage(language === "es" ? "en" : "es")}
+            className="lang-toggle-btn"
+            title={language === "es" ? "Switch to English" : "Cambiar a Español"}
+          >
+            {language === "es" ? "EN" : "ES"}
+          </button>
+
+          {/* WhatsApp click number */}
+          <a 
+            href={`https://wa.me/573001234567?text=${encodeURIComponent(
+              language === "es" 
+                ? "Hola, quiero agendar una cita con Bridge Care." 
+                : "Hello, I want to book an appointment with Bridge Care."
+            )}`}
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="whatsapp-number-link"
+          >
+            <span className="wa-icon">💬</span>
+            <span className="wa-number">+57 300 123 4567</span>
+          </a>
+
+          {/* CTA Book */}
+          <Link href="/contacto" className="btn-book">
+            {t("nav.book")}
           </Link>
         </div>
       </div>
@@ -160,240 +153,306 @@ export default function Header() {
         .site-header-wrapper {
           position: fixed;
           top: 1.5rem;
-          left: 0;
-          width: 100%;
+          left: 50%;
+          transform: translate(-50%, 0);
+          width: calc(100% - 2.5rem);
+          max-width: 950px;
           z-index: 1000;
-          display: flex;
-          justify-content: center;
-          padding: 0 1.5rem;
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+        }
+
+        .site-header-wrapper.hidden {
+          transform: translate(-50%, -160%);
+          opacity: 0;
           pointer-events: none;
         }
 
         .header-capsule {
-          width: 100%;
-          max-width: 1100px;
-          height: 70px;
-          background: rgba(3, 12, 10, 0.75);
+          background: rgba(3, 12, 10, 0.65);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(93, 202, 165, 0.15);
+          border: 1px solid rgba(93, 202, 165, 0.12);
           border-radius: var(--radius-full);
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 0 1rem 0 2rem;
-          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-          pointer-events: auto;
-          transition: var(--transition);
+          padding: 0.4rem 1.25rem;
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+          transition: var(--transition-normal);
         }
 
-        /* Scrolled state for even tighter fit */
-        .header-capsule.scrolled {
-          height: 64px;
-          background: rgba(3, 8, 6, 0.9);
+        .header-capsule:hover {
           border-color: rgba(93, 202, 165, 0.25);
-          box-shadow: 0 12px 48px rgba(0, 0, 0, 0.55), 0 0 20px rgba(93, 202, 165, 0.05);
+          box-shadow: 0 10px 40px rgba(93, 202, 165, 0.05);
         }
 
         .logo-link {
           display: flex;
           align-items: center;
+          padding: 0.25rem;
+          transition: var(--transition-fast);
         }
-        .logo-img {
-          height: 38px;
+
+        .logo-link:hover {
+          transform: scale(1.05);
+        }
+
+        .isotipo-img {
+          height: 30px;
           width: auto;
-          transition: var(--transition);
         }
-        .header-capsule.scrolled .logo-img {
-          height: 34px;
+
+        .nav-menu {
+          display: flex;
+          align-items: center;
         }
 
         .nav-list {
-          display: flex;
-          align-items: center;
           list-style: none;
-          gap: 1.75rem;
-        }
-        
-        .nav-link {
-          color: rgba(245, 245, 245, 0.8);
-          font-weight: 500;
-          font-size: 0.95rem;
-          padding: 0.5rem 0.25rem;
           display: flex;
-          align-items: center;
-          gap: 0.25rem;
+          gap: 1.5rem;
+          margin: 0;
+          padding: 0;
+        }
+
+        .nav-link {
+          color: var(--blanco-hueso);
+          font-weight: 500;
+          font-size: 0.85rem;
           cursor: pointer;
-          letter-spacing: 0.01em;
+          transition: var(--transition-fast);
+          padding: 0.5rem 0.25rem;
+          display: block;
         }
-        .nav-link:hover, .nav-link:focus {
+
+        .nav-link:hover {
           color: var(--mint-accent);
         }
 
-        .admin-link {
-          color: rgba(93, 202, 165, 0.7);
-        }
-        .admin-link:hover {
-          color: var(--mint-accent);
-        }
-
+        /* Dropdowns */
         .nav-item-dropdown {
           position: relative;
         }
-        .arrow {
-          font-size: 0.75rem;
-          transition: var(--transition);
+
+        .dropdown-trigger {
+          display: flex;
+          align-items: center;
+          gap: 0.35rem;
         }
 
-        .glass-dropdown {
+        .arrow {
+          font-size: 0.7rem;
+          transition: transform 0.2s ease;
+        }
+
+        .nav-item-dropdown:hover .arrow {
+          transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
           position: absolute;
           top: 100%;
           left: 50%;
-          transform: translateX(-50%) translateY(15px);
-          background: rgba(3, 12, 10, 0.95);
-          backdrop-filter: blur(24px);
-          -webkit-backdrop-filter: blur(24px);
-          border: 1px solid rgba(93, 202, 165, 0.2);
-          border-radius: var(--radius-md);
-          box-shadow: var(--shadow-lg);
+          transform: translate(-50%, 15px);
+          opacity: 0;
+          visibility: hidden;
           list-style: none;
-          min-width: 240px;
           padding: 0.75rem 0;
-          display: none;
-          flex-direction: column;
-          z-index: 1100;
+          margin: 0;
+          min-width: 200px;
+          border-radius: var(--radius-md);
+          transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+          z-index: 10;
+        }
+
+        .nav-item-dropdown:hover .dropdown-menu {
+          opacity: 1;
+          visibility: visible;
+          transform: translate(-50%, 5px);
+        }
+
+        .glass-dropdown {
+          background: rgba(3, 12, 10, 0.95);
+          border: 1px solid rgba(93, 202, 165, 0.15);
+          backdrop-filter: blur(10px);
         }
 
         .dropdown-item {
-          color: rgba(245, 245, 245, 0.8);
-          padding: 0.65rem 1.5rem;
           display: block;
-          font-size: 0.9rem;
-          font-weight: 500;
+          padding: 0.6rem 1.25rem;
+          color: var(--blanco-hueso);
+          font-size: 0.85rem;
+          transition: var(--transition-fast);
         }
+
         .dropdown-item:hover {
-          background-color: rgba(93, 202, 165, 0.1);
+          background-color: rgba(93, 202, 165, 0.08);
           color: var(--mint-accent);
-          padding-left: 1.75rem;
+          padding-left: 1.5rem;
         }
 
-        /* Hover Dropdown Triggers */
-        .nav-item-dropdown:hover .glass-dropdown {
+        /* Actions block */
+        .header-actions {
           display: flex;
-          animation: slideUpDropdown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          align-items: center;
+          gap: 1rem;
         }
-        .nav-item-dropdown:hover .arrow {
-          transform: rotate(180deg);
+
+        .lang-toggle-btn {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(93, 202, 165, 0.15);
           color: var(--mint-accent);
-        }
-
-        /* Glowing Pill button */
-        .header-btn-pill {
-          padding: 0.65rem 1.5rem;
-          font-size: 0.9rem;
+          font-size: 0.75rem;
           font-weight: 700;
+          padding: 0.3rem 0.65rem;
           border-radius: var(--radius-full);
-          letter-spacing: 0.02em;
+          cursor: pointer;
+          transition: var(--transition-fast);
         }
 
-        .mobile-cta-item {
-          display: none;
+        .lang-toggle-btn:hover {
+          background: rgba(93, 202, 165, 0.1);
+          border-color: var(--mint-accent);
         }
 
-        /* Animations */
-        @keyframes slideUpDropdown {
-          from { opacity: 0; transform: translateX(-50%) translateY(15px); }
-          to { opacity: 1; transform: translateX(-50%) translateY(5px); }
+        .whatsapp-number-link {
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+          color: var(--blanco-hueso);
+          font-size: 0.8rem;
+          font-weight: 600;
+          padding: 0.35rem 0.65rem;
+          border-radius: var(--radius-full);
+          transition: var(--transition-fast);
         }
 
-        /* Mobile styling */
+        .whatsapp-number-link:hover {
+          color: var(--mint-accent);
+          background: rgba(93, 202, 165, 0.05);
+        }
+
+        .wa-icon {
+          font-size: 0.95rem;
+        }
+
+        .btn-book {
+          background: linear-gradient(135deg, var(--teal-primary) 0%, var(--mint-accent) 100%);
+          color: var(--negro-suave);
+          font-size: 0.8rem;
+          font-weight: 700;
+          padding: 0.45rem 1.1rem;
+          border-radius: var(--radius-full);
+          box-shadow: 0 4px 15px rgba(93, 202, 165, 0.2);
+          transition: var(--transition-fast);
+        }
+
+        .btn-book:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 6px 20px rgba(93, 202, 165, 0.35);
+        }
+
         .menu-toggle {
           display: none;
           flex-direction: column;
-          justify-content: space-between;
-          width: 28px;
-          height: 18px;
+          gap: 4px;
           background: transparent;
           border: none;
           cursor: pointer;
-          z-index: 2000;
-          margin-right: 0.5rem;
-        }
-        .menu-toggle .bar {
-          width: 100%;
-          height: 2px;
-          background-color: var(--blanco-hueso);
-          border-radius: 2px;
-          transition: var(--transition);
+          padding: 0.5rem;
+          z-index: 100;
         }
 
+        .menu-toggle .bar {
+          width: 20px;
+          height: 2px;
+          background-color: var(--white);
+          transition: 0.3s ease;
+          border-radius: 2px;
+        }
+
+        /* Mobile specific styling */
         @media (max-width: 992px) {
           .menu-toggle {
             display: flex;
           }
-          .menu-toggle.active .bar:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-          }
-          .menu-toggle.active .bar:nth-child(2) {
-            opacity: 0;
-          }
-          .menu-toggle.active .bar:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
-          }
-          .desktop-cta {
-            display: none;
-          }
+
           .nav-menu {
-            position: fixed;
-            top: -20px;
-            right: -100%;
-            width: 85%;
-            max-width: 320px;
-            height: 100vh;
-            background: rgba(3, 12, 10, 0.98);
-            backdrop-filter: blur(24px);
-            border-left: 1px solid rgba(93, 202, 165, 0.2);
-            padding: 100px 2rem 2rem;
-            transition: var(--transition);
-            z-index: 1500;
-            overflow-y: auto;
-            border-radius: var(--radius-lg) 0 0 var(--radius-lg);
-            box-shadow: -10px 0 40px rgba(0,0,0,0.5);
-          }
-          .nav-menu.open {
+            position: absolute;
+            top: 100%;
+            left: 0;
             right: 0;
+            background: rgba(3, 12, 10, 0.98);
+            border: 1px solid rgba(93, 202, 165, 0.15);
+            border-radius: var(--radius-lg);
+            flex-direction: column;
+            padding: 1.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(15px);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
           }
+
+          .nav-menu.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(10px);
+          }
+
           .nav-list {
             flex-direction: column;
-            align-items: flex-start;
-            gap: 1.5rem;
             width: 100%;
+            gap: 1rem;
           }
-          .nav-item-dropdown {
-            width: 100%;
-          }
-          .glass-dropdown {
+
+          .dropdown-menu {
             position: static;
-            display: flex;
-            box-shadow: none;
+            transform: none !important;
+            opacity: 1;
+            visibility: visible;
+            background: rgba(0, 0, 0, 0.2);
             border: none;
-            padding: 0.5rem 0 0 1rem;
-            background-color: rgba(93, 202, 165, 0.05);
-            min-width: 100%;
-            transform: none;
+            box-shadow: none;
+            padding-left: 1rem;
             margin-top: 0.5rem;
           }
-          .nav-link {
-            width: 100%;
-            justify-content: space-between;
+
+          .nav-item-dropdown:hover .dropdown-menu {
+            transform: none;
           }
-          .mobile-cta-item {
-            display: block;
-            width: 100%;
-            margin-top: 1.5rem;
+
+          .header-actions {
+            margin-left: auto;
+            margin-right: 0.5rem;
           }
-          .mobile-cta-item .btn {
-            width: 100%;
+
+          .whatsapp-number-link .wa-number {
+            display: none; /* Hide number on tablets/phones to preserve space */
+          }
+        }
+
+        @media (max-width: 576px) {
+          .site-header-wrapper {
+            top: 1rem;
+          }
+          
+          .header-capsule {
+            padding: 0.4rem 0.75rem;
+          }
+
+          .header-actions {
+            gap: 0.5rem;
+          }
+
+          .btn-book {
+            padding: 0.4rem 0.85rem;
+            font-size: 0.75rem;
+          }
+
+          .whatsapp-number-link {
+            padding: 0.3rem;
           }
         }
       `}</style>
