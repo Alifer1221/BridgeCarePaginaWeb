@@ -1,0 +1,391 @@
+"use client";
+
+import React, { use, useState, useEffect } from "react";
+import Link from "next/link";
+import { getStoredSpecialties, Specialty } from "@/lib/db";
+
+interface SpecialtyDetailProps {
+  params: Promise<{ slug: string }>;
+}
+
+export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
+  const { slug } = use(params);
+  const [specialty, setSpecialty] = useState<Specialty | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const list = getStoredSpecialties();
+    const found = list.find((s) => s.id === slug);
+    if (found) {
+      setSpecialty(found);
+    }
+    setLoading(false);
+
+    const handleUpdate = () => {
+      const updatedList = getStoredSpecialties();
+      const updatedFound = updatedList.find((s) => s.id === slug);
+      if (updatedFound) {
+        setSpecialty(updatedFound);
+      }
+    };
+    window.addEventListener("bc_db_update", handleUpdate);
+    return () => window.removeEventListener("bc_db_update", handleUpdate);
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Cargando información médica...</p>
+        <style jsx>{`
+          .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 50vh;
+            color: var(--teal-primary);
+          }
+          .spinner {
+            border: 4px solid rgba(29, 122, 110, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border-left-color: var(--teal-primary);
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+          }
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  if (!specialty) {
+    return (
+      <div className="container error-container text-center">
+        <h2>Especialidad no encontrada</h2>
+        <p>El tratamiento solicitado no existe o fue removido del catálogo.</p>
+        <Link href="/" className="btn btn-primary">Volver al Inicio</Link>
+        <style jsx>{`
+          .error-container {
+            padding: 8rem 1.5rem;
+          }
+          .error-container h2 {
+            margin-bottom: 1rem;
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  // Calculate savings percentage
+  const costCol = parseFloat(specialty.avgCostColombia.replace(/[^0-9.]/g, ""));
+  const costUS = parseFloat(specialty.avgCostUS.replace(/[^0-9.]/g, ""));
+  const savingsPct = costUS ? Math.round(((costUS - costCol) / costUS) * 100) : 0;
+
+  return (
+    <div className="specialty-detail-page">
+      {/* Hero section */}
+      <section 
+        className="detail-hero"
+        style={{ backgroundImage: `url(${specialty.image})` }}
+      >
+        <div className="hero-overlay"></div>
+        <div className="container hero-content">
+          <Link href="/" className="back-link">&larr; Volver al catálogo</Link>
+          <span className="spec-badge">Especialidad Médica</span>
+          <h1>{specialty.name}</h1>
+          <p className="hero-description">{specialty.description}</p>
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <section className="section content-section">
+        <div className="container content-grid">
+          {/* Left Column: Details */}
+          <div className="main-details">
+            <div className="detail-card info-card-bg">
+              <h2>Sobre el Tratamiento</h2>
+              <p className="large-p">{specialty.fullDescription}</p>
+            </div>
+
+            <div className="detail-card procedures-card mt-3">
+              <h2>Procedimientos Comunes</h2>
+              <p>Ofrecemos una amplia variedad de técnicas dentro de esta categoría, adaptadas a tus objetivos anatómicos y de salud.</p>
+              <ul className="procedures-list">
+                {specialty.procedures && specialty.procedures.map((proc, i) => (
+                  <li key={i}>
+                    <span className="check-bullet">✓</span>
+                    <span>{proc}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Right Column: Cost and Logistics Summary */}
+          <div className="logistics-sidebar">
+            <div className="sidebar-card cost-card">
+              <div className="savings-badge">Ahorra hasta un {savingsPct}%</div>
+              <h3>Comparativa de Costos</h3>
+              
+              <div className="cost-row">
+                <div className="cost-label">Costo Promedio EE. UU.</div>
+                <div className="cost-value us">{specialty.avgCostUS}</div>
+              </div>
+              
+              <div className="cost-row">
+                <div className="cost-label">Costo Promedio Colombia</div>
+                <div className="cost-value col">{specialty.avgCostColombia}</div>
+              </div>
+
+              <div className="savings-text text-center">
+                Te ahorras aproximadamente <strong>{(costUS - costCol).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })} USD</strong>
+              </div>
+            </div>
+
+            <div className="sidebar-card logistics-info-card">
+              <h3>Detalles Clínicos</h3>
+              
+              <div className="log-item">
+                <span className="log-icon">⏱</span>
+                <div>
+                  <h4>Tiempo de Recuperación</h4>
+                  <p>{specialty.recoveryDays}</p>
+                </div>
+              </div>
+
+              <div className="log-item">
+                <span className="log-icon">🏥</span>
+                <div>
+                  <h4>Clínicas Aliadas</h4>
+                  <ul>
+                    {specialty.clinics && specialty.clinics.map((clinic, i) => (
+                      <li key={i}>{clinic}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <Link href={`/contacto?specialty=${specialty.id}`} className="btn btn-accent w-full text-center bold-btn mt-2">
+                Solicitar Cotización Gratis
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <style jsx>{`
+        .detail-hero {
+          position: relative;
+          background-size: cover;
+          background-position: center;
+          padding: 8rem 0 5rem 0;
+          color: var(--white);
+        }
+        .hero-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(135deg, rgba(10, 31, 26, 0.9) 0%, rgba(10, 74, 66, 0.6) 100%);
+          z-index: 1;
+        }
+        .hero-content {
+          position: relative;
+          z-index: 2;
+          max-width: 800px;
+        }
+        .back-link {
+          display: inline-block;
+          color: var(--mint-accent);
+          font-size: 0.9rem;
+          margin-bottom: 1.5rem;
+          font-weight: 500;
+        }
+        .back-link:hover {
+          text-decoration: underline;
+        }
+        .spec-badge {
+          display: inline-block;
+          background-color: rgba(29, 122, 110, 0.2);
+          color: var(--mint-accent);
+          border: 1px solid rgba(93, 202, 165, 0.3);
+          border-radius: var(--radius-sm);
+          padding: 0.25rem 0.75rem;
+          font-size: 0.8rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin-bottom: 1rem;
+        }
+        .detail-hero h1 {
+          color: var(--white);
+          font-size: 3rem;
+          margin-bottom: 1rem;
+        }
+        .hero-description {
+          color: rgba(245, 245, 245, 0.9);
+          font-size: 1.15rem;
+          margin-bottom: 0;
+        }
+
+        .content-section {
+          background-color: var(--blanco-hueso);
+        }
+        .content-grid {
+          display: grid;
+          grid-template-columns: 1.6fr 1fr;
+          gap: 3.5rem;
+          align-items: start;
+        }
+        
+        .detail-card {
+          background-color: var(--white);
+          padding: 2.5rem;
+          border-radius: var(--radius-lg);
+          border: 1px solid rgba(10, 31, 26, 0.02);
+          box-shadow: var(--shadow-sm);
+        }
+        .large-p {
+          font-size: 1.1rem;
+          line-height: 1.7;
+          color: var(--negro-suave);
+        }
+        .detail-card h2 {
+          font-size: 1.6rem;
+          color: var(--teal-dark);
+          margin-bottom: 1.25rem;
+          border-bottom: 2px solid var(--blanco-hueso);
+          padding-bottom: 0.75rem;
+        }
+        
+        .procedures-list {
+          list-style: none;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1rem;
+          margin-top: 1.5rem;
+        }
+        .procedures-list li {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          font-size: 0.95rem;
+          font-weight: 500;
+        }
+        .check-bullet {
+          color: var(--mint-accent);
+          font-weight: bold;
+          font-size: 1.1rem;
+        }
+
+        .sidebar-card {
+          background-color: var(--white);
+          padding: 2rem;
+          border-radius: var(--radius-lg);
+          border: 1px solid rgba(10, 31, 26, 0.02);
+          box-shadow: var(--shadow-sm);
+          margin-bottom: 2rem;
+        }
+        .cost-card {
+          border: 2px solid var(--mint-accent);
+          position: relative;
+          background-color: var(--verde-noche);
+          color: var(--white);
+        }
+        .cost-card h3 {
+          color: var(--white);
+          font-size: 1.25rem;
+          margin-bottom: 1.5rem;
+        }
+        .savings-badge {
+          position: absolute;
+          top: -12px;
+          right: 20px;
+          background-color: var(--mint-accent);
+          color: var(--verde-noche);
+          font-size: 0.75rem;
+          font-weight: 700;
+          padding: 0.25rem 0.75rem;
+          border-radius: var(--radius-sm);
+        }
+        .cost-row {
+          display: flex;
+          justify-content: space-between;
+          padding: 0.75rem 0;
+          border-bottom: 1px solid rgba(245, 245, 245, 0.1);
+        }
+        .cost-label {
+          font-size: 0.9rem;
+          color: rgba(245, 245, 245, 0.7);
+        }
+        .cost-value {
+          font-weight: 700;
+          font-size: 1.1rem;
+        }
+        .cost-value.us {
+          color: #ff6b6b;
+          text-decoration: line-through;
+        }
+        .cost-value.col {
+          color: var(--mint-accent);
+          font-size: 1.3rem;
+        }
+        .savings-text {
+          font-size: 0.9rem;
+          margin-top: 1.25rem;
+          color: rgba(245, 245, 245, 0.9);
+        }
+
+        .logistics-info-card h3 {
+          font-size: 1.25rem;
+          color: var(--teal-dark);
+          margin-bottom: 1.5rem;
+        }
+        .log-item {
+          display: flex;
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+        }
+        .log-icon {
+          font-size: 1.5rem;
+          line-height: 1;
+        }
+        .log-item h4 {
+          font-size: 0.95rem;
+          font-weight: 600;
+          margin-bottom: 0.25rem;
+        }
+        .log-item p, .log-item ul {
+          font-size: 0.85rem;
+          color: var(--gris-texto);
+          margin-bottom: 0;
+        }
+        .log-item ul {
+          list-style: none;
+        }
+        
+        .mt-3 { margin-top: 2rem; }
+        .mt-2 { margin-top: 1rem; }
+        .w-full { width: 100%; }
+        .text-center { text-align: center; }
+        .bold-btn { font-weight: 700; }
+
+        @media (max-width: 992px) {
+          .content-grid {
+            grid-template-columns: 1fr;
+          }
+          .procedures-list {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
+    </div>
+  );
+}
