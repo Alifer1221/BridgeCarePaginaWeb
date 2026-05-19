@@ -20,7 +20,6 @@ export default function Nosotros() {
     };
     window.addEventListener("bc_db_update", handleUpdate);
 
-    // Listen to hash change to set tab if linked from outside
     const handleHashChange = () => {
       const hash = window.location.hash.replace("#", "");
       if (["quienes-somos", "red-medica", "paquetes", "garantias", "blog-faq"].includes(hash)) {
@@ -28,7 +27,7 @@ export default function Nosotros() {
       }
     };
 
-    handleHashChange(); // Run once on mount
+    handleHashChange();
     window.addEventListener("hashchange", handleHashChange);
     
     return () => {
@@ -39,7 +38,6 @@ export default function Nosotros() {
 
   const selectTab = (tab: TabId) => {
     setActiveTab(tab);
-    // Update hash silently
     if (typeof window !== "undefined") {
       window.history.pushState(null, "", `#${tab}`);
     }
@@ -47,6 +45,8 @@ export default function Nosotros() {
 
   return (
     <div className="nosotros-page">
+      <div className="glow-sphere glow-1"></div>
+
       <section className="nosotros-hero">
         <div className="container text-center">
           <span className="nosotros-subtitle">Conoce Bridge Care</span>
@@ -61,7 +61,7 @@ export default function Nosotros() {
       {/* TABS NAVIGATION */}
       <section className="tabs-nav-section">
         <div className="container">
-          <div className="tabs-list">
+          <div className="tabs-list glass-card">
             <button 
               className={`tab-btn ${activeTab === "quienes-somos" ? "active" : ""}`}
               onClick={() => selectTab("quienes-somos")}
@@ -104,7 +104,7 @@ export default function Nosotros() {
           {activeTab === "quienes-somos" && (
             <div className="tab-pane animate-fade-in">
               <div className="two-col-layout">
-                <div className="text-pane">
+                <div className="text-pane glass-card info-card-padding">
                   <h2>Nuestra Misión y Visión</h2>
                   <p className="lead-text">
                     Bridge Care nace con el propósito de derribar las barreras geográficas y económicas de la salud, actuando como un puente transparente y seguro hacia la medicina de élite en Colombia.
@@ -132,7 +132,7 @@ export default function Nosotros() {
               </p>
 
               <div className="grid grid-2 medical-grid">
-                <div className="medical-card">
+                <div className="medical-card glass-card">
                   <h3>Nuestros Especialistas</h3>
                   <p>
                     Todos nuestros cirujanos plásticos, odontólogos estéticos y cirujanos bariátricos pertenecen a las sociedades científicas oficiales de Colombia (ej. SCCP, FOC). Cuentan con un promedio de más de 12 años de experiencia y son bilingües.
@@ -140,11 +140,11 @@ export default function Nosotros() {
                   <ul className="accent-list">
                     <li>Miembros SCCP (Sociedad Colombiana de Cirugía Plástica)</li>
                     <li>Especialistas en Implantología CAD/CAM digital</li>
-                    <li>Certificaciones internacionales y publicaciones científicas</li>
+                    <li>Certificaciones internacionales y de prestigio</li>
                   </ul>
                 </div>
 
-                <div className="medical-card">
+                <div className="medical-card glass-card">
                   <h3>Infraestructura Hospitalaria</h3>
                   <p>
                     Las cirugías de alta complejidad se realizan en clínicas que cuentan con unidades de cuidados intensivos (UCI) propias, quirófanos inteligentes y laboratorios clínicos integrados, asegurando la máxima protección ante cualquier eventualidad.
@@ -168,7 +168,7 @@ export default function Nosotros() {
               </p>
 
               <div className="grid grid-3 packages-grid">
-                <div className="package-card">
+                <div className="package-card glass-card">
                   <div className="package-header">
                     <h3>Plan Básico de Soporte</h3>
                     <div className="package-subtitle">Logística Médica</div>
@@ -181,11 +181,11 @@ export default function Nosotros() {
                     <li>Traducción de historial médico</li>
                   </ul>
                   <div className="package-footer">
-                    <Link href="/contacto" className="btn btn-primary btn-sm">Solicitar Información</Link>
+                    <Link href="/contacto" className="btn btn-secondary btn-sm w-full">Solicitar Información</Link>
                   </div>
                 </div>
 
-                <div className="package-card featured-package">
+                <div className="package-card glass-card featured-package">
                   <div className="package-tag">MÁS POPULAR</div>
                   <div className="package-header">
                     <h3>Plan Integral Premium</h3>
@@ -200,11 +200,11 @@ export default function Nosotros() {
                     <li>Seguro médico de complicaciones</li>
                   </ul>
                   <div className="package-footer">
-                    <Link href="/contacto" className="btn btn-accent btn-sm">Cotizar Plan Premium</Link>
+                    <Link href="/contacto" className="btn btn-accent btn-sm w-full">Cotizar Plan Premium</Link>
                   </div>
                 </div>
 
-                <div className="package-card">
+                <div className="package-card glass-card">
                   <div className="package-header">
                     <h3>Plan VIP Deluxe</h3>
                     <div className="package-subtitle">Experiencia 5 Estrellas</div>
@@ -218,7 +218,7 @@ export default function Nosotros() {
                     <li>Asistente personal en destino</li>
                   </ul>
                   <div className="package-footer">
-                    <Link href="/contacto" className="btn btn-primary btn-sm">Solicitar VIP</Link>
+                    <Link href="/contacto" className="btn btn-secondary btn-sm w-full">Solicitar VIP</Link>
                   </div>
                 </div>
               </div>
@@ -229,7 +229,7 @@ export default function Nosotros() {
           {activeTab === "garantias" && (
             <div className="tab-pane animate-fade-in">
               <div className="two-col-layout">
-                <div className="text-pane">
+                <div className="text-pane glass-card info-card-padding">
                   <h2>Pólizas de Seguridad y Calidad Verificada</h2>
                   <p className="lead-text">
                     La tranquilidad del paciente es nuestro indicador de éxito. Implementamos un protocolo de tres capas de protección médica y legal.
@@ -267,7 +267,7 @@ export default function Nosotros() {
 
               <div className="grid grid-3 blog-grid">
                 {mounted && blogPosts.map((post) => (
-                  <article key={post.id} className="blog-card">
+                  <article key={post.id} className="blog-card glass-card">
                     <div className="blog-card-meta">
                       <span className="blog-cat">{post.category}</span>
                       <span className="blog-date">{post.date}</span>
@@ -286,15 +286,15 @@ export default function Nosotros() {
               <div className="faq-wrapper">
                 <h2>Preguntas Frecuentes</h2>
                 <div className="faq-list">
-                  <div className="faq-item">
+                  <div className="faq-item glass-card">
                     <h4>¿Necesito visa para viajar a Colombia por tratamiento médico?</h4>
                     <p>Los ciudadanos de EE. UU., Canadá, la Unión Europea y la mayoría de países de Latinoamérica no requieren visa para estadías de turismo o tratamientos médicos cortos inferiores a 90 días; solo necesitan su pasaporte vigente.</p>
                   </div>
-                  <div className="faq-item">
+                  <div className="faq-item glass-card">
                     <h4>¿Cómo realizan el seguimiento cuando regrese a mi país?</h4>
                     <p>Coordinamos un calendario de revisiones virtuales por videollamada durante los primeros 3 a 6 meses. Además, te facilitamos un informe médico detallado para que puedas compartirlo con tu doctor local en caso de ser necesario.</p>
                   </div>
-                  <div className="faq-item">
+                  <div className="faq-item glass-card">
                     <h4>¿Por qué son tan bajos los precios en comparación con EE. UU.?</h4>
                     <p>La diferencia de costos radica principalmente en el menor costo operativo de las clínicas en Colombia, el valor de la moneda local (Peso Colombiano) frente al Dólar, y costos significativamente menores en seguros de mala práctica para los médicos.</p>
                   </div>
@@ -307,82 +307,108 @@ export default function Nosotros() {
       </section>
 
       <style jsx>{`
+        .nosotros-page {
+          position: relative;
+        }
+        .glow-sphere {
+          position: absolute;
+          width: 500px;
+          height: 500px;
+          border-radius: 50%;
+          filter: blur(140px);
+          opacity: 0.12;
+          pointer-events: none;
+          z-index: 0;
+        }
+        .glow-1 {
+          background: var(--teal-primary);
+          top: 30%;
+          left: -100px;
+        }
+
         .nosotros-hero {
-          background-color: var(--verde-noche);
+          background-color: transparent;
           color: var(--white);
-          padding: 5rem 0;
+          padding: 8rem 0 4rem 0;
         }
         .nosotros-subtitle {
           color: var(--mint-accent);
           font-weight: 700;
           text-transform: uppercase;
           font-size: 0.85rem;
-          letter-spacing: 0.1em;
+          letter-spacing: 0.15em;
           margin-bottom: 0.5rem;
           display: block;
         }
         .nosotros-hero h1 {
-          color: var(--white);
-          font-size: 2.75rem;
+          font-size: 3rem;
           margin-bottom: 1rem;
         }
         .header-bar {
-          width: 60px;
+          width: 50px;
           height: 3px;
-          background-color: var(--mint-accent);
-          margin: 1rem auto;
+          background: linear-gradient(90deg, var(--teal-primary), var(--mint-accent));
+          margin: 1.25rem auto;
           border-radius: 2px;
         }
         .nosotros-hero-desc {
           max-width: 600px;
           margin: 0 auto;
-          color: rgba(245, 245, 245, 0.8);
+          color: var(--gris-texto);
           font-size: 1.1rem;
         }
 
         /* TABS BUTTONS */
         .tabs-nav-section {
-          background-color: var(--white);
-          border-bottom: 1px solid var(--light-gray);
+          background-color: transparent;
           position: sticky;
-          top: 80px;
+          top: 100px;
           z-index: 100;
+          padding: 1rem 0;
         }
         .tabs-list {
           display: flex;
           justify-content: center;
           flex-wrap: wrap;
-          gap: 1rem;
-          padding: 1rem 0;
+          gap: 0.75rem;
+          padding: 0.6rem;
+          border-radius: var(--radius-full);
+          background: rgba(10, 31, 26, 0.6) !important;
+        }
+        .tabs-list:hover {
+          transform: none;
+          box-shadow: var(--shadow-md);
         }
         .tab-btn {
           background: transparent;
           border: none;
-          padding: 0.75rem 1.25rem;
+          padding: 0.65rem 1.5rem;
           font-family: inherit;
           font-weight: 600;
           font-size: 0.95rem;
           color: var(--gris-texto);
           cursor: pointer;
-          border-radius: var(--radius-sm);
+          border-radius: var(--radius-full);
           transition: var(--transition-fast);
         }
         .tab-btn:hover {
-          color: var(--teal-primary);
-          background-color: rgba(29, 122, 110, 0.05);
+          color: var(--mint-accent);
+          background-color: rgba(93, 202, 165, 0.08);
         }
         .tab-btn.active {
-          color: var(--white);
-          background-color: var(--teal-primary);
+          color: var(--negro-suave);
+          background: linear-gradient(135deg, var(--teal-primary) 0%, var(--mint-accent) 100%);
+          font-weight: 700;
         }
 
         .tab-content-section {
-          background-color: var(--blanco-hueso);
+          background-color: transparent;
+          padding-top: 2rem;
         }
         .tab-pane h2 {
-          font-size: 1.75rem;
+          font-size: 1.8rem;
           margin-bottom: 1.5rem;
-          color: var(--teal-dark);
+          color: var(--white);
         }
         
         .two-col-layout {
@@ -390,18 +416,27 @@ export default function Nosotros() {
           grid-template-columns: 1.2fr 1fr;
           gap: 3.5rem;
           align-items: center;
+          position: relative;
+          z-index: 10;
+        }
+        .info-card-padding {
+          padding: 3rem 2.5rem;
+        }
+        .info-card-padding:hover {
+          transform: none;
         }
         .lead-text {
           font-size: 1.15rem;
           font-weight: 500;
-          color: var(--teal-primary);
-          line-height: 1.6;
+          color: var(--mint-accent);
+          line-height: 1.7;
           margin-bottom: 1.5rem;
         }
         .pane-img {
           width: 100%;
           border-radius: var(--radius-lg);
-          box-shadow: var(--shadow-md);
+          border: 1px solid rgba(93, 202, 165, 0.15);
+          box-shadow: var(--shadow-lg);
         }
 
         /* Medical Grid */
@@ -411,16 +446,12 @@ export default function Nosotros() {
           max-width: 800px;
         }
         .medical-card {
-          background-color: var(--white);
           padding: 2.5rem;
-          border-radius: var(--radius-md);
-          border: 1px solid rgba(10, 31, 26, 0.03);
-          box-shadow: var(--shadow-sm);
         }
         .medical-card h3 {
-          font-size: 1.3rem;
-          margin-bottom: 1rem;
-          color: var(--teal-primary);
+          font-size: 1.4rem;
+          margin-bottom: 1.25rem;
+          color: var(--mint-accent);
         }
         .accent-list {
           list-style: none;
@@ -446,19 +477,17 @@ export default function Nosotros() {
         /* Package Cards */
         .packages-grid {
           align-items: stretch;
+          position: relative;
+          z-index: 10;
         }
         .package-card {
-          background-color: var(--white);
-          border-radius: var(--radius-md);
           padding: 2.5rem 2rem;
-          border: 1px solid rgba(10, 31, 26, 0.03);
           display: flex;
           flex-direction: column;
-          box-shadow: var(--shadow-sm);
           position: relative;
         }
         .package-header {
-          border-bottom: 1px solid var(--light-gray);
+          border-bottom: 1px solid rgba(93, 202, 165, 0.15);
           padding-bottom: 1.5rem;
           margin-bottom: 1.5rem;
         }
@@ -477,10 +506,11 @@ export default function Nosotros() {
           list-style: none;
           display: flex;
           flex-direction: column;
-          gap: 0.75rem;
+          gap: 0.85rem;
           font-size: 0.9rem;
-          margin-bottom: 2rem;
+          margin-bottom: 2.5rem;
           flex-grow: 1;
+          color: var(--gris-texto);
         }
         .package-features li {
           position: relative;
@@ -488,7 +518,7 @@ export default function Nosotros() {
         }
         .package-features li::before {
           content: "•";
-          color: var(--teal-primary);
+          color: var(--mint-accent);
           position: absolute;
           left: 0;
           font-size: 1.5rem;
@@ -497,20 +527,29 @@ export default function Nosotros() {
         .featured-package {
           border: 2px solid var(--mint-accent);
           transform: translateY(-8px);
-          box-shadow: var(--shadow-lg);
+          box-shadow: 0 16px 40px rgba(93, 202, 165, 0.15);
+        }
+        .featured-package:hover {
+          transform: translateY(-12px);
+          box-shadow: 0 20px 48px rgba(93, 202, 165, 0.25);
         }
         .package-tag {
           position: absolute;
           top: -12px;
           left: 50%;
           transform: translateX(-50%);
-          background-color: var(--mint-accent);
-          color: var(--verde-noche);
+          background: linear-gradient(135deg, var(--teal-primary) 0%, var(--mint-accent) 100%);
+          color: var(--negro-suave);
           font-size: 0.75rem;
           font-weight: 700;
-          padding: 0.25rem 1rem;
+          padding: 0.3rem 1.2rem;
           border-radius: var(--radius-full);
           letter-spacing: 0.05em;
+          border: 1px solid rgba(255,255,255,0.2);
+        }
+        .btn-sm {
+          padding: 0.6rem 1.5rem;
+          font-size: 0.85rem;
         }
 
         /* Safety Layer */
@@ -521,22 +560,19 @@ export default function Nosotros() {
           margin-top: 2rem;
         }
         .safety-layer-item h4 {
-          color: var(--teal-dark);
-          font-size: 1.1rem;
-          margin-bottom: 0.25rem;
+          color: var(--white);
+          font-size: 1.15rem;
+          margin-bottom: 0.35rem;
         }
         .safety-layer-item p {
           font-size: 0.9rem;
           margin-bottom: 0;
+          color: var(--gris-texto);
         }
 
         /* Blog Section */
         .blog-card {
-          background-color: var(--white);
           padding: 2rem;
-          border-radius: var(--radius-md);
-          box-shadow: var(--shadow-sm);
-          border: 1px solid rgba(10, 31, 26, 0.02);
           display: flex;
           flex-direction: column;
         }
@@ -545,57 +581,66 @@ export default function Nosotros() {
           justify-content: space-between;
           font-size: 0.8rem;
           font-weight: 600;
-          color: var(--teal-primary);
-          margin-bottom: 1rem;
+          color: var(--mint-accent);
+          margin-bottom: 1.25rem;
         }
         .blog-card h3 {
-          font-size: 1.2rem;
+          font-size: 1.3rem;
           margin-bottom: 0.75rem;
           line-height: 1.3;
         }
         .blog-card p {
           font-size: 0.85rem;
           color: var(--gris-texto);
-          margin-bottom: 1rem;
+          margin-bottom: 1.25rem;
         }
         .blog-content-preview {
           font-size: 0.85rem;
-          color: #777 !important;
+          color: rgba(163, 184, 180, 0.7) !important;
           flex-grow: 1;
         }
         .blog-footer {
-          border-top: 1px solid var(--light-gray);
+          border-top: 1px solid rgba(93, 202, 165, 0.15);
           padding-top: 1rem;
-          margin-top: 1rem;
-          display: flex;
-          justify-content: space-between;
+          margin-top: 1.25rem;
         }
         .blog-author {
           font-size: 0.8rem;
           font-weight: 500;
-          color: var(--negro-suave);
+          color: var(--white);
         }
 
         /* FAQ Styling */
         .faq-wrapper {
-          margin-top: 4rem;
-          border-top: 1px solid var(--light-gray);
+          margin-top: 5rem;
+          border-top: 1px solid rgba(93, 202, 165, 0.15);
           padding-top: 4rem;
         }
         .faq-list {
           display: flex;
           flex-direction: column;
-          gap: 2rem;
-          margin-top: 2rem;
+          gap: 1.75rem;
+          margin-top: 2.5rem;
+        }
+        .faq-item {
+          padding: 2rem;
+        }
+        .faq-item:hover {
+          transform: translateY(-2px);
         }
         .faq-item h4 {
-          font-size: 1.15rem;
-          color: var(--teal-dark);
-          margin-bottom: 0.5rem;
+          font-size: 1.2rem;
+          color: var(--mint-accent);
+          margin-bottom: 0.75rem;
         }
         .faq-item p {
           font-size: 0.95rem;
           margin-bottom: 0;
+          color: var(--gris-texto);
+          line-height: 1.6;
+        }
+        .w-full {
+          width: 100%;
         }
 
         @media (max-width: 992px) {
@@ -606,8 +651,18 @@ export default function Nosotros() {
           .featured-package {
             transform: none;
           }
+          .featured-package:hover {
+            transform: translateY(-4px);
+          }
           .packages-grid {
             gap: 3rem;
+          }
+          .tabs-list {
+            border-radius: var(--radius-md);
+          }
+          .tab-btn {
+            width: 100%;
+            border-radius: var(--radius-sm);
           }
         }
       `}</style>

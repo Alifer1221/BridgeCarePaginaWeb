@@ -44,14 +44,14 @@ export default function DestinationDetail({ params }: DestinationDetailProps) {
             align-items: center;
             justify-content: center;
             min-height: 50vh;
-            color: var(--teal-primary);
+            color: var(--mint-accent);
           }
           .spinner {
-            border: 4px solid rgba(29, 122, 110, 0.1);
+            border: 4px solid rgba(93, 202, 165, 0.1);
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            border-left-color: var(--teal-primary);
+            border-left-color: var(--mint-accent);
             animation: spin 1s linear infinite;
             margin-bottom: 1rem;
           }
@@ -84,6 +84,8 @@ export default function DestinationDetail({ params }: DestinationDetailProps) {
 
   return (
     <div className="destination-detail-page">
+      <div className="glow-sphere glow-1"></div>
+
       {/* Hero section */}
       <section 
         className="dest-hero"
@@ -112,28 +114,28 @@ export default function DestinationDetail({ params }: DestinationDetailProps) {
 
               <div className="grid grid-2 cards-layout">
                 {/* 1. Clima */}
-                <div className="detail-card">
+                <div className="detail-card glass-card">
                   <div className="card-icon">☀️</div>
                   <h3>Clima y Entorno</h3>
                   <p>{destination.climate}</p>
                 </div>
 
                 {/* 2. Conectividad aérea */}
-                <div className="detail-card">
+                <div className="detail-card glass-card">
                   <div className="card-icon">✈️</div>
                   <h3>Conectividad Aérea</h3>
                   <p>{destination.airConnectivity}</p>
                 </div>
 
                 {/* 3. Costo de vida */}
-                <div className="detail-card">
+                <div className="detail-card glass-card">
                   <div className="card-icon">💰</div>
                   <h3>Costo de Vida Relativo</h3>
                   <p>{destination.costOfLiving}</p>
                 </div>
 
                 {/* 4. Turismo */}
-                <div className="detail-card">
+                <div className="detail-card glass-card">
                   <div className="card-icon">🌴</div>
                   <h3>Turismo de Recuperación</h3>
                   <p>{destination.tourism}</p>
@@ -143,7 +145,7 @@ export default function DestinationDetail({ params }: DestinationDetailProps) {
 
             {/* Right Block: Clinics in the city */}
             <div className="clinics-sidebar">
-              <div className="sidebar-card clinics-card">
+              <div className="sidebar-card clinics-card glass-card">
                 <h3>Clínicas y Hospitales Aliados</h3>
                 <p>Centros médicos de alta complejidad donde se programarán tus intervenciones quirúrgicas:</p>
                 
@@ -170,11 +172,30 @@ export default function DestinationDetail({ params }: DestinationDetailProps) {
       </section>
 
       <style jsx>{`
+        .destination-detail-page {
+          position: relative;
+        }
+        .glow-sphere {
+          position: absolute;
+          width: 500px;
+          height: 500px;
+          border-radius: 50%;
+          filter: blur(140px);
+          opacity: 0.12;
+          pointer-events: none;
+          z-index: 0;
+        }
+        .glow-1 {
+          background: var(--teal-primary);
+          top: 30%;
+          right: -100px;
+        }
+
         .dest-hero {
           position: relative;
           background-size: cover;
           background-position: center;
-          padding: 8rem 0 5rem 0;
+          padding: 10rem 0 5rem 0;
           color: var(--white);
         }
         .hero-overlay {
@@ -183,7 +204,7 @@ export default function DestinationDetail({ params }: DestinationDetailProps) {
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(135deg, rgba(10, 31, 26, 0.95) 0%, rgba(10, 74, 66, 0.6) 100%);
+          background: linear-gradient(135deg, rgba(3, 8, 6, 0.95) 0%, rgba(10, 74, 66, 0.5) 100%);
           z-index: 1;
         }
         .hero-content {
@@ -203,11 +224,11 @@ export default function DestinationDetail({ params }: DestinationDetailProps) {
         }
         .dest-badge {
           display: inline-block;
-          background-color: rgba(29, 122, 110, 0.2);
+          background-color: rgba(93, 202, 165, 0.08);
           color: var(--mint-accent);
-          border: 1px solid rgba(93, 202, 165, 0.3);
-          border-radius: var(--radius-sm);
-          padding: 0.25rem 0.75rem;
+          border: 1px solid rgba(93, 202, 165, 0.25);
+          border-radius: var(--radius-full);
+          padding: 0.25rem 0.9rem;
           font-size: 0.8rem;
           font-weight: 600;
           text-transform: uppercase;
@@ -220,14 +241,16 @@ export default function DestinationDetail({ params }: DestinationDetailProps) {
           margin-bottom: 1rem;
         }
         .hero-description {
-          color: rgba(245, 245, 245, 0.9);
+          color: var(--gris-texto);
           font-size: 1.15rem;
           margin-bottom: 0;
           line-height: 1.6;
         }
 
         .info-section {
-          background-color: var(--blanco-hueso);
+          background-color: transparent;
+          position: relative;
+          z-index: 10;
         }
         .dest-info-grid {
           display: grid;
@@ -238,26 +261,26 @@ export default function DestinationDetail({ params }: DestinationDetailProps) {
         
         .logistics-cards h2 {
           font-size: 1.6rem;
-          color: var(--teal-dark);
+          color: var(--white);
           margin-bottom: 1rem;
         }
         .section-intro-text {
           font-size: 1.05rem;
           margin-bottom: 2.5rem;
+          color: var(--gris-texto);
         }
         
         .cards-layout {
           gap: 1.5rem;
         }
         .detail-card {
-          background-color: var(--white);
           padding: 2rem;
-          border-radius: var(--radius-md);
-          border: 1px solid rgba(10, 31, 26, 0.02);
-          box-shadow: var(--shadow-sm);
           display: flex;
           flex-direction: column;
           gap: 0.75rem;
+        }
+        .detail-card:hover {
+          transform: none;
         }
         .card-icon {
           font-size: 2rem;
@@ -265,7 +288,7 @@ export default function DestinationDetail({ params }: DestinationDetailProps) {
         }
         .detail-card h3 {
           font-size: 1.15rem;
-          color: var(--teal-primary);
+          color: var(--mint-accent);
           margin-bottom: 0;
         }
         .detail-card p {
@@ -276,19 +299,19 @@ export default function DestinationDetail({ params }: DestinationDetailProps) {
         }
 
         .clinics-card {
-          background-color: var(--white);
           padding: 2.5rem 2rem;
-          border-radius: var(--radius-lg);
-          border: 1px solid rgba(10, 31, 26, 0.02);
-          box-shadow: var(--shadow-sm);
+        }
+        .clinics-card:hover {
+          transform: none;
         }
         .clinics-card h3 {
           font-size: 1.3rem;
-          color: var(--teal-dark);
+          color: var(--white);
           margin-bottom: 1rem;
         }
         .clinics-card p {
           font-size: 0.9rem;
+          color: var(--gris-texto);
           margin-bottom: 1.5rem;
         }
         

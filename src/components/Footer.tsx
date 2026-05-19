@@ -77,7 +77,7 @@ export default function Footer() {
             </li>
             <li>
               <span className="contact-label">WhatsApp Internacional:</span>
-              <a href="https://wa.me/573000000000" target="_blank" rel="noopener noreferrer">+57 (300) 000-0000</a>
+              <a href="https://wa.me/573000000000" target="_blank" rel="noopener noreferrer" className="wa-link">+57 (300) 000-0000</a>
             </li>
             <li>
               <span className="contact-label">Ubicación Central:</span>
@@ -100,10 +100,12 @@ export default function Footer() {
 
       <style jsx>{`
         .site-footer {
-          background-color: var(--verde-noche);
+          background-color: #020604;
           color: rgba(245, 245, 245, 0.7);
-          padding: 5rem 0 2rem 0;
-          border-top: 1px solid rgba(93, 202, 165, 0.1);
+          padding: 6rem 0 2.5rem 0;
+          border-top: 1px solid rgba(93, 202, 165, 0.12);
+          position: relative;
+          z-index: 10;
         }
         .footer-grid {
           display: grid;
@@ -117,11 +119,11 @@ export default function Footer() {
           gap: 1.25rem;
         }
         .footer-logo-img {
-          height: 48px;
+          height: 42px;
           width: auto;
         }
         .footer-desc {
-          color: rgba(245, 245, 245, 0.6);
+          color: var(--gris-texto);
           font-size: 0.9rem;
           line-height: 1.6;
         }
@@ -132,8 +134,8 @@ export default function Footer() {
         .social-icon {
           width: 36px;
           height: 36px;
-          border-radius: var(--radius-sm);
-          background-color: rgba(29, 122, 110, 0.15);
+          border-radius: var(--radius-full);
+          background-color: rgba(93, 202, 165, 0.05);
           color: var(--mint-accent);
           display: flex;
           align-items: center;
@@ -141,15 +143,17 @@ export default function Footer() {
           font-size: 0.8rem;
           font-weight: 700;
           border: 1px solid rgba(93, 202, 165, 0.15);
+          transition: var(--transition-fast);
         }
         .social-icon:hover {
-          background-color: var(--teal-primary);
-          color: var(--white);
+          background: linear-gradient(135deg, var(--teal-primary) 0%, var(--mint-accent) 100%);
+          color: var(--negro-suave);
+          border-color: transparent;
           transform: translateY(-2px);
         }
         .footer-title {
           color: var(--white);
-          font-size: 1.1rem;
+          font-size: 1.15rem;
           font-weight: 600;
           margin-bottom: 1.5rem;
           position: relative;
@@ -162,7 +166,7 @@ export default function Footer() {
           bottom: 0;
           width: 30px;
           height: 2px;
-          background-color: var(--mint-accent);
+          background: linear-gradient(90deg, var(--teal-primary), var(--mint-accent));
         }
         .footer-links {
           list-style: none;
@@ -171,7 +175,7 @@ export default function Footer() {
           gap: 0.75rem;
         }
         .footer-links a {
-          color: rgba(245, 245, 245, 0.75);
+          color: var(--gris-texto);
           font-size: 0.9rem;
           transition: var(--transition-fast);
         }
@@ -183,25 +187,31 @@ export default function Footer() {
           list-style: none;
           display: flex;
           flex-direction: column;
-          gap: 1rem;
+          gap: 1.25rem;
           font-size: 0.9rem;
         }
         .contact-label {
           display: block;
           color: var(--white);
           font-weight: 600;
-          margin-bottom: 0.15rem;
+          margin-bottom: 0.25rem;
         }
         .footer-contact a {
-          color: var(--mint-accent);
+          color: var(--gris-texto);
+        }
+        .wa-link {
+          color: var(--mint-accent) !important;
+          font-weight: 600;
         }
         .footer-contact a:hover {
+          color: var(--mint-accent);
           text-decoration: underline;
         }
         .footer-bottom {
           padding-top: 2rem;
-          border-top: 1px solid rgba(245, 245, 245, 0.1);
+          border-top: 1px solid rgba(93, 202, 165, 0.12);
           font-size: 0.85rem;
+          color: rgba(163, 184, 180, 0.6);
         }
         .bottom-container {
           display: flex;
@@ -215,7 +225,7 @@ export default function Footer() {
           gap: 1.5rem;
         }
         .bottom-links a {
-          color: rgba(245, 245, 245, 0.5);
+          color: rgba(163, 184, 180, 0.5);
           transition: var(--transition-fast);
         }
         .bottom-links a:hover {

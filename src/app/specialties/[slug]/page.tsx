@@ -44,14 +44,14 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
             align-items: center;
             justify-content: center;
             min-height: 50vh;
-            color: var(--teal-primary);
+            color: var(--mint-accent);
           }
           .spinner {
-            border: 4px solid rgba(29, 122, 110, 0.1);
+            border: 4px solid rgba(93, 202, 165, 0.1);
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            border-left-color: var(--teal-primary);
+            border-left-color: var(--mint-accent);
             animation: spin 1s linear infinite;
             margin-bottom: 1rem;
           }
@@ -82,13 +82,14 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
     );
   }
 
-  // Calculate savings percentage
   const costCol = parseFloat(specialty.avgCostColombia.replace(/[^0-9.]/g, ""));
   const costUS = parseFloat(specialty.avgCostUS.replace(/[^0-9.]/g, ""));
   const savingsPct = costUS ? Math.round(((costUS - costCol) / costUS) * 100) : 0;
 
   return (
     <div className="specialty-detail-page">
+      <div className="glow-sphere glow-1"></div>
+
       {/* Hero section */}
       <section 
         className="detail-hero"
@@ -108,12 +109,12 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
         <div className="container content-grid">
           {/* Left Column: Details */}
           <div className="main-details">
-            <div className="detail-card info-card-bg">
+            <div className="detail-card glass-card">
               <h2>Sobre el Tratamiento</h2>
               <p className="large-p">{specialty.fullDescription}</p>
             </div>
 
-            <div className="detail-card procedures-card mt-3">
+            <div className="detail-card glass-card mt-3">
               <h2>Procedimientos Comunes</h2>
               <p>Ofrecemos una amplia variedad de técnicas dentro de esta categoría, adaptadas a tus objetivos anatómicos y de salud.</p>
               <ul className="procedures-list">
@@ -129,7 +130,7 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
 
           {/* Right Column: Cost and Logistics Summary */}
           <div className="logistics-sidebar">
-            <div className="sidebar-card cost-card">
+            <div className="sidebar-card cost-card glass-card">
               <div className="savings-badge">Ahorra hasta un {savingsPct}%</div>
               <h3>Comparativa de Costos</h3>
               
@@ -148,7 +149,7 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
               </div>
             </div>
 
-            <div className="sidebar-card logistics-info-card">
+            <div className="sidebar-card logistics-info-card glass-card mt-2">
               <h3>Detalles Clínicos</h3>
               
               <div className="log-item">
@@ -180,11 +181,30 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
       </section>
 
       <style jsx>{`
+        .specialty-detail-page {
+          position: relative;
+        }
+        .glow-sphere {
+          position: absolute;
+          width: 500px;
+          height: 500px;
+          border-radius: 50%;
+          filter: blur(140px);
+          opacity: 0.12;
+          pointer-events: none;
+          z-index: 0;
+        }
+        .glow-1 {
+          background: var(--teal-primary);
+          top: 30%;
+          right: -100px;
+        }
+
         .detail-hero {
           position: relative;
           background-size: cover;
           background-position: center;
-          padding: 8rem 0 5rem 0;
+          padding: 10rem 0 5rem 0;
           color: var(--white);
         }
         .hero-overlay {
@@ -193,7 +213,7 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(135deg, rgba(10, 31, 26, 0.9) 0%, rgba(10, 74, 66, 0.6) 100%);
+          background: linear-gradient(135deg, rgba(3, 8, 6, 0.95) 0%, rgba(10, 74, 66, 0.5) 100%);
           z-index: 1;
         }
         .hero-content {
@@ -213,11 +233,11 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
         }
         .spec-badge {
           display: inline-block;
-          background-color: rgba(29, 122, 110, 0.2);
+          background-color: rgba(93, 202, 165, 0.08);
           color: var(--mint-accent);
-          border: 1px solid rgba(93, 202, 165, 0.3);
-          border-radius: var(--radius-sm);
-          padding: 0.25rem 0.75rem;
+          border: 1px solid rgba(93, 202, 165, 0.25);
+          border-radius: var(--radius-full);
+          padding: 0.25rem 0.9rem;
           font-size: 0.8rem;
           font-weight: 600;
           text-transform: uppercase;
@@ -225,18 +245,19 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
           margin-bottom: 1rem;
         }
         .detail-hero h1 {
-          color: var(--white);
-          font-size: 3rem;
+          font-size: 3.5rem;
           margin-bottom: 1rem;
         }
         .hero-description {
-          color: rgba(245, 245, 245, 0.9);
+          color: var(--gris-texto);
           font-size: 1.15rem;
           margin-bottom: 0;
         }
 
         .content-section {
-          background-color: var(--blanco-hueso);
+          background-color: transparent;
+          position: relative;
+          z-index: 10;
         }
         .content-grid {
           display: grid;
@@ -246,22 +267,21 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
         }
         
         .detail-card {
-          background-color: var(--white);
           padding: 2.5rem;
-          border-radius: var(--radius-lg);
-          border: 1px solid rgba(10, 31, 26, 0.02);
-          box-shadow: var(--shadow-sm);
+        }
+        .detail-card:hover {
+          transform: none;
         }
         .large-p {
           font-size: 1.1rem;
           line-height: 1.7;
-          color: var(--negro-suave);
+          color: var(--blanco-hueso);
         }
         .detail-card h2 {
-          font-size: 1.6rem;
-          color: var(--teal-dark);
+          font-size: 1.5rem;
+          color: var(--white);
           margin-bottom: 1.25rem;
-          border-bottom: 2px solid var(--blanco-hueso);
+          border-bottom: 1px solid rgba(93, 202, 165, 0.15);
           padding-bottom: 0.75rem;
         }
         
@@ -269,7 +289,7 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
           list-style: none;
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 1rem;
+          gap: 1.25rem;
           margin-top: 1.5rem;
         }
         .procedures-list li {
@@ -286,18 +306,16 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
         }
 
         .sidebar-card {
-          background-color: var(--white);
           padding: 2rem;
-          border-radius: var(--radius-lg);
-          border: 1px solid rgba(10, 31, 26, 0.02);
-          box-shadow: var(--shadow-sm);
-          margin-bottom: 2rem;
         }
         .cost-card {
-          border: 2px solid var(--mint-accent);
+          border: 1px solid rgba(93, 202, 165, 0.35);
           position: relative;
-          background-color: var(--verde-noche);
-          color: var(--white);
+          background: rgba(3, 12, 10, 0.8) !important;
+          box-shadow: 0 10px 30px rgba(93, 202, 165, 0.1) !important;
+        }
+        .cost-card:hover {
+          border-color: var(--mint-accent);
         }
         .cost-card h3 {
           color: var(--white);
@@ -308,22 +326,23 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
           position: absolute;
           top: -12px;
           right: 20px;
-          background-color: var(--mint-accent);
-          color: var(--verde-noche);
+          background: linear-gradient(135deg, var(--teal-primary) 0%, var(--mint-accent) 100%);
+          color: var(--negro-suave);
           font-size: 0.75rem;
           font-weight: 700;
-          padding: 0.25rem 0.75rem;
-          border-radius: var(--radius-sm);
+          padding: 0.3rem 0.9rem;
+          border-radius: var(--radius-full);
+          border: 1px solid rgba(255,255,255,0.2);
         }
         .cost-row {
           display: flex;
           justify-content: space-between;
-          padding: 0.75rem 0;
-          border-bottom: 1px solid rgba(245, 245, 245, 0.1);
+          padding: 0.85rem 0;
+          border-bottom: 1px solid rgba(93, 202, 165, 0.1);
         }
         .cost-label {
           font-size: 0.9rem;
-          color: rgba(245, 245, 245, 0.7);
+          color: var(--gris-texto);
         }
         .cost-value {
           font-weight: 700;
@@ -339,18 +358,21 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
         }
         .savings-text {
           font-size: 0.9rem;
-          margin-top: 1.25rem;
-          color: rgba(245, 245, 245, 0.9);
+          margin-top: 1.5rem;
+          color: var(--white);
         }
 
         .logistics-info-card h3 {
           font-size: 1.25rem;
-          color: var(--teal-dark);
+          color: var(--white);
           margin-bottom: 1.5rem;
+        }
+        .logistics-info-card:hover {
+          transform: none;
         }
         .log-item {
           display: flex;
-          gap: 1rem;
+          gap: 1.25rem;
           margin-bottom: 1.5rem;
         }
         .log-icon {
@@ -361,6 +383,7 @@ export default function SpecialtyDetail({ params }: SpecialtyDetailProps) {
           font-size: 0.95rem;
           font-weight: 600;
           margin-bottom: 0.25rem;
+          color: var(--white);
         }
         .log-item p, .log-item ul {
           font-size: 0.85rem;

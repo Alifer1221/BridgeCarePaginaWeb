@@ -325,6 +325,8 @@ export default function AdminPanel() {
 
   return (
     <div className="admin-dashboard container">
+      <div className="glow-sphere glow-1"></div>
+
       <div className="admin-header text-center">
         <h1>Panel de Administración</h1>
         <p>Gestiona las especialidades médicas, los destinos turísticos y las entradas de blog.</p>
@@ -332,7 +334,7 @@ export default function AdminPanel() {
       </div>
 
       {/* Tabs list */}
-      <div className="admin-tabs">
+      <div className="admin-tabs glass-card">
         <button 
           className={`admin-tab-btn ${activeTab === "specialties" ? "active" : ""}`}
           onClick={() => { setActiveTab("specialties"); resetSpecForm(); }}
@@ -357,7 +359,7 @@ export default function AdminPanel() {
       <div className="admin-grid mt-3">
         
         {/* Form Column */}
-        <div className="form-panel card">
+        <div className="form-panel glass-card card">
           <h2>{editingId ? `Editar ${activeTab === "specialties" ? "Especialidad" : activeTab === "destinations" ? "Destino" : "Artículo"}` : `Agregar ${activeTab === "specialties" ? "Especialidad" : activeTab === "destinations" ? "Destino" : "Artículo"}`}</h2>
           
           {/* SPECIALTY FORM */}
@@ -437,7 +439,7 @@ export default function AdminPanel() {
               </div>
 
               <div className="form-buttons mt-2">
-                <button type="submit" className="btn btn-primary">Guardar Especialidad</button>
+                <button type="submit" className="btn btn-accent">Guardar Especialidad</button>
                 {editingId && <button type="button" className="btn btn-secondary" onClick={resetSpecForm}>Cancelar</button>}
               </div>
             </form>
@@ -511,7 +513,7 @@ export default function AdminPanel() {
               </div>
 
               <div className="form-buttons mt-2">
-                <button type="submit" className="btn btn-primary">Guardar Destino</button>
+                <button type="submit" className="btn btn-accent">Guardar Destino</button>
                 {editingId && <button type="button" className="btn btn-secondary" onClick={resetDestForm}>Cancelar</button>}
               </div>
             </form>
@@ -562,7 +564,7 @@ export default function AdminPanel() {
               </div>
 
               <div className="form-buttons mt-2">
-                <button type="submit" className="btn btn-primary">Guardar Artículo</button>
+                <button type="submit" className="btn btn-accent">Guardar Artículo</button>
                 {editingId && <button type="button" className="btn btn-secondary" onClick={resetBlogForm}>Cancelar</button>}
               </div>
             </form>
@@ -571,7 +573,7 @@ export default function AdminPanel() {
         </div>
 
         {/* List Column */}
-        <div className="list-panel card">
+        <div className="list-panel glass-card card">
           <h2>Lista de Elementos Existentes</h2>
           <p className="small-text">Los cambios se aplican de inmediato en la barra de navegación y páginas de la web.</p>
           
@@ -629,16 +631,32 @@ export default function AdminPanel() {
 
       <style jsx>{`
         .admin-dashboard {
-          padding: 4rem 1.5rem;
-          background-color: var(--blanco-hueso);
+          padding: 8rem 1.5rem 4rem 1.5rem;
+          position: relative;
         }
+        .glow-sphere {
+          position: absolute;
+          width: 500px;
+          height: 500px;
+          border-radius: 50%;
+          filter: blur(140px);
+          opacity: 0.12;
+          pointer-events: none;
+          z-index: 0;
+        }
+        .glow-1 {
+          background: var(--teal-primary);
+          top: 20%;
+          left: -100px;
+        }
+
         .admin-header {
           margin-bottom: 3rem;
         }
         .header-bar {
           width: 80px;
           height: 3px;
-          background-color: var(--teal-primary);
+          background: linear-gradient(90deg, var(--teal-primary), var(--mint-accent));
           margin: 1rem auto;
           border-radius: 2px;
         }
@@ -647,29 +665,35 @@ export default function AdminPanel() {
           display: flex;
           justify-content: center;
           gap: 1rem;
-          border-bottom: 2px solid var(--light-gray);
-          padding-bottom: 1rem;
+          padding: 0.5rem;
           flex-wrap: wrap;
+          background: rgba(10, 31, 26, 0.4) !important;
+          border-radius: var(--radius-full);
+          margin-bottom: 2rem;
+        }
+        .admin-tabs:hover {
+          transform: none;
         }
         .admin-tab-btn {
           border: none;
           background: transparent;
           font-family: inherit;
-          font-size: 1rem;
+          font-size: 0.95rem;
           font-weight: 600;
-          padding: 0.75rem 1.5rem;
+          padding: 0.65rem 1.5rem;
           cursor: pointer;
           color: var(--gris-texto);
-          border-radius: var(--radius-sm);
+          border-radius: var(--radius-full);
           transition: var(--transition-fast);
         }
         .admin-tab-btn:hover {
-          color: var(--teal-primary);
-          background-color: rgba(29, 122, 110, 0.05);
+          color: var(--mint-accent);
+          background-color: rgba(93, 202, 165, 0.08);
         }
         .admin-tab-btn.active {
-          background-color: var(--verde-noche);
-          color: var(--white);
+          background: linear-gradient(135deg, var(--teal-primary) 0%, var(--mint-accent) 100%);
+          color: var(--negro-suave);
+          font-weight: 700;
         }
 
         .admin-grid {
@@ -680,16 +704,15 @@ export default function AdminPanel() {
         }
         
         .card {
-          background-color: var(--white);
           padding: 2.5rem;
-          border-radius: var(--radius-lg);
-          box-shadow: var(--shadow-sm);
-          border: 1px solid rgba(10, 31, 26, 0.02);
+        }
+        .card:hover {
+          transform: none;
         }
         .card h2 {
           font-size: 1.5rem;
-          color: var(--teal-dark);
-          border-bottom: 1px solid var(--light-gray);
+          color: var(--white);
+          border-bottom: 1px solid rgba(93, 202, 165, 0.15);
           padding-bottom: 0.75rem;
           margin-bottom: 1.5rem;
         }
@@ -708,18 +731,19 @@ export default function AdminPanel() {
           padding-right: 0.5rem;
         }
         .list-item {
-          background-color: var(--blanco-hueso);
+          background-color: rgba(10, 31, 26, 0.3);
           padding: 1.25rem;
           border-radius: var(--radius-md);
           display: flex;
           justify-content: space-between;
           align-items: center;
           gap: 1.5rem;
-          border: 1px solid rgba(10, 31, 26, 0.02);
+          border: 1px solid rgba(93, 202, 165, 0.1);
         }
         .item-details h4 {
           font-size: 1.05rem;
           margin-bottom: 0.25rem;
+          color: var(--white);
         }
         .item-details p {
           font-size: 0.8rem;
@@ -731,11 +755,12 @@ export default function AdminPanel() {
           display: inline-block;
           font-size: 0.7rem;
           font-weight: 700;
-          color: var(--teal-primary);
-          background-color: rgba(29, 122, 110, 0.1);
+          color: var(--mint-accent);
+          background-color: rgba(93, 202, 165, 0.1);
           padding: 0.15rem 0.5rem;
           border-radius: var(--radius-sm);
           margin-bottom: 0.5rem;
+          border: 1px solid rgba(93, 202, 165, 0.2);
         }
         .item-actions {
           display: flex;
@@ -746,7 +771,7 @@ export default function AdminPanel() {
         .btn-xs {
           font-size: 0.75rem;
           padding: 0.35rem 0.75rem;
-          border-radius: var(--radius-sm);
+          border-radius: var(--radius-full);
         }
         .small-text {
           font-size: 0.85rem;
