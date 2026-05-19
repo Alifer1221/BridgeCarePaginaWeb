@@ -36,7 +36,8 @@ export default function Contacto() {
       <div className="glow-sphere glow-1"></div>
       
       <section className="contact-hero">
-        <div className="container text-center">
+        <div className="hero-overlay"></div>
+        <div className="container hero-content text-center">
           <span className="contact-subtitle">{t("contact.title")}</span>
           <h1>
             {language === "es" 
@@ -276,9 +277,25 @@ export default function Contacto() {
         }
 
         .contact-hero {
-          background-color: transparent;
+          position: relative;
+          background-image: url('https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&q=80&w=1920');
+          background-size: cover;
+          background-position: center;
           color: var(--white);
-          padding: 8rem 0 4rem 0;
+          padding: 11rem 0 6rem 0;
+        }
+        .hero-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(135deg, rgba(3, 8, 6, 0.97) 0%, rgba(10, 74, 66, 0.72) 100%);
+          z-index: 1;
+        }
+        .hero-content {
+          position: relative;
+          z-index: 2;
         }
         .contact-subtitle {
           color: var(--mint-accent);
@@ -309,12 +326,14 @@ export default function Contacto() {
 
         .contact-section {
           background-color: transparent;
-          padding-top: 2rem;
+          padding-top: 3rem;
         }
         .contact-grid {
           display: grid;
-          grid-template-columns: 1.2fr 1.5fr;
-          gap: 4rem;
+          grid-template-columns: 1fr 1.2fr;
+          gap: 3.5rem;
+          max-width: 1050px;
+          margin: 0 auto;
           position: relative;
           z-index: 10;
         }

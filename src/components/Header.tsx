@@ -116,17 +116,8 @@ export default function Header() {
           </ul>
         </nav>
 
-        {/* Right Side: Language + WhatsApp Link + CTA Book */}
+        {/* Right Side: WhatsApp Link + CTA Book + Language Toggle at the far right */}
         <div className="header-actions">
-          {/* Language toggle */}
-          <button 
-            onClick={() => setLanguage(language === "es" ? "en" : "es")}
-            className="lang-toggle-btn"
-            title={language === "es" ? "Switch to English" : "Cambiar a Español"}
-          >
-            {language === "es" ? "EN" : "ES"}
-          </button>
-
           {/* WhatsApp click number */}
           <a 
             href={`https://wa.me/573001234567?text=${encodeURIComponent(
@@ -142,10 +133,19 @@ export default function Header() {
             <span className="wa-number">+57 300 123 4567</span>
           </a>
 
-          {/* CTA Book */}
+          {/* CTA Book (High visibility Call To Action) */}
           <Link href="/contacto" className="btn-book">
             {t("nav.book")}
           </Link>
+
+          {/* Language toggle at the far right */}
+          <button 
+            onClick={() => setLanguage(language === "es" ? "en" : "es")}
+            className="lang-toggle-btn"
+            title={language === "es" ? "Switch to English" : "Cambiar a Español"}
+          >
+            {language === "es" ? "EN" : "ES"}
+          </button>
         </div>
       </div>
 
@@ -296,24 +296,25 @@ export default function Header() {
         .header-actions {
           display: flex;
           align-items: center;
-          gap: 1rem;
+          gap: 0.75rem;
         }
 
         .lang-toggle-btn {
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(93, 202, 165, 0.15);
-          color: var(--mint-accent);
-          font-size: 0.75rem;
-          font-weight: 700;
-          padding: 0.3rem 0.65rem;
-          border-radius: var(--radius-full);
-          cursor: pointer;
-          transition: var(--transition-fast);
+          background: rgba(93, 202, 165, 0.08) !important;
+          border: 1px solid rgba(93, 202, 165, 0.25) !important;
+          color: var(--mint-accent) !important;
+          font-size: 0.75rem !important;
+          font-weight: 700 !important;
+          padding: 0.35rem 0.7rem !important;
+          border-radius: var(--radius-full) !important;
+          cursor: pointer !important;
+          transition: var(--transition-fast) !important;
         }
 
         .lang-toggle-btn:hover {
-          background: rgba(93, 202, 165, 0.1);
-          border-color: var(--mint-accent);
+          background: rgba(93, 202, 165, 0.2) !important;
+          border-color: var(--mint-accent) !important;
+          transform: scale(1.05) !important;
         }
 
         .whatsapp-number-link {
@@ -338,19 +339,25 @@ export default function Header() {
         }
 
         .btn-book {
-          background: linear-gradient(135deg, var(--teal-primary) 0%, var(--mint-accent) 100%);
-          color: var(--negro-suave);
-          font-size: 0.8rem;
-          font-weight: 700;
-          padding: 0.45rem 1.1rem;
-          border-radius: var(--radius-full);
-          box-shadow: 0 4px 15px rgba(93, 202, 165, 0.2);
-          transition: var(--transition-fast);
+          background: linear-gradient(135deg, var(--teal-primary) 0%, var(--mint-accent) 100%) !important;
+          color: var(--negro-suave) !important;
+          font-size: 0.8rem !important;
+          font-weight: 800 !important;
+          padding: 0.5rem 1.3rem !important;
+          border-radius: var(--radius-full) !important;
+          box-shadow: 0 4px 15px rgba(93, 202, 165, 0.35) !important;
+          transition: all 0.2s ease-in-out !important;
+          border: 1px solid rgba(255, 255, 255, 0.2) !important;
+          display: inline-block !important;
+          text-align: center !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.03em !important;
         }
 
         .btn-book:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 6px 20px rgba(93, 202, 165, 0.35);
+          transform: translateY(-2px) scale(1.03) !important;
+          box-shadow: 0 6px 20px rgba(93, 202, 165, 0.6) !important;
+          background: linear-gradient(135deg, #229989 0%, #7ee4c0 100%) !important;
         }
 
         .menu-toggle {

@@ -50,7 +50,8 @@ export default function Nosotros() {
       <div className="glow-sphere glow-1"></div>
 
       <section className="nosotros-hero">
-        <div className="container text-center">
+        <div className="hero-overlay"></div>
+        <div className="container hero-content text-center">
           <span className="nosotros-subtitle">{t("about.title")}</span>
           <h1>
             {language === "es" ? "Excelencia Médica sin Fronteras" : "Medical Excellence Without Borders"}
@@ -446,9 +447,25 @@ export default function Nosotros() {
         }
 
         .nosotros-hero {
-          background-color: transparent;
+          position: relative;
+          background-image: url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1920');
+          background-size: cover;
+          background-position: center;
           color: var(--white);
-          padding: 8rem 0 4rem 0;
+          padding: 11rem 0 6rem 0;
+        }
+        .hero-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(135deg, rgba(3, 8, 6, 0.97) 0%, rgba(10, 74, 66, 0.72) 100%);
+          z-index: 1;
+        }
+        .hero-content {
+          position: relative;
+          z-index: 2;
         }
         .nosotros-subtitle {
           color: var(--mint-accent);
@@ -524,6 +541,10 @@ export default function Nosotros() {
           background-color: transparent;
           padding-top: 2rem;
         }
+        .tab-pane {
+          max-width: 1050px;
+          margin: 0 auto;
+        }
         .tab-pane h2 {
           font-size: 1.8rem;
           margin-bottom: 1.5rem;
@@ -553,6 +574,8 @@ export default function Nosotros() {
         }
         .pane-img {
           width: 100%;
+          max-height: 450px;
+          object-fit: cover;
           border-radius: var(--radius-lg);
           border: 1px solid rgba(93, 202, 165, 0.15);
           box-shadow: var(--shadow-lg);
