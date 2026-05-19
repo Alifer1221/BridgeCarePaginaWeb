@@ -156,7 +156,7 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.destinations": "Destinations",
     "nav.about": "About Us",
     "nav.contact": "Contact",
-    "nav.book": "Book Appointment",
+    "nav.book": "Book Now",
     "footer.desc": "Your trusted bridge to premier medical and dental services in Colombia. Expert care, human warmth, and exceptional savings.",
     "footer.rights": "All rights reserved.",
     "footer.guarantees": "Security & Guarantees",

@@ -329,22 +329,22 @@ select.form-control option {
 }
 
 .header-capsule {
-  background: rgba(3, 12, 10, 0.65);
+  background: rgba(10, 31, 26, 0.94);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(93, 202, 165, 0.12);
+  border: 1px solid rgba(93, 202, 165, 0.35);
   border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0.4rem 1.25rem;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8);
   transition: var(--transition-normal);
 }
 
 .header-capsule:hover {
-  border-color: rgba(93, 202, 165, 0.25);
-  box-shadow: 0 10px 40px rgba(93, 202, 165, 0.05);
+  border-color: rgba(93, 202, 165, 0.55);
+  box-shadow: 0 12px 40px rgba(93, 202, 165, 0.08);
 }
 
 .logo-link {
@@ -371,7 +371,7 @@ select.form-control option {
 .nav-list {
   list-style: none;
   display: flex;
-  gap: 1.5rem;
+  gap: 1.25rem;
   margin: 0;
   padding: 0;
 }
@@ -505,7 +505,7 @@ select.form-control option {
   color: var(--negro-suave) !important;
   font-size: 0.8rem !important;
   font-weight: 800 !important;
-  padding: 0.5rem 1.3rem !important;
+  padding: 0.5rem 1.15rem !important;
   border-radius: var(--radius-full) !important;
   box-shadow: 0 4px 15px rgba(93, 202, 165, 0.35) !important;
   transition: all 0.2s ease-in-out !important;
@@ -515,6 +515,7 @@ select.form-control option {
   text-transform: uppercase !important;
   letter-spacing: 0.03em !important;
   text-decoration: none !important;
+  white-space: nowrap !important;
 }
 
 .btn-book:hover {
