@@ -60,6 +60,15 @@ export default function Home() {
 
       {/* 1. HERO SECTION */}
       <section className="hero-section">
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="hero-video"
+        >
+          <source src="/hero-video.mp4" type="video/mp4" />
+        </video>
         <div className="hero-overlay"></div>
         <div className="container hero-content animate-fade-in">
           <span className="hero-tagline">
@@ -274,6 +283,7 @@ export default function Home() {
         /* Hero Styling */
         .hero-section {
           position: relative;
+          overflow: hidden;
           background-image: url('https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=1920');
           background-size: cover;
           background-position: center;
@@ -283,6 +293,15 @@ export default function Home() {
           align-items: center;
           min-height: 85vh;
         }
+        .hero-video {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          z-index: 1;
+        }
         .hero-overlay {
           position: absolute;
           top: 0;
@@ -290,11 +309,11 @@ export default function Home() {
           right: 0;
           bottom: 0;
           background: linear-gradient(135deg, rgba(3, 8, 6, 0.95) 0%, rgba(10, 74, 66, 0.55) 100%);
-          z-index: 1;
+          z-index: 2;
         }
         .hero-content {
           position: relative;
-          z-index: 2;
+          z-index: 3;
           max-width: 800px;
         }
         .hero-tagline {
