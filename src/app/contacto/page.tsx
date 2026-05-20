@@ -290,7 +290,7 @@ export default function Contacto() {
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(135deg, rgba(3, 8, 6, 0.97) 0%, rgba(10, 74, 66, 0.72) 100%);
+          background: linear-gradient(to bottom, rgba(3, 8, 6, 0.85) 0%, rgba(3, 8, 6, 0.5) 60%, rgba(3, 8, 6, 0.98) 100%);
           z-index: 1;
         }
         .hero-content {
