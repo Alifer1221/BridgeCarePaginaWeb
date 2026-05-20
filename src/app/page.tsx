@@ -281,12 +281,14 @@ export default function Home() {
         }
 
         /* Hero Styling */
+        @keyframes videoFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
         .hero-section {
           position: relative;
           overflow: hidden;
-          background-image: url('https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=1920');
-          background-size: cover;
-          background-position: center;
+          background-color: var(--negro-suave);
           color: var(--white);
           padding: 10rem 0 7rem 0;
           display: flex;
@@ -301,6 +303,8 @@ export default function Home() {
           height: 100%;
           object-fit: cover;
           z-index: 1;
+          opacity: 0;
+          animation: videoFadeIn 1.2s ease-out forwards;
         }
         .hero-overlay {
           position: absolute;
