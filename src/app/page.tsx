@@ -70,7 +70,7 @@ export default function Home() {
           <source src="/hero-video.mp4" type="video/mp4" />
         </video>
         <div className="hero-overlay"></div>
-        <div className="container hero-content animate-fade-in">
+        <div className="container hero-content">
           <span className="hero-tagline">
             {language === "es" ? "Turismo Médico Seguro e Integral" : "Safe & Comprehensive Medical Tourism"}
           </span>
@@ -315,10 +315,16 @@ export default function Home() {
           background: linear-gradient(to bottom, rgba(3, 8, 6, 0.8) 0%, rgba(3, 8, 6, 0.4) 50%, rgba(3, 8, 6, 0.98) 100%);
           z-index: 2;
         }
+        @keyframes heroFadeIn {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
         .hero-content {
           position: relative;
-          z-index: 3;
+          z-index: 10;
           max-width: 800px;
+          transform: translate3d(0, 0, 0);
+          animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .hero-tagline {
           display: inline-block;
