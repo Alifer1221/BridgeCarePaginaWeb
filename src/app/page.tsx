@@ -6,14 +6,22 @@ import { getStoredSpecialties, Specialty } from "@/lib/db";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function Home() {
-  const { language, t } = useLanguage();
+  const { language, setLanguage, t } = useLanguage();
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [mounted, setMounted] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
+  const [splashFadeOut, setSplashFadeOut] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     setSpecialties(getStoredSpecialties());
+
+    // Only show splash screen once per session to avoid annoying the user on navigation
+    const hasShown = sessionStorage.getItem("bc_splash_shown");
+    if (hasShown) {
+      setShowSplash(false);
+    }
 
     // Failsafe timer: if video doesn't play or trigger events in 2.2s, force show it
     const timer = setTimeout(() => {
@@ -29,6 +37,15 @@ export default function Home() {
       window.removeEventListener("bc_db_update", handleUpdate);
     };
   }, []);
+
+  const selectLanguage = (lang: "es" | "en") => {
+    setLanguage(lang);
+    sessionStorage.setItem("bc_splash_shown", "true");
+    setSplashFadeOut(true);
+    setTimeout(() => {
+      setShowSplash(false);
+    }, 600);
+  };
 
   // Inline testimonials translation helper
   const testimonials = [
@@ -62,7 +79,42 @@ export default function Home() {
   ];
 
   return (
-    <div className="home-container">
+    <>
+      {showSplash && (
+        <div className={`splash-screen ${splashFadeOut ? "fade-out" : ""}`}>
+          <div className="splash-card">
+            {/* Glowing Logo Icon */}
+            <div className="logo-container">
+              <div className="pulse-glow"></div>
+              <div className="logo-icon-box">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="logo-svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                </svg>
+              </div>
+            </div>
+
+            <h2 className="splash-title">BRIDGE CARE</h2>
+            
+            <div className="loader-container">
+              <div className="spinner"></div>
+              <p className="loading-text">Cargando servicios de salud... / Loading health services...</p>
+            </div>
+
+            <div className="language-selector-section">
+              <p className="select-prompt">Selecciona tu idioma / Select your language:</p>
+              <div className="splash-buttons">
+                <button onClick={() => selectLanguage("es")} className="btn btn-accent btn-splash">
+                  Español
+                </button>
+                <button onClick={() => selectLanguage("en")} className="btn btn-secondary btn-splash">
+                  English
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="home-container" style={{ opacity: showSplash ? 0 : 1, transition: "opacity 0.8s ease" }}>
       {/* 1. HERO SECTION */}
       <section className="hero-section">
         {/* Background media wrapper */}
@@ -600,7 +652,138 @@ export default function Home() {
             flex-direction: column;
           }
         }
+
+        /* Splash Screen */
+        .splash-screen {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: radial-gradient(circle at center, #0e1212 0%, #080909 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 99999;
+          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .splash-screen.fade-out {
+          opacity: 0;
+          pointer-events: none;
+        }
+        .splash-card {
+          background: rgba(15, 17, 17, 0.75);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: var(--radius-lg);
+          padding: 3.5rem 3rem;
+          max-width: 500px;
+          width: 90%;
+          text-align: center;
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(93, 202, 165, 0.05);
+          animation: floatAnimation 6s ease-in-out infinite;
+        }
+        @keyframes floatAnimation {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-8px); }
+        }
+        .logo-container {
+          position: relative;
+          width: 90px;
+          height: 90px;
+          margin: 0 auto 1.5rem auto;
+        }
+        .pulse-glow {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: var(--mint-accent);
+          border-radius: 50%;
+          filter: blur(15px);
+          opacity: 0.15;
+          animation: pulseGlow 2.5s ease-in-out infinite;
+        }
+        @keyframes pulseGlow {
+          0%, 100% { transform: scale(0.9); opacity: 0.12; }
+          50% { transform: scale(1.15); opacity: 0.25; }
+        }
+        .logo-icon-box {
+          position: relative;
+          background: linear-gradient(135deg, var(--teal-primary) 0%, var(--mint-accent) 100%);
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 2px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 8px 24px rgba(93, 202, 165, 0.3);
+        }
+        .logo-svg {
+          width: 44px;
+          height: 44px;
+          color: #080909;
+        }
+        .splash-title {
+          font-size: 2.2rem;
+          font-weight: 800;
+          letter-spacing: 0.15em;
+          margin-bottom: 1.5rem;
+          background: linear-gradient(135deg, var(--white) 30%, var(--gris-texto) 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        .loader-container {
+          margin-bottom: 2rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.75rem;
+        }
+        .spinner {
+          width: 36px;
+          height: 36px;
+          border: 3px solid rgba(93, 202, 165, 0.1);
+          border-top-color: var(--mint-accent);
+          border-radius: 50%;
+          animation: spin 1s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
+        }
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+        .loading-text {
+          font-size: 0.85rem;
+          color: var(--gris-texto);
+          opacity: 0.8;
+          margin: 0;
+          letter-spacing: 0.05em;
+        }
+        .language-selector-section {
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          padding-top: 1.75rem;
+        }
+        .select-prompt {
+          font-size: 0.95rem;
+          color: var(--white);
+          margin-bottom: 1.25rem;
+          font-weight: 500;
+        }
+        .splash-buttons {
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+        }
+        .btn-splash {
+          flex: 1;
+          padding: 0.9rem 1.5rem;
+          font-size: 1rem;
+          max-width: 170px;
+        }
       `}</style>
-    </div>
+      </div>
+    </>
   );
 }
