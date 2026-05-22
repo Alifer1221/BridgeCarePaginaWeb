@@ -355,8 +355,8 @@ select.form-control option {
   transition: var(--transition-fast);
 }
 
-.logo-link:hover {
-  transform: scale(1.02);
+.logo-link:hover .logo-img {
+  transform: translateY(9px) scale(1.02);
 }
 
 .logo-img {
@@ -364,10 +364,16 @@ select.form-control option {
   width: auto;
   filter: brightness(0) invert(1); /* Forces logo to be pure white */
   transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease;
+  transform: translateY(9px); /* Shift visual weight down for perfect center alignment */
 }
 
 .site-header-wrapper.scrolled .logo-img {
   height: 34px;
+  transform: translateY(6px);
+}
+
+.site-header-wrapper.scrolled .logo-link:hover .logo-img {
+  transform: translateY(6px) scale(1.02);
 }
 
 .nav-menu {
@@ -618,10 +624,20 @@ select.form-control option {
 
   .logo-img {
     height: 36px;
+    transform: translateY(7px);
+  }
+
+  .logo-link:hover .logo-img {
+    transform: translateY(7px) scale(1.02);
   }
 
   .site-header-wrapper.scrolled .logo-img {
     height: 30px;
+    transform: translateY(5px);
+  }
+
+  .site-header-wrapper.scrolled .logo-link:hover .logo-img {
+    transform: translateY(5px) scale(1.02);
   }
 
   .nav-menu {
@@ -695,10 +711,20 @@ select.form-control option {
 
   .logo-img {
     height: 32px;
+    transform: translateY(6px);
+  }
+
+  .logo-link:hover .logo-img {
+    transform: translateY(6px) scale(1.02);
   }
 
   .site-header-wrapper.scrolled .logo-img {
     height: 26px;
+    transform: translateY(4px);
+  }
+
+  .site-header-wrapper.scrolled .logo-link:hover .logo-img {
+    transform: translateY(4px) scale(1.02);
   }
 
   .header-actions {
