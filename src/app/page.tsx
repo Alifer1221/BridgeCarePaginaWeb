@@ -624,17 +624,13 @@ export default function Home() {
         }
         .hero-tagline {
           display: inline-block;
-          color: var(--mint-accent);
-          font-weight: 700;
+          color: var(--white);
+          font-weight: 600;
           text-transform: uppercase;
-          letter-spacing: 0.12em;
-          font-size: 0.75rem;
-          margin-bottom: 1.25rem;
-          padding: 0.4rem 1.25rem;
-          background-color: rgba(93, 202, 165, 0.06);
-          border-radius: var(--radius-full);
-          border: 1px solid rgba(93, 202, 165, 0.15);
-          max-width: 100%;
+          letter-spacing: 0.08em;
+          font-size: 0.85rem;
+          margin-bottom: 1.5rem;
+          max-width: 90%;
           line-height: 1.4;
         }
         .hero-content h1 {
