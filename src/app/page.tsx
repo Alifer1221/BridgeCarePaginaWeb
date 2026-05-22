@@ -87,7 +87,7 @@ export default function Home() {
             <div className="logo-container">
               <div className="pulse-glow"></div>
               <div className="logo-icon-box">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="logo-svg">
+                <svg width="44" height="44" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="logo-svg">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
                 </svg>
               </div>
@@ -172,7 +172,7 @@ export default function Home() {
           <div className="grid grid-4 why-grid">
             <div className="why-card glass-card">
               <div className="why-icon-box">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
+                <svg width="26" height="26" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
                 </svg>
               </div>
@@ -182,7 +182,7 @@ export default function Home() {
 
             <div className="why-card glass-card">
               <div className="why-icon-box">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
+                <svg width="26" height="26" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
                 </svg>
               </div>
@@ -192,7 +192,7 @@ export default function Home() {
 
             <div className="why-card glass-card">
               <div className="why-icon-box">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
+                <svg width="26" height="26" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
               </div>
@@ -202,7 +202,7 @@ export default function Home() {
 
             <div className="why-card glass-card">
               <div className="why-icon-box">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
+                <svg width="26" height="26" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-10.5h16.5m-16.5 3h16.5m-16.5 3h16.5M12 3v1.5m0 2v.5m0 1.5v.5m0 1.5V12" />
                 </svg>
               </div>
@@ -651,136 +651,6 @@ export default function Home() {
           .hero-ctas {
             flex-direction: column;
           }
-        }
-
-        /* Splash Screen */
-        .splash-screen {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100vw;
-          height: 100vh;
-          background: radial-gradient(circle at center, #0e1212 0%, #080909 100%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 99999;
-          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .splash-screen.fade-out {
-          opacity: 0;
-          pointer-events: none;
-        }
-        .splash-card {
-          background: rgba(15, 17, 17, 0.75);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: var(--radius-lg);
-          padding: 3.5rem 3rem;
-          max-width: 500px;
-          width: 90%;
-          text-align: center;
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(93, 202, 165, 0.05);
-          animation: floatAnimation 6s ease-in-out infinite;
-        }
-        @keyframes floatAnimation {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-8px); }
-        }
-        .logo-container {
-          position: relative;
-          width: 90px;
-          height: 90px;
-          margin: 0 auto 1.5rem auto;
-        }
-        .pulse-glow {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: var(--mint-accent);
-          border-radius: 50%;
-          filter: blur(15px);
-          opacity: 0.15;
-          animation: pulseGlow 2.5s ease-in-out infinite;
-        }
-        @keyframes pulseGlow {
-          0%, 100% { transform: scale(0.9); opacity: 0.12; }
-          50% { transform: scale(1.15); opacity: 0.25; }
-        }
-        .logo-icon-box {
-          position: relative;
-          background: linear-gradient(135deg, var(--teal-primary) 0%, var(--mint-accent) 100%);
-          width: 100%;
-          height: 100%;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 2px solid rgba(255, 255, 255, 0.1);
-          box-shadow: 0 8px 24px rgba(93, 202, 165, 0.3);
-        }
-        .logo-svg {
-          width: 44px;
-          height: 44px;
-          color: #080909;
-        }
-        .splash-title {
-          font-size: 2.2rem;
-          font-weight: 800;
-          letter-spacing: 0.15em;
-          margin-bottom: 1.5rem;
-          background: linear-gradient(135deg, var(--white) 30%, var(--gris-texto) 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-        .loader-container {
-          margin-bottom: 2rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.75rem;
-        }
-        .spinner {
-          width: 36px;
-          height: 36px;
-          border: 3px solid rgba(93, 202, 165, 0.1);
-          border-top-color: var(--mint-accent);
-          border-radius: 50%;
-          animation: spin 1s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
-        }
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-        .loading-text {
-          font-size: 0.85rem;
-          color: var(--gris-texto);
-          opacity: 0.8;
-          margin: 0;
-          letter-spacing: 0.05em;
-        }
-        .language-selector-section {
-          border-top: 1px solid rgba(255, 255, 255, 0.08);
-          padding-top: 1.75rem;
-        }
-        .select-prompt {
-          font-size: 0.95rem;
-          color: var(--white);
-          margin-bottom: 1.25rem;
-          font-weight: 500;
-        }
-        .splash-buttons {
-          display: flex;
-          gap: 1rem;
-          justify-content: center;
-        }
-        .btn-splash {
-          flex: 1;
-          padding: 0.9rem 1.5rem;
-          font-size: 1rem;
-          max-width: 170px;
         }
       `}</style>
       </div>
