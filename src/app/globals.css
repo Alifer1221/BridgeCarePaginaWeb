@@ -336,16 +336,16 @@ select.form-control option {
   width: 100%;
   max-width: 1300px;
   margin: 0 auto;
-  padding: 1.5rem 2rem;
+  padding: 2.2rem 3rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: padding 0.3s ease;
+  transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Compact padding when scrolled */
 .site-header-wrapper.scrolled .header-capsule {
-  padding: 0.85rem 2rem;
+  padding: 1.1rem 3rem;
 }
 
 .logo-link {
@@ -360,10 +360,14 @@ select.form-control option {
 }
 
 .logo-img {
-  height: 28px;
+  height: 44px;
   width: auto;
   filter: brightness(0) invert(1); /* Forces logo to be pure white */
-  transition: transform 0.3s ease;
+  transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease;
+}
+
+.site-header-wrapper.scrolled .logo-img {
+  height: 34px;
 }
 
 .nav-menu {
@@ -605,11 +609,19 @@ select.form-control option {
   }
 
   .header-capsule {
-    padding: 1rem 1.5rem;
+    padding: 1.25rem 2rem;
   }
 
   .site-header-wrapper.scrolled .header-capsule {
-    padding: 0.75rem 1.5rem;
+    padding: 0.85rem 2rem;
+  }
+
+  .logo-img {
+    height: 36px;
+  }
+
+  .site-header-wrapper.scrolled .logo-img {
+    height: 30px;
   }
 
   .nav-menu {
@@ -674,11 +686,19 @@ select.form-control option {
 
 @media (max-width: 576px) {
   .header-capsule {
-    padding: 0.75rem 1rem;
+    padding: 1rem 1.25rem;
   }
 
   .site-header-wrapper.scrolled .header-capsule {
-    padding: 0.6rem 1rem;
+    padding: 0.7rem 1.25rem;
+  }
+
+  .logo-img {
+    height: 32px;
+  }
+
+  .site-header-wrapper.scrolled .logo-img {
+    height: 26px;
   }
 
   .header-actions {
