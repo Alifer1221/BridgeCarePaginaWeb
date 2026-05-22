@@ -659,7 +659,7 @@ export default function Home() {
           50% { opacity: 0; }
         }
         .hero-subheadline {
-          color: var(--gris-texto);
+          color: var(--white);
           font-size: 1.05rem;
           line-height: 1.5;
           margin-bottom: 1.75rem;
