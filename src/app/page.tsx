@@ -628,7 +628,7 @@ export default function Home() {
           font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 0.08em;
-          font-size: 0.85rem;
+          font-size: 1.05rem;
           margin-bottom: 1.5rem;
           max-width: 90%;
           line-height: 1.4;
