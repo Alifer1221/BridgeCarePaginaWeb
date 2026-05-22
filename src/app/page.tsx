@@ -331,7 +331,7 @@ export default function Home() {
             muted 
             playsInline 
             onTimeUpdate={(e) => {
-              if (e.currentTarget.currentTime > 0.15) {
+              if (e.currentTarget.currentTime > 0.01) {
                 setVideoPlaying(true);
               }
             }}
@@ -644,7 +644,7 @@ export default function Home() {
           height: 100%;
           object-fit: cover;
           opacity: 0;
-          transition: opacity 0.8s ease-in-out;
+          transition: opacity 0.3s ease-in-out;
         }
         .hero-video.playing {
           opacity: 1;
@@ -684,7 +684,7 @@ export default function Home() {
           min-height: 520px;
         }
         .hero-title-container h1 {
-          font-size: 3.5rem;
+          font-size: 3.2rem;
           line-height: 1.1;
           margin-bottom: 2.5rem;
           font-weight: 800;
@@ -1088,7 +1088,7 @@ export default function Home() {
             justify-content: flex-start;
           }
           .hero-title-container h1 { 
-            font-size: 2.8rem; 
+            font-size: 2.5rem; 
             max-width: 100%;
             margin-bottom: 2rem;
           }
@@ -1129,7 +1129,7 @@ export default function Home() {
             padding: 7.5rem 0 3.5rem 0;
           }
           .hero-title-container h1 {
-            font-size: 2.15rem;
+            font-size: 1.85rem;
           }
           .hero-right-tagline {
             font-size: 1.45rem;
