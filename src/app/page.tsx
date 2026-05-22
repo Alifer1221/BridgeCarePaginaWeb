@@ -776,7 +776,7 @@ export default function Home() {
           text-align: left;
         }
         .hero-right-tagline {
-          font-size: 1.45rem;
+          font-size: 1.65rem;
           font-weight: 600;
           color: var(--white);
           line-height: 1.25;
@@ -1096,7 +1096,7 @@ export default function Home() {
             max-width: 100%;
           }
           .hero-right-tagline {
-            font-size: 1.35rem;
+            font-size: 1.45rem;
           }
           .hero-packages-badge-container {
             position: relative;
@@ -1132,7 +1132,7 @@ export default function Home() {
             font-size: 1.85rem;
           }
           .hero-right-tagline {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
           }
           .btn-pill-primary {
             width: 100%;
