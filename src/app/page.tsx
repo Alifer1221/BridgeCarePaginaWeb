@@ -608,6 +608,7 @@ export default function Home() {
         }
         .highlight-color {
           color: var(--mint-accent);
+          -webkit-text-fill-color: var(--mint-accent);
           position: relative;
         }
         .cursor-blink {
