@@ -60,29 +60,36 @@ export default function Home() {
 
       {/* 1. HERO SECTION */}
       <section className="hero-section">
-        <video 
-          autoPlay 
-          loop 
-          muted 
-          playsInline 
-          className="hero-video"
-        >
-          <source src="/hero-video.mp4" type="video/mp4" />
-        </video>
-        <div className="hero-overlay"></div>
-        <div className="container hero-content">
-          <span className="hero-tagline">
-            {language === "es" ? "Turismo Médico Seguro e Integral" : "Safe & Comprehensive Medical Tourism"}
-          </span>
-          <h1>{t("hero.title")}</h1>
-          <p>{t("hero.subtitle")}</p>
-          <div className="hero-ctas">
-            <Link href="/contacto" className="btn btn-accent btn-lg">
-              {t("nav.book")}
-            </Link>
-            <Link href="/nosotros#packages" className="btn btn-secondary btn-lg">
-              {language === "es" ? "Ver Paquetes Todo Incluido" : "View All-Inclusive Packages"}
-            </Link>
+        {/* Background media wrapper */}
+        <div className="hero-bg-wrapper">
+          <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline 
+            className="hero-video"
+          >
+            <source src="/hero-video.mp4" type="video/mp4" />
+          </video>
+          <div className="hero-overlay"></div>
+        </div>
+
+        {/* Content wrapper */}
+        <div className="hero-content-wrapper">
+          <div className="container hero-content">
+            <span className="hero-tagline">
+              {language === "es" ? "Turismo Médico Seguro e Integral" : "Safe & Comprehensive Medical Tourism"}
+            </span>
+            <h1>{t("hero.title")}</h1>
+            <p>{t("hero.subtitle")}</p>
+            <div className="hero-ctas">
+              <Link href="/contacto" className="btn btn-accent btn-lg">
+                {t("nav.book")}
+              </Link>
+              <Link href="/nosotros#packages" className="btn btn-secondary btn-lg">
+                {language === "es" ? "Ver Paquetes Todo Incluido" : "View All-Inclusive Packages"}
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -290,19 +297,23 @@ export default function Home() {
           overflow: hidden;
           background-color: var(--negro-suave);
           color: var(--white);
-          padding: 10rem 0 7rem 0;
+          min-height: 85vh;
           display: flex;
           align-items: center;
-          min-height: 85vh;
         }
-        .hero-video {
+        .hero-bg-wrapper {
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
           height: 100%;
-          object-fit: cover;
           z-index: 1;
+          pointer-events: none;
+        }
+        .hero-video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
           opacity: 0;
           animation: videoFadeIn 1.2s ease-out forwards;
         }
@@ -313,18 +324,15 @@ export default function Home() {
           right: 0;
           bottom: 0;
           background: linear-gradient(to bottom, rgba(3, 8, 6, 0.8) 0%, rgba(3, 8, 6, 0.4) 50%, rgba(3, 8, 6, 0.98) 100%);
-          z-index: 2;
         }
-        @keyframes heroFadeIn {
-          from { opacity: 0; transform: translateY(8px); }
-          to { opacity: 1; transform: translateY(0); }
+        .hero-content-wrapper {
+          position: relative;
+          z-index: 2;
+          width: 100%;
+          padding: 10rem 0 7rem 0;
         }
         .hero-content {
-          position: relative;
-          z-index: 10;
           max-width: 800px;
-          transform: translate3d(0, 0, 0);
-          animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .hero-tagline {
           display: inline-block;
