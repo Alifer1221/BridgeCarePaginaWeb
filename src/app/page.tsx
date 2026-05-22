@@ -615,7 +615,7 @@ export default function Home() {
           padding: 8.5rem 0 3.5rem 0;
         }
         .hero-content {
-          max-width: 1000px;
+          max-width: 900px;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -643,7 +643,7 @@ export default function Home() {
           margin-bottom: 1rem;
           font-weight: 800;
           letter-spacing: -0.02em;
-          max-width: 980px;
+          max-width: 820px;
           margin-left: auto;
           margin-right: auto;
           min-height: 2.45em; /* Prevents layout shifting, reserved for exactly 2 lines at 1.2 line-height */
