@@ -772,11 +772,11 @@ export default function Home() {
           display: flex;
           flex-direction: column;
           gap: 1.75rem;
-          max-width: 440px;
+          max-width: 480px;
           text-align: left;
         }
         .hero-right-tagline {
-          font-size: 1.35rem;
+          font-size: 1.25rem;
           font-weight: 600;
           color: var(--white);
           line-height: 1.25;
@@ -1096,7 +1096,7 @@ export default function Home() {
             max-width: 100%;
           }
           .hero-right-tagline {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
           }
           .hero-packages-badge-container {
             position: relative;
@@ -1132,7 +1132,7 @@ export default function Home() {
             font-size: 1.85rem;
           }
           .hero-right-tagline {
-            font-size: 1.05rem;
+            font-size: 0.95rem;
           }
           .btn-pill-primary {
             width: 100%;
