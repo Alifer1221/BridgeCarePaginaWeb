@@ -13,24 +13,66 @@ export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
   const [splashFadeOut, setSplashFadeOut] = useState(false);
   const [typedPart2, setTypedPart2] = useState("");
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  // Reset typewriter when language changes
+  useEffect(() => {
+    setTypedPart2("");
+    setIsDeleting(false);
+    setPhraseIndex(0);
+  }, [language]);
 
   useEffect(() => {
     if (!mounted) return;
-    const part2 = t("hero.title.part2");
-    setTypedPart2("");
-    let currentText = "";
-    let idx = 0;
-    const interval = setInterval(() => {
-      if (idx < part2.length) {
-        currentText += part2.charAt(idx);
-        setTypedPart2(currentText);
-        idx++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 45);
-    return () => clearInterval(interval);
-  }, [language, mounted]);
+
+    const phrasesEs = [
+      "TODO LO QUE NECESITAS PARA TU TRATAMIENTO EN COLOMBIA.",
+      "TU PUENTE HACIA LA MEJOR ATENCIÓN MÉDICA.",
+      "CIRUGÍA, ODONTOLOGÍA Y ESTÉTICA. TODO INCLUIDO.",
+      "DEL VUELO A TU RECUPERACIÓN, NOSOTROS LO GESTIONAMOS.",
+      "LOS MEJORES ESPECIALISTAS DE COLOMBIA, A TU ALCANCE."
+    ];
+
+    const phrasesEn = [
+      "EVERYTHING YOU NEED FOR YOUR TREATMENT IN COLOMBIA.",
+      "YOUR BRIDGE TO THE BEST MEDICAL CARE.",
+      "SURGERY, DENTISTRY, AND AESTHETICS. ALL-INCLUSIVE.",
+      "FROM FLIGHT TO RECOVERY, WE MANAGE IT ALL.",
+      "COLOMBIA'S BEST SPECIALISTS, WITHIN YOUR REACH."
+    ];
+
+    const currentPhrases = language === "es" ? phrasesEs : phrasesEn;
+    const currentPhrase = currentPhrases[phraseIndex % currentPhrases.length];
+
+    let timer: NodeJS.Timeout;
+
+    if (isDeleting) {
+      timer = setTimeout(() => {
+        setTypedPart2((prev) => prev.slice(0, -1));
+      }, 20); // Faster delete
+    } else {
+      timer = setTimeout(() => {
+        setTypedPart2((prev) => {
+          if (prev.length < currentPhrase.length) {
+            return currentPhrase.slice(0, prev.length + 1);
+          }
+          return prev;
+        });
+      }, 45); // Typing speed
+    }
+
+    if (!isDeleting && typedPart2 === currentPhrase) {
+      timer = setTimeout(() => {
+        setIsDeleting(true);
+      }, 2500); // Wait 2.5s before deleting
+    } else if (isDeleting && typedPart2 === "") {
+      setIsDeleting(false);
+      setPhraseIndex((prev) => (prev + 1) % currentPhrases.length);
+    }
+
+    return () => clearTimeout(timer);
+  }, [language, mounted, typedPart2, isDeleting, phraseIndex]);
 
   useEffect(() => {
     setMounted(true);
@@ -597,12 +639,12 @@ export default function Home() {
           line-height: 1.4;
         }
         .hero-content h1 {
-          font-size: 2.6rem;
-          line-height: 1.2;
+          font-size: 2.45rem;
+          line-height: 1.25;
           margin-bottom: 1rem;
           font-weight: 800;
           letter-spacing: -0.02em;
-          max-width: 800px;
+          max-width: 850px;
           margin-left: auto;
           margin-right: auto;
         }
@@ -951,7 +993,7 @@ export default function Home() {
           .hero-content-wrapper {
             padding: 7.5rem 0 3.5rem 0;
           }
-          .hero-content h1 { font-size: 2.1rem; }
+          .hero-content h1 { font-size: 1.95rem; }
           .workflow-steps {
             grid-template-columns: 1fr;
             gap: 3.5rem;
@@ -975,7 +1017,7 @@ export default function Home() {
             padding: 7rem 0 3rem 0;
           }
           .hero-content h1 {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
           }
           .hero-subheadline {
             font-size: 0.95rem;
