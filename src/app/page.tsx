@@ -325,72 +325,121 @@ export default function Home() {
       <section className="hero-section">
         {/* Background media wrapper */}
         <div className="hero-bg-wrapper">
-          <video 
-            autoPlay 
-            loop 
-            muted 
-            playsInline 
-            onTimeUpdate={(e) => {
-              if (e.currentTarget.currentTime > 0.15) {
-                setVideoPlaying(true);
-              }
+          <div 
+            className="hero-bg-image"
+            style={{ 
+              backgroundImage: "url('/hero-new-bg.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              width: "100%",
+              height: "100%",
+              position: "absolute",
+              top: 0,
+              left: 0
             }}
-            className={`hero-video ${videoPlaying ? "playing" : ""}`}
-            style={{ opacity: videoPlaying ? 1 : 0 }}
-          >
-            <source src="/hero-video.mp4" type="video/mp4" />
-          </video>
+          ></div>
           <div className="hero-overlay"></div>
         </div>
 
         {/* Content wrapper */}
         <div className="hero-content-wrapper">
-          <div className="container hero-content">
-            <span className="hero-tagline">
-              {t("hero.tagline")}
-            </span>
-            <h1>
-              {t("hero.title.part1")}
-              <span className="highlight-color">
-                {typedPart2}
-                <span className="cursor-blink">_</span>
-              </span>
-            </h1>
-            <p className="hero-subheadline">{t("hero.subtitle")}</p>
-            <div className="hero-ctas">
-              <Link href="/contacto" className="btn btn-accent btn-lg">
-                {t("hero.cta.primary")} &rarr;
-              </Link>
-              <Link href="/nosotros#packages" className="btn btn-secondary btn-lg btn-glass">
+          <div className="container hero-content-grid">
+            
+            {/* LEFT COLUMN */}
+            <div className="hero-column-left">
+              {/* Top part: Main Title and Typewriter */}
+              <div className="hero-title-container">
+                <h1>
+                  {t("hero.title.part1")}
+                  <span className="highlight-color">
+                    {typedPart2}
+                    <span className="cursor-blink">_</span>
+                  </span>
+                </h1>
+              </div>
+
+              {/* Bottom part: Three Vertical Features */}
+              <div className="hero-features-list">
+                
+                {/* Feature 1: Ahorro Promedio */}
+                <div className="hero-feature-item">
+                  <div className="hero-feature-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="hero-feature-icon">
+                      <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+                      <path d="M22 12A10 10 0 0 0 12 2v10z" />
+                    </svg>
+                  </div>
+                  <div className="hero-feature-content">
+                    <h3 className="hero-feature-title">{t("hero.feature1.title")}</h3>
+                    <p className="hero-feature-desc">{t("hero.feature1.desc")}</p>
+                  </div>
+                </div>
+
+                {/* Feature 2: Procedimientos Gestionados */}
+                <div className="hero-feature-item">
+                  <div className="hero-feature-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="hero-feature-icon">
+                      <path d="M4.5 2.5C6.5 5 17.5 19 19.5 21.5" />
+                      <path d="M19.5 2.5C17.5 5 6.5 19 4.5 21.5" />
+                      <path d="M6 5h12" />
+                      <path d="M8 9h8" />
+                      <path d="M10 13h4" />
+                      <path d="M8 17h8" />
+                      <path d="M6 19h12" />
+                    </svg>
+                  </div>
+                  <div className="hero-feature-content">
+                    <h3 className="hero-feature-title">{t("hero.feature2.title")}</h3>
+                    <p className="hero-feature-desc">{t("hero.feature2.desc")}</p>
+                  </div>
+                </div>
+
+                {/* Feature 3: Acompañamiento 24/7 */}
+                <div className="hero-feature-item">
+                  <div className="hero-feature-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="hero-feature-icon">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                      <path d="M6 12h3l2-3 2 6 1-3h4" />
+                    </svg>
+                  </div>
+                  <div className="hero-feature-content">
+                    <h3 className="hero-feature-title">{t("hero.feature3.title")}</h3>
+                    <p className="hero-feature-desc">{t("hero.feature3.desc")}</p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            {/* RIGHT COLUMN */}
+            <div className="hero-column-right">
+              {/* Bottom part: Tagline and CTA Pill Button */}
+              <div className="hero-right-bottom">
+                <p className="hero-right-tagline">
+                  {t("hero.right.tagline")}
+                </p>
+                
+                <div className="hero-ctas-pill">
+                  <Link href="/contacto" className="btn-pill-primary">
+                    <span>{t("hero.cta.primary")}</span>
+                    <div className="btn-pill-arrow-circle">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="pill-arrow-icon">
+                        <line x1="7" y1="17" x2="17" y2="7"></line>
+                        <polyline points="7 7 17 7 17 17"></polyline>
+                      </svg>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Secondary Badge: Ver Paquetes / View Packages in bottom-right corner of Hero */}
+            <div className="hero-packages-badge-container">
+              <Link href="/nosotros#packages" className="hero-packages-badge">
                 {t("hero.cta.secondary")}
               </Link>
             </div>
 
-            {/* Statistics Row */}
-            <div className="hero-stats-row">
-              <div className="stat-col">
-                <div className="stat-num">{t("hero.stats.clinics.num")}</div>
-                <div className="stat-label">{t("hero.stats.clinics.lbl")}</div>
-              </div>
-              <div className="stat-divider"></div>
-              <div className="stat-col">
-                <div className="stat-num">{t("hero.stats.patients.num")}</div>
-                <div className="stat-label">{t("hero.stats.patients.lbl")}</div>
-              </div>
-              <div className="stat-divider"></div>
-              <div className="stat-col">
-                <div className="stat-num">{t("hero.stats.satisfaction.num")}</div>
-                <div className="stat-label">{t("hero.stats.satisfaction.lbl")}</div>
-              </div>
-            </div>
-
-            {/* Discover More */}
-            <div className="hero-discover-more">
-              <span className="discover-text">{t("hero.discover")}</span>
-              <div className="discover-indicator">
-                <span className="discover-line"></span>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -572,7 +621,7 @@ export default function Home() {
           position: relative;
           z-index: 1;
           overflow: hidden;
-          background-color: var(--negro-suave);
+          background-color: #0c0f0e;
           color: var(--white);
           min-height: 100vh;
           display: flex;
@@ -588,23 +637,14 @@ export default function Home() {
           z-index: 1;
           pointer-events: none;
         }
-        .hero-video {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          opacity: 0;
-          transition: opacity 0.8s ease-in-out;
-        }
-        .hero-video.playing {
-          opacity: 1;
-        }
         .hero-overlay {
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(to bottom, rgba(8, 9, 9, 0.8) 0%, rgba(8, 9, 9, 0.3) 50%, rgba(8, 9, 9, 1) 100%);
+          background: radial-gradient(circle at 70% 30%, rgba(12, 15, 14, 0.15) 0%, rgba(12, 15, 14, 0.8) 100%), 
+                      linear-gradient(to bottom, rgba(12, 15, 14, 0.6) 0%, rgba(12, 15, 14, 0.1) 50%, rgba(12, 15, 14, 0.95) 100%);
           z-index: 2;
           pointer-events: none;
         }
@@ -612,43 +652,40 @@ export default function Home() {
           position: relative;
           z-index: 10;
           width: 100%;
-          padding: 8.5rem 0 3.5rem 0;
+          padding: 9.5rem 0 4.5rem 0;
         }
-        .hero-content {
-          max-width: 900px;
+        .hero-content-grid {
+          display: grid;
+          grid-template-columns: 1.15fr 0.85fr;
+          gap: 4.5rem;
+          align-items: flex-end;
+          min-height: 72vh;
+          position: relative;
+        }
+        
+        /* Column Left Styling */
+        .hero-column-left {
           display: flex;
           flex-direction: column;
-          align-items: center;
-          text-align: center;
-          margin: 0 auto;
+          justify-content: space-between;
+          height: 100%;
+          min-height: 520px;
         }
-        .hero-tagline {
-          display: inline-block;
-          color: var(--white);
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.08em;
-          font-size: 1.05rem;
-          margin-bottom: 1.5rem;
-          max-width: 90%;
-          line-height: 1.4;
-          white-space: pre-line;
-        }
-        .hero-content h1 {
-          font-size: 2.325rem;
-          line-height: 1.2;
-          margin-bottom: 1rem;
+        .hero-title-container h1 {
+          font-size: 3.5rem;
+          line-height: 1.1;
+          margin-bottom: 2.5rem;
           font-weight: 800;
-          letter-spacing: -0.02em;
-          max-width: 820px;
-          margin-left: auto;
-          margin-right: auto;
-          min-height: 2.45em; /* Prevents layout shifting, reserved for exactly 2 lines at 1.2 line-height */
+          letter-spacing: -0.03em;
+          text-align: left;
+          max-width: 600px;
         }
         .highlight-color {
-          color: var(--mint-accent);
-          -webkit-text-fill-color: var(--mint-accent);
-          position: relative;
+          color: var(--white);
+          -webkit-text-fill-color: var(--white);
+          display: block;
+          margin-top: 0.25rem;
+          font-weight: 700;
         }
         .cursor-blink {
           animation: blink 0.9s infinite;
@@ -659,119 +696,156 @@ export default function Home() {
           0%, 100% { opacity: 1; }
           50% { opacity: 0; }
         }
-        .hero-subheadline {
-          color: var(--white);
-          font-size: 1.05rem;
-          line-height: 1.5;
-          margin-bottom: 1.75rem;
-          max-width: 750px;
-          margin-left: auto;
-          margin-right: auto;
-        }
-        .hero-ctas {
-          display: flex;
-          gap: 1.25rem;
-          flex-wrap: wrap;
-          justify-content: center;
-          margin-bottom: 1rem;
-        }
-        .btn-lg {
-          padding: 0.85rem 2.2rem;
-          font-size: 0.95rem;
-        }
-        .btn-glass {
-          background: rgba(255, 255, 255, 0.04) !important;
-          border: 1px solid rgba(255, 255, 255, 0.15) !important;
-          color: var(--white) !important;
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-        }
-        .btn-glass:hover {
-          background: rgba(255, 255, 255, 0.08) !important;
-          border-color: rgba(255, 255, 255, 0.35) !important;
-          color: var(--white) !important;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
-        }
 
-        /* Stats Row */
-        .hero-stats-row {
+        /* Features List Styling */
+        .hero-features-list {
+          display: flex;
+          flex-direction: column;
+          gap: 1.55rem;
+          margin-top: auto;
+          text-align: left;
+        }
+        .hero-feature-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 1.15rem;
+          transition: transform 0.2s ease;
+        }
+        .hero-feature-item:hover {
+          transform: translateX(4px);
+        }
+        .hero-feature-icon-box {
+          color: var(--white);
+          width: 28px;
+          height: 28px;
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 3rem;
-          margin-top: 2.25rem;
-          border-top: 1px solid rgba(255, 255, 255, 0.08);
-          padding-top: 1.5rem;
-          width: 100%;
-          max-width: 800px;
+          flex-shrink: 0;
+          margin-top: 0.15rem;
         }
-        .stat-col {
+        .hero-feature-icon {
+          width: 26px;
+          height: 26px;
+          stroke-width: 1.75px;
+        }
+        .hero-feature-content {
           display: flex;
           flex-direction: column;
-          align-items: center;
-          text-align: center;
+          gap: 0.15rem;
         }
-        .stat-num {
-          font-size: 2.2rem;
-          font-weight: 800;
-          color: var(--white);
-          line-height: 1;
-          margin-bottom: 0.4rem;
-          font-family: var(--font-sans);
-          letter-spacing: -0.02em;
-        }
-        .stat-label {
-          font-size: 0.75rem;
-          color: var(--gris-texto);
-          text-transform: uppercase;
-          letter-spacing: 0.08em;
-          opacity: 0.75;
-          font-weight: 500;
-        }
-        .stat-divider {
-          width: 1px;
-          height: 35px;
-          background-color: rgba(255, 255, 255, 0.12);
-        }
-
-        /* Discover More Scroll Down */
-        .hero-discover-more {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin-top: 2.25rem;
-          width: 100%;
-        }
-        .discover-text {
-          font-size: 0.7rem;
+        .hero-feature-title {
+          font-size: 0.98rem;
           font-weight: 700;
-          color: var(--gris-texto);
-          opacity: 0.5;
-          letter-spacing: 0.25em;
-          margin-bottom: 0.75rem;
-          text-transform: uppercase;
+          color: var(--white);
+          margin: 0;
+          letter-spacing: -0.01em;
         }
-        .discover-indicator {
-          width: 1px;
-          height: 35px;
-          background-color: rgba(255, 255, 255, 0.15);
-          position: relative;
-          overflow: hidden;
+        .hero-feature-desc {
+          font-size: 0.84rem;
+          color: rgba(255, 255, 255, 0.65);
+          margin: 0;
+          line-height: 1.4;
+          max-width: 320px;
         }
-        .discover-line {
-          display: block;
-          width: 100%;
+
+        /* Column Right Styling */
+        .hero-column-right {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
           height: 100%;
-          background-color: var(--mint-accent);
-          animation: scrollLine 2s infinite ease-in-out;
-          transform-origin: top;
         }
-        @keyframes scrollLine {
-          0% { transform: scaleY(0); transform-origin: top; }
-          50% { transform: scaleY(1); transform-origin: top; }
-          50.1% { transform: scaleY(1); transform-origin: bottom; }
-          100% { transform: scaleY(0); transform-origin: bottom; }
+        .hero-right-bottom {
+          display: flex;
+          flex-direction: column;
+          gap: 1.75rem;
+          max-width: 440px;
+          text-align: left;
+        }
+        .hero-right-tagline {
+          font-size: 2.15rem;
+          font-weight: 600;
+          color: var(--white);
+          line-height: 1.25;
+          letter-spacing: -0.02em;
+          margin: 0;
+          white-space: pre-line;
+        }
+        .hero-ctas-pill {
+          display: flex;
+          justify-content: flex-start;
+          margin-top: 0.5rem;
+        }
+        
+        /* Pill Button Styling */
+        .btn-pill-primary {
+          display: inline-flex;
+          align-items: center;
+          gap: 1.5rem;
+          background-color: rgba(245, 246, 247, 0.96);
+          color: #0c0f0e !important;
+          font-weight: 700;
+          font-size: 0.95rem;
+          padding: 0.45rem 0.45rem 0.45rem 1.85rem;
+          border-radius: 9999px;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+          cursor: pointer;
+        }
+        .btn-pill-primary:hover {
+          background-color: #ffffff;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15);
+        }
+        .btn-pill-arrow-circle {
+          width: 38px;
+          height: 38px;
+          border-radius: 50%;
+          background-color: #0c0f0e;
+          color: #ffffff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-pill-primary:hover .btn-pill-arrow-circle {
+          transform: rotate(45deg);
+        }
+        .pill-arrow-icon {
+          width: 16px;
+          height: 16px;
+        }
+
+        /* Secondary Badge Styling */
+        .hero-packages-badge-container {
+          position: absolute;
+          bottom: 0rem;
+          right: 0rem;
+          z-index: 15;
+        }
+        .hero-packages-badge {
+          display: inline-block;
+          background-color: rgba(12, 15, 14, 0.9);
+          color: var(--white) !important;
+          border: 1.5px solid rgba(255, 255, 255, 0.1);
+          padding: 0.65rem 1.65rem;
+          border-radius: 9999px;
+          font-size: 0.8rem;
+          font-weight: 700;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .hero-packages-badge:hover {
+          background-color: rgba(255, 255, 255, 0.08);
+          border-color: rgba(255, 255, 255, 0.3);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
         }
 
         /* Section Headers */
@@ -988,11 +1062,37 @@ export default function Home() {
             padding: 0;
           }
           .hero-content-wrapper {
-            padding: 7.5rem 0 3.5rem 0;
+            padding: 8.5rem 0 4.5rem 0;
           }
-          .hero-content h1 { 
-            font-size: 1.925rem; 
-            min-height: 2.45em; /* Prevents layout shifting on tablet (fits in exactly 2 lines) */
+          .hero-content-grid {
+            grid-template-columns: 1fr;
+            gap: 3.5rem;
+            min-height: auto;
+          }
+          .hero-column-left {
+            min-height: auto;
+          }
+          .hero-column-right {
+            justify-content: flex-start;
+          }
+          .hero-title-container h1 { 
+            font-size: 2.8rem; 
+            max-width: 100%;
+            margin-bottom: 2rem;
+          }
+          .hero-right-bottom {
+            max-width: 100%;
+          }
+          .hero-right-tagline {
+            font-size: 1.8rem;
+          }
+          .hero-packages-badge-container {
+            position: relative;
+            bottom: auto;
+            right: auto;
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 1rem;
           }
           .workflow-steps {
             grid-template-columns: 1fr;
@@ -1014,46 +1114,23 @@ export default function Home() {
         }
         @media (max-width: 768px) {
           .hero-content-wrapper {
-            padding: 7rem 0 3rem 0;
+            padding: 7.5rem 0 3.5rem 0;
           }
-          .hero-content h1 {
-            font-size: 1.575rem;
-            min-height: 3.65em; /* Prevents layout shifting on mobile (fits in exactly 3 lines) */
+          .hero-title-container h1 {
+            font-size: 2.15rem;
           }
-          .hero-subheadline {
-            font-size: 0.95rem;
+          .hero-right-tagline {
+            font-size: 1.45rem;
           }
-          .hero-ctas {
-            flex-direction: column;
+          .btn-pill-primary {
             width: 100%;
-          }
-          .hero-ctas .btn {
-            width: 100%;
-          }
-          .hero-stats-row {
-            flex-wrap: wrap;
-            gap: 1.25rem;
             justify-content: space-between;
-            margin-top: 1.75rem;
-            padding-top: 1.25rem;
           }
-          .stat-divider {
-            display: none;
+          .hero-features-list {
+            gap: 1.35rem;
           }
-          .stat-col {
-            flex: 1 1 40%;
-            align-items: center;
-            text-align: center;
-          }
-          .stat-col:last-child {
-            flex: 1 1 100%;
-            margin-top: 0.25rem;
-          }
-          .stat-num {
-            font-size: 1.8rem;
-          }
-          .hero-discover-more {
-            margin-top: 1.75rem;
+          .hero-feature-desc {
+            max-width: 100%;
           }
         }
       `}</style>
