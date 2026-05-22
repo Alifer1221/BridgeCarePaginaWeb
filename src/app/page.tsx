@@ -639,15 +639,15 @@ export default function Home() {
           line-height: 1.4;
         }
         .hero-content h1 {
-          font-size: 2.45rem;
+          font-size: 2.25rem;
           line-height: 1.25;
           margin-bottom: 1rem;
           font-weight: 800;
           letter-spacing: -0.02em;
-          max-width: 850px;
+          max-width: 1050px;
           margin-left: auto;
           margin-right: auto;
-          min-height: 2.6em; /* Prevents layout shifting during typewriter rotation */
+          min-height: 2.55em; /* Prevents layout shifting, reserved for exactly 2 lines */
         }
         .highlight-color {
           color: var(--mint-accent);
