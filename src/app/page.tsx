@@ -9,16 +9,25 @@ export default function Home() {
   const { language, t } = useLanguage();
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [mounted, setMounted] = useState(false);
+  const [videoPlaying, setVideoPlaying] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     setSpecialties(getStoredSpecialties());
 
+    // Failsafe timer: if video doesn't play or trigger events in 2.2s, force show it
+    const timer = setTimeout(() => {
+      setVideoPlaying(true);
+    }, 2200);
+
     const handleUpdate = () => {
       setSpecialties(getStoredSpecialties());
     };
     window.addEventListener("bc_db_update", handleUpdate);
-    return () => window.removeEventListener("bc_db_update", handleUpdate);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("bc_db_update", handleUpdate);
+    };
   }, []);
 
   // Inline testimonials translation helper
@@ -54,10 +63,6 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      {/* Aurora Ambient Glow Spheres */}
-      <div className="glow-sphere glow-1"></div>
-      <div className="glow-sphere glow-2"></div>
-
       {/* 1. HERO SECTION */}
       <section className="hero-section">
         {/* Background media wrapper */}
@@ -67,7 +72,13 @@ export default function Home() {
             loop 
             muted 
             playsInline 
-            className="hero-video"
+            onTimeUpdate={(e) => {
+              if (e.currentTarget.currentTime > 0.15) {
+                setVideoPlaying(true);
+              }
+            }}
+            className={`hero-video ${videoPlaying ? "playing" : ""}`}
+            style={{ opacity: videoPlaying ? 1 : 0 }}
           >
             <source src="/hero-video.mp4" type="video/mp4" />
           </video>
@@ -265,35 +276,10 @@ export default function Home() {
       </section>
 
       <style jsx>{`
-        /* Aurora Glowing Spheres */
-        .glow-sphere {
-          position: absolute;
-          width: 500px;
-          height: 500px;
-          border-radius: 50%;
-          filter: blur(140px);
-          opacity: 0.12;
-          pointer-events: none;
-          z-index: 0;
-        }
-        .glow-1 {
-          background: var(--mint-accent);
-          top: 15%;
-          left: -100px;
-        }
-        .glow-2 {
-          background: var(--teal-primary);
-          top: 55%;
-          right: -100px;
-        }
-
         /* Hero Styling */
-        @keyframes videoFadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
         .hero-section {
           position: relative;
+          z-index: 1;
           overflow: hidden;
           background-color: var(--negro-suave);
           color: var(--white);
@@ -315,7 +301,10 @@ export default function Home() {
           height: 100%;
           object-fit: cover;
           opacity: 0;
-          animation: videoFadeIn 1.2s ease-out forwards;
+          transition: opacity 0.8s ease-in-out;
+        }
+        .hero-video.playing {
+          opacity: 1;
         }
         .hero-overlay {
           position: absolute;
@@ -323,11 +312,13 @@ export default function Home() {
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(to bottom, rgba(3, 8, 6, 0.8) 0%, rgba(3, 8, 6, 0.4) 50%, rgba(3, 8, 6, 0.98) 100%);
+          background: linear-gradient(to bottom, rgba(8, 9, 9, 0.8) 0%, rgba(8, 9, 9, 0.3) 50%, rgba(8, 9, 9, 1) 100%);
+          z-index: 2;
+          pointer-events: none;
         }
         .hero-content-wrapper {
           position: relative;
-          z-index: 2;
+          z-index: 10;
           width: 100%;
           padding: 10rem 0 7rem 0;
         }

@@ -509,7 +509,10 @@ export default function Nosotros() {
           gap: 0.75rem;
           padding: 0.6rem;
           border-radius: var(--radius-full);
-          background: rgba(10, 31, 26, 0.6) !important;
+          background: rgba(15, 17, 17, 0.7) !important;
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.06);
         }
         .tabs-list:hover {
           transform: none;

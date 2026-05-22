@@ -987,7 +987,10 @@ export default function AdminPanel() {
           gap: 1rem;
           padding: 0.5rem;
           flex-wrap: wrap;
-          background: rgba(10, 31, 26, 0.4) !important;
+          background: rgba(15, 17, 17, 0.7) !important;
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.06);
           border-radius: var(--radius-full);
           margin-bottom: 2rem;
         }
@@ -1051,14 +1054,14 @@ export default function AdminPanel() {
           padding-right: 0.5rem;
         }
         .list-item {
-          background-color: rgba(10, 31, 26, 0.3);
+          background-color: rgba(15, 17, 17, 0.4);
           padding: 1.25rem;
           border-radius: var(--radius-md);
           display: flex;
           justify-content: space-between;
           align-items: center;
           gap: 1.5rem;
-          border: 1px solid rgba(93, 202, 165, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.06);
         }
         .item-details h4 {
           font-size: 1.05rem;
