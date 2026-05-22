@@ -325,19 +325,21 @@ export default function Home() {
       <section className="hero-section">
         {/* Background media wrapper */}
         <div className="hero-bg-wrapper">
-          <div 
-            className="hero-bg-image"
-            style={{ 
-              backgroundImage: "url('/hero-new-bg.png')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              width: "100%",
-              height: "100%",
-              position: "absolute",
-              top: 0,
-              left: 0
+          <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline 
+            onTimeUpdate={(e) => {
+              if (e.currentTarget.currentTime > 0.15) {
+                setVideoPlaying(true);
+              }
             }}
-          ></div>
+            className={`hero-video ${videoPlaying ? "playing" : ""}`}
+            style={{ opacity: videoPlaying ? 1 : 0 }}
+          >
+            <source src="/hero-video.mp4" type="video/mp4" />
+          </video>
           <div className="hero-overlay"></div>
         </div>
 
@@ -636,6 +638,16 @@ export default function Home() {
           height: 100%;
           z-index: 1;
           pointer-events: none;
+        }
+        .hero-video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          opacity: 0;
+          transition: opacity 0.8s ease-in-out;
+        }
+        .hero-video.playing {
+          opacity: 1;
         }
         .hero-overlay {
           position: absolute;
