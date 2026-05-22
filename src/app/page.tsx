@@ -18,17 +18,14 @@ export default function Home() {
     if (!mounted) return;
     const part2 = t("hero.title.part2");
     setTypedPart2("");
+    let currentText = "";
     let idx = 0;
     const interval = setInterval(() => {
-      setTypedPart2((prev) => {
-        // Ensure we only append if we have valid chars
-        if (idx < part2.length) {
-          return prev + part2.charAt(idx);
-        }
-        return prev;
-      });
-      idx++;
-      if (idx >= part2.length) {
+      if (idx < part2.length) {
+        currentText += part2.charAt(idx);
+        setTypedPart2(currentText);
+        idx++;
+      } else {
         clearInterval(interval);
       }
     }, 45);
@@ -536,9 +533,10 @@ export default function Home() {
           overflow: hidden;
           background-color: var(--negro-suave);
           color: var(--white);
-          min-height: 85vh;
+          min-height: 100vh;
           display: flex;
           align-items: center;
+          justify-content: center;
         }
         .hero-bg-wrapper {
           position: absolute;
@@ -573,7 +571,7 @@ export default function Home() {
           position: relative;
           z-index: 10;
           width: 100%;
-          padding: 10rem 0 7rem 0;
+          padding: 8.5rem 0 3.5rem 0;
         }
         .hero-content {
           max-width: 900px;
@@ -589,8 +587,8 @@ export default function Home() {
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.12em;
-          font-size: 0.8rem;
-          margin-bottom: 1.75rem;
+          font-size: 0.75rem;
+          margin-bottom: 1.25rem;
           padding: 0.4rem 1.25rem;
           background-color: rgba(93, 202, 165, 0.06);
           border-radius: var(--radius-full);
@@ -599,11 +597,14 @@ export default function Home() {
           line-height: 1.4;
         }
         .hero-content h1 {
-          font-size: 3.8rem;
-          line-height: 1.15;
-          margin-bottom: 1.5rem;
+          font-size: 2.6rem;
+          line-height: 1.2;
+          margin-bottom: 1rem;
           font-weight: 800;
           letter-spacing: -0.02em;
+          max-width: 800px;
+          margin-left: auto;
+          margin-right: auto;
         }
         .highlight-color {
           color: var(--mint-accent);
@@ -620,10 +621,12 @@ export default function Home() {
         }
         .hero-subheadline {
           color: var(--gris-texto);
-          font-size: 1.25rem;
-          line-height: 1.6;
-          margin-bottom: 2.5rem;
-          max-width: 650px;
+          font-size: 1.05rem;
+          line-height: 1.5;
+          margin-bottom: 1.75rem;
+          max-width: 750px;
+          margin-left: auto;
+          margin-right: auto;
         }
         .hero-ctas {
           display: flex;
@@ -633,8 +636,8 @@ export default function Home() {
           margin-bottom: 1rem;
         }
         .btn-lg {
-          padding: 1rem 2.5rem;
-          font-size: 1.05rem;
+          padding: 0.85rem 2.2rem;
+          font-size: 0.95rem;
         }
         .btn-glass {
           background: rgba(255, 255, 255, 0.04) !important;
@@ -656,10 +659,10 @@ export default function Home() {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 3.5rem;
-          margin-top: 5rem;
+          gap: 3rem;
+          margin-top: 2.25rem;
           border-top: 1px solid rgba(255, 255, 255, 0.08);
-          padding-top: 2.2rem;
+          padding-top: 1.5rem;
           width: 100%;
           max-width: 800px;
         }
@@ -670,16 +673,16 @@ export default function Home() {
           text-align: center;
         }
         .stat-num {
-          font-size: 2.8rem;
+          font-size: 2.2rem;
           font-weight: 800;
           color: var(--white);
           line-height: 1;
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.4rem;
           font-family: var(--font-sans);
           letter-spacing: -0.02em;
         }
         .stat-label {
-          font-size: 0.8rem;
+          font-size: 0.75rem;
           color: var(--gris-texto);
           text-transform: uppercase;
           letter-spacing: 0.08em;
@@ -688,7 +691,7 @@ export default function Home() {
         }
         .stat-divider {
           width: 1px;
-          height: 45px;
+          height: 35px;
           background-color: rgba(255, 255, 255, 0.12);
         }
 
@@ -697,7 +700,7 @@ export default function Home() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          margin-top: 4.5rem;
+          margin-top: 2.25rem;
           width: 100%;
         }
         .discover-text {
@@ -940,9 +943,14 @@ export default function Home() {
         /* Mobile adaptation */
         @media (max-width: 992px) {
           .hero-section {
-            padding: 8rem 0 5rem 0;
+            min-height: auto;
+            height: auto;
+            padding: 0;
           }
-          .hero-content h1 { font-size: 3rem; }
+          .hero-content-wrapper {
+            padding: 7.5rem 0 3.5rem 0;
+          }
+          .hero-content h1 { font-size: 2.1rem; }
           .workflow-steps {
             grid-template-columns: 1fr;
             gap: 3.5rem;
@@ -962,11 +970,14 @@ export default function Home() {
           }
         }
         @media (max-width: 768px) {
+          .hero-content-wrapper {
+            padding: 7rem 0 3rem 0;
+          }
           .hero-content h1 {
-            font-size: 2.4rem;
+            font-size: 1.8rem;
           }
           .hero-subheadline {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
           }
           .hero-ctas {
             flex-direction: column;
@@ -977,10 +988,10 @@ export default function Home() {
           }
           .hero-stats-row {
             flex-wrap: wrap;
-            gap: 1.5rem;
+            gap: 1.25rem;
             justify-content: space-between;
-            margin-top: 3.5rem;
-            padding-top: 1.8rem;
+            margin-top: 1.75rem;
+            padding-top: 1.25rem;
           }
           .stat-divider {
             display: none;
@@ -992,13 +1003,13 @@ export default function Home() {
           }
           .stat-col:last-child {
             flex: 1 1 100%;
-            margin-top: 0.5rem;
+            margin-top: 0.25rem;
           }
           .stat-num {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
           }
           .hero-discover-more {
-            margin-top: 3.5rem;
+            margin-top: 1.75rem;
           }
         }
       `}</style>
