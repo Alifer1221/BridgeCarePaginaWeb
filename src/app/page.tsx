@@ -634,7 +634,7 @@ export default function Home() {
           line-height: 1.4;
         }
         .hero-content h1 {
-          font-size: 2.2rem;
+          font-size: 2.325rem;
           line-height: 1.2;
           margin-bottom: 1rem;
           font-weight: 800;
@@ -990,7 +990,7 @@ export default function Home() {
             padding: 7.5rem 0 3.5rem 0;
           }
           .hero-content h1 { 
-            font-size: 1.8rem; 
+            font-size: 1.925rem; 
             min-height: 2.45em; /* Prevents layout shifting on tablet (fits in exactly 2 lines) */
           }
           .workflow-steps {
@@ -1016,7 +1016,7 @@ export default function Home() {
             padding: 7rem 0 3rem 0;
           }
           .hero-content h1 {
-            font-size: 1.45rem;
+            font-size: 1.575rem;
             min-height: 3.65em; /* Prevents layout shifting on mobile (fits in exactly 3 lines) */
           }
           .hero-subheadline {
