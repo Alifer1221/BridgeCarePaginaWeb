@@ -11,6 +11,7 @@ export default function Header() {
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
@@ -24,6 +25,13 @@ export default function Header() {
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         setIsVisible(false); // Hide on scroll down
         setIsOpen(false);   // Close mobile menu if open
@@ -43,11 +51,11 @@ export default function Header() {
   }, [lastScrollY]);
 
   return (
-    <header className={`site-header-wrapper ${isVisible ? "" : "hidden"}`}>
+    <header className={`site-header-wrapper ${isVisible ? "" : "hidden"} ${isScrolled ? "scrolled" : ""}`}>
       <div className="header-capsule">
-        {/* Left Side: Isotipo Home link */}
+        {/* Left Side: Logo Home link */}
         <Link href="/" className="logo-link" onClick={() => setIsOpen(false)}>
-          <img src="/isotipo.svg" alt="Bridge Care Home" className="isotipo-img" />
+          <img src="/logo.svg" alt="Bridge Care Home" className="logo-img" />
         </Link>
 
         {/* Mobile menu toggle */}
@@ -83,6 +91,8 @@ export default function Header() {
               </ul>
             </li>
 
+            <li className="nav-separator">•</li>
+
             <li className="nav-item-dropdown">
               <span className="nav-link dropdown-trigger">
                 {t("nav.destinations")} <span className="arrow">▾</span>
@@ -102,11 +112,15 @@ export default function Header() {
               </ul>
             </li>
 
+            <li className="nav-separator">•</li>
+
             <li>
               <Link href="/nosotros" onClick={() => setIsOpen(false)} className="nav-link">
                 {t("nav.about")}
               </Link>
             </li>
+
+            <li className="nav-separator">•</li>
 
             <li>
               <Link href="/contacto" onClick={() => setIsOpen(false)} className="nav-link">
@@ -135,7 +149,13 @@ export default function Header() {
 
           {/* CTA Book (High visibility Call To Action) */}
           <Link href="/contacto" className="btn-book">
-            {t("nav.book")}
+            <span className="btn-book-text">{t("nav.book")}</span>
+            <div className="btn-book-arrow-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="btn-book-arrow">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </div>
           </Link>
 
           {/* Language toggle at the far right */}
