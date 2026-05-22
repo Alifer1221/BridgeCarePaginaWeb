@@ -12,6 +12,28 @@ export default function Home() {
   const [videoPlaying, setVideoPlaying] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
   const [splashFadeOut, setSplashFadeOut] = useState(false);
+  const [typedPart2, setTypedPart2] = useState("");
+
+  useEffect(() => {
+    if (!mounted) return;
+    const part2 = t("hero.title.part2");
+    setTypedPart2("");
+    let idx = 0;
+    const interval = setInterval(() => {
+      setTypedPart2((prev) => {
+        // Ensure we only append if we have valid chars
+        if (idx < part2.length) {
+          return prev + part2.charAt(idx);
+        }
+        return prev;
+      });
+      idx++;
+      if (idx >= part2.length) {
+        clearInterval(interval);
+      }
+    }, 45);
+    return () => clearInterval(interval);
+  }, [language, mounted]);
 
   useEffect(() => {
     setMounted(true);
@@ -287,17 +309,49 @@ export default function Home() {
         <div className="hero-content-wrapper">
           <div className="container hero-content">
             <span className="hero-tagline">
-              {language === "es" ? "Turismo Médico Seguro e Integral" : "Safe & Comprehensive Medical Tourism"}
+              {t("hero.tagline")}
             </span>
-            <h1>{t("hero.title")}</h1>
-            <p>{t("hero.subtitle")}</p>
+            <h1>
+              {t("hero.title.part1")}
+              <span className="highlight-color">
+                {typedPart2}
+                <span className="cursor-blink">_</span>
+              </span>
+            </h1>
+            <p className="hero-subheadline">{t("hero.subtitle")}</p>
             <div className="hero-ctas">
               <Link href="/contacto" className="btn btn-accent btn-lg">
-                {t("hero.cta.primary")}
+                {t("hero.cta.primary")} &rarr;
               </Link>
-              <Link href="/nosotros#packages" className="btn btn-secondary btn-lg">
+              <Link href="/nosotros#packages" className="btn btn-secondary btn-lg btn-glass">
                 {t("hero.cta.secondary")}
               </Link>
+            </div>
+
+            {/* Statistics Row */}
+            <div className="hero-stats-row">
+              <div className="stat-col">
+                <div className="stat-num">{t("hero.stats.clinics.num")}</div>
+                <div className="stat-label">{t("hero.stats.clinics.lbl")}</div>
+              </div>
+              <div className="stat-divider"></div>
+              <div className="stat-col">
+                <div className="stat-num">{t("hero.stats.patients.num")}</div>
+                <div className="stat-label">{t("hero.stats.patients.lbl")}</div>
+              </div>
+              <div className="stat-divider"></div>
+              <div className="stat-col">
+                <div className="stat-num">{t("hero.stats.satisfaction.num")}</div>
+                <div className="stat-label">{t("hero.stats.satisfaction.lbl")}</div>
+              </div>
+            </div>
+
+            {/* Discover More */}
+            <div className="hero-discover-more">
+              <span className="discover-text">{t("hero.discover")}</span>
+              <div className="discover-indicator">
+                <span className="discover-line"></span>
+              </div>
             </div>
           </div>
         </div>
@@ -522,7 +576,12 @@ export default function Home() {
           padding: 10rem 0 7rem 0;
         }
         .hero-content {
-          max-width: 800px;
+          max-width: 900px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          margin: 0 auto;
         }
         .hero-tagline {
           display: inline-block;
@@ -530,32 +589,146 @@ export default function Home() {
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.12em;
-          font-size: 0.85rem;
-          margin-bottom: 1.5rem;
-          padding: 0.35rem 1rem;
-          background-color: rgba(93, 202, 165, 0.08);
+          font-size: 0.8rem;
+          margin-bottom: 1.75rem;
+          padding: 0.4rem 1.25rem;
+          background-color: rgba(93, 202, 165, 0.06);
           border-radius: var(--radius-full);
-          border: 1px solid rgba(93, 202, 165, 0.2);
+          border: 1px solid rgba(93, 202, 165, 0.15);
+          max-width: 100%;
+          line-height: 1.4;
         }
         .hero-content h1 {
-          font-size: 4rem;
-          line-height: 1.1;
+          font-size: 3.8rem;
+          line-height: 1.15;
           margin-bottom: 1.5rem;
+          font-weight: 800;
+          letter-spacing: -0.02em;
         }
-        .hero-content p {
+        .highlight-color {
+          color: var(--mint-accent);
+          position: relative;
+        }
+        .cursor-blink {
+          animation: blink 0.9s infinite;
+          color: var(--mint-accent);
+          font-weight: 400;
+        }
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+        .hero-subheadline {
           color: var(--gris-texto);
           font-size: 1.25rem;
           line-height: 1.6;
           margin-bottom: 2.5rem;
+          max-width: 650px;
         }
         .hero-ctas {
           display: flex;
           gap: 1.25rem;
           flex-wrap: wrap;
+          justify-content: center;
+          margin-bottom: 1rem;
         }
         .btn-lg {
           padding: 1rem 2.5rem;
           font-size: 1.05rem;
+        }
+        .btn-glass {
+          background: rgba(255, 255, 255, 0.04) !important;
+          border: 1px solid rgba(255, 255, 255, 0.15) !important;
+          color: var(--white) !important;
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+        }
+        .btn-glass:hover {
+          background: rgba(255, 255, 255, 0.08) !important;
+          border-color: rgba(255, 255, 255, 0.35) !important;
+          color: var(--white) !important;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
+        }
+
+        /* Stats Row */
+        .hero-stats-row {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 3.5rem;
+          margin-top: 5rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          padding-top: 2.2rem;
+          width: 100%;
+          max-width: 800px;
+        }
+        .stat-col {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+        }
+        .stat-num {
+          font-size: 2.8rem;
+          font-weight: 800;
+          color: var(--white);
+          line-height: 1;
+          margin-bottom: 0.5rem;
+          font-family: var(--font-sans);
+          letter-spacing: -0.02em;
+        }
+        .stat-label {
+          font-size: 0.8rem;
+          color: var(--gris-texto);
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          opacity: 0.75;
+          font-weight: 500;
+        }
+        .stat-divider {
+          width: 1px;
+          height: 45px;
+          background-color: rgba(255, 255, 255, 0.12);
+        }
+
+        /* Discover More Scroll Down */
+        .hero-discover-more {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-top: 4.5rem;
+          width: 100%;
+        }
+        .discover-text {
+          font-size: 0.7rem;
+          font-weight: 700;
+          color: var(--gris-texto);
+          opacity: 0.5;
+          letter-spacing: 0.25em;
+          margin-bottom: 0.75rem;
+          text-transform: uppercase;
+        }
+        .discover-indicator {
+          width: 1px;
+          height: 35px;
+          background-color: rgba(255, 255, 255, 0.15);
+          position: relative;
+          overflow: hidden;
+        }
+        .discover-line {
+          display: block;
+          width: 100%;
+          height: 100%;
+          background-color: var(--mint-accent);
+          animation: scrollLine 2s infinite ease-in-out;
+          transform-origin: top;
+        }
+        @keyframes scrollLine {
+          0% { transform: scaleY(0); transform-origin: top; }
+          50% { transform: scaleY(1); transform-origin: top; }
+          50.1% { transform: scaleY(1); transform-origin: bottom; }
+          100% { transform: scaleY(0); transform-origin: bottom; }
         }
 
         /* Section Headers */
@@ -790,13 +963,42 @@ export default function Home() {
         }
         @media (max-width: 768px) {
           .hero-content h1 {
-            font-size: 2.5rem;
+            font-size: 2.4rem;
           }
-          .hero-content p {
+          .hero-subheadline {
             font-size: 1.1rem;
           }
           .hero-ctas {
             flex-direction: column;
+            width: 100%;
+          }
+          .hero-ctas .btn {
+            width: 100%;
+          }
+          .hero-stats-row {
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: space-between;
+            margin-top: 3.5rem;
+            padding-top: 1.8rem;
+          }
+          .stat-divider {
+            display: none;
+          }
+          .stat-col {
+            flex: 1 1 40%;
+            align-items: center;
+            text-align: center;
+          }
+          .stat-col:last-child {
+            flex: 1 1 100%;
+            margin-top: 0.5rem;
+          }
+          .stat-num {
+            font-size: 2.2rem;
+          }
+          .hero-discover-more {
+            margin-top: 3.5rem;
           }
         }
       `}</style>

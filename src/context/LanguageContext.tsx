@@ -30,10 +30,19 @@ const translations: Record<Language, Record<string, string>> = {
     "footer.location.val": "El Poblado, Medellín, Colombia",
     
     // Home Page
-    "hero.title": "Una Sola Agencia. Todo lo que Necesitas para tu Tratamiento en Colombia.",
+    "hero.tagline": "CONECTAMOS PACIENTES CON LAS MEJORES CLÍNICAS Y ESPECIALISTAS MÉDICOS DE COLOMBIA",
+    "hero.title.part1": "Una Sola Agencia. ",
+    "hero.title.part2": "Todo lo que Necesitas para tu Tratamiento en Colombia.",
     "hero.subtitle": "Especialistas certificados, logística completa y acompañamiento personalizado en cada paso. Bridge Care es el puente entre tú y la mejor atención médica.",
     "hero.cta.primary": "Quiero Saber Más",
     "hero.cta.secondary": "Ver Paquetes",
+    "hero.stats.clinics.num": "50+",
+    "hero.stats.clinics.lbl": "Clínicas Asociadas",
+    "hero.stats.patients.num": "10k+",
+    "hero.stats.patients.lbl": "Pacientes Atendidos",
+    "hero.stats.satisfaction.num": "98%",
+    "hero.stats.satisfaction.lbl": "Satisfacción",
+    "hero.discover": "DESCUBRE MÁS",
     "why.title": "Por Qué Colombia",
     "why.subtitle": "Líder mundial en medicina de alta calidad, tecnología de punta y calidez humana.",
     
@@ -168,10 +177,19 @@ const translations: Record<Language, Record<string, string>> = {
     "footer.location.val": "El Poblado, Medellin, Colombia",
     
     // Home Page
-    "hero.title": "One Single Agency. Everything You Need for Your Treatment in Colombia.",
+    "hero.tagline": "WE CONNECT PATIENTS WITH THE BEST CLINICS AND MEDICAL SPECIALISTS IN COLOMBIA",
+    "hero.title.part1": "One Single Agency. ",
+    "hero.title.part2": "Everything You Need for Your Treatment in Colombia.",
     "hero.subtitle": "Certified specialists, complete logistics, and personalized guidance in every step. Bridge Care is the bridge between you and the best medical care.",
     "hero.cta.primary": "Learn More",
     "hero.cta.secondary": "View Packages",
+    "hero.stats.clinics.num": "50+",
+    "hero.stats.clinics.lbl": "Partner Clinics",
+    "hero.stats.patients.num": "10k+",
+    "hero.stats.patients.lbl": "Patients Served",
+    "hero.stats.satisfaction.num": "98%",
+    "hero.stats.satisfaction.lbl": "Satisfaction",
+    "hero.discover": "DISCOVER MORE",
     "why.title": "Why Colombia",
     "why.subtitle": "World leader in high-quality medicine, state-of-the-art technology, and warm care.",
     
