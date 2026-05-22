@@ -632,6 +632,7 @@ export default function Home() {
           margin-bottom: 1.5rem;
           max-width: 90%;
           line-height: 1.4;
+          white-space: pre-line;
         }
         .hero-content h1 {
           font-size: 2.325rem;

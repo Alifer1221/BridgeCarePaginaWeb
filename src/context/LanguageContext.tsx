@@ -30,7 +30,7 @@ const translations: Record<Language, Record<string, string>> = {
     "footer.location.val": "El Poblado, Medellín, Colombia",
     
     // Home Page
-    "hero.tagline": "CONECTAMOS PACIENTES CON LAS MEJORES CLÍNICAS Y ESPECIALISTAS MÉDICOS DE COLOMBIA",
+    "hero.tagline": "CONECTAMOS PACIENTES CON\nLAS MEJORES CLÍNICAS Y ESPECIALISTAS MÉDICOS DE COLOMBIA",
     "hero.title.part1": "UNA SOLA AGENCIA. ",
     "hero.title.part2": "Todo lo que Necesitas para tu Tratamiento en Colombia.",
     "hero.subtitle": "Especialistas certificados, logística completa y acompañamiento personalizado en cada paso. Bridge Care es el puente entre tú y la mejor atención médica.",
@@ -177,7 +177,7 @@ const translations: Record<Language, Record<string, string>> = {
     "footer.location.val": "El Poblado, Medellin, Colombia",
     
     // Home Page
-    "hero.tagline": "WE CONNECT PATIENTS WITH THE BEST CLINICS AND MEDICAL SPECIALISTS IN COLOMBIA",
+    "hero.tagline": "WE CONNECT PATIENTS WITH\nTHE BEST CLINICS AND MEDICAL SPECIALISTS IN COLOMBIA",
     "hero.title.part1": "ONE SINGLE AGENCY. ",
     "hero.title.part2": "Everything You Need for Your Treatment in Colombia.",
     "hero.subtitle": "Certified specialists, complete logistics, and personalized guidance in every step. Bridge Care is the bridge between you and the best medical care.",
