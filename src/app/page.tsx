@@ -647,6 +647,7 @@ export default function Home() {
           max-width: 850px;
           margin-left: auto;
           margin-right: auto;
+          min-height: 2.6em; /* Prevents layout shifting during typewriter rotation */
         }
         .highlight-color {
           color: var(--mint-accent);
@@ -993,7 +994,10 @@ export default function Home() {
           .hero-content-wrapper {
             padding: 7.5rem 0 3.5rem 0;
           }
-          .hero-content h1 { font-size: 1.95rem; }
+          .hero-content h1 { 
+            font-size: 1.95rem; 
+            min-height: 3.85em; /* Prevents layout shifting on tablet */
+          }
           .workflow-steps {
             grid-template-columns: 1fr;
             gap: 3.5rem;
@@ -1018,6 +1022,7 @@ export default function Home() {
           }
           .hero-content h1 {
             font-size: 1.6rem;
+            min-height: 5.1em; /* Prevents layout shifting on mobile */
           }
           .hero-subheadline {
             font-size: 0.95rem;
