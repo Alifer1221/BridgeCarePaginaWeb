@@ -202,7 +202,7 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.feature2.desc": "Procedures managed from start to finish",
     "hero.feature3.title": "24/7 Support",
     "hero.feature3.desc": "Throughout your entire process",
-    "hero.right.tagline": "We connect patients with the best\nclinics and medical specialists in Colombia.",
+    "hero.right.tagline": "We connect patients with the best\nclinics and specialists in Colombia.",
     "hero.discover": "DISCOVER MORE",
     "why.title": "Why Colombia",
     "why.subtitle": "World leader in high-quality medicine, state-of-the-art technology, and warm care.",

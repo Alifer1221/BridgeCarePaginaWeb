@@ -418,7 +418,11 @@ export default function Home() {
               {/* Bottom part: Tagline and CTA Pill Button */}
               <div className="hero-right-bottom">
                 <p className="hero-right-tagline">
-                  {t("hero.right.tagline")}
+                  {t("hero.right.tagline").split("\n").map((line, index) => (
+                    <span key={index} className="tagline-span">
+                      {line}
+                    </span>
+                  ))}
                 </p>
                 
                 <div className="hero-ctas-pill">
@@ -668,7 +672,7 @@ export default function Home() {
         }
         .hero-content-grid {
           display: grid;
-          grid-template-columns: 1.15fr 0.85fr;
+          grid-template-columns: 1fr 1fr;
           gap: 4.5rem;
           align-items: flex-end;
           min-height: 72vh;
@@ -776,13 +780,18 @@ export default function Home() {
           text-align: left;
         }
         .hero-right-tagline {
-          font-size: 1.65rem;
+          font-size: clamp(1.35rem, 2.1vw, 1.65rem);
           font-weight: 600;
           color: var(--white);
           line-height: 1.25;
           letter-spacing: -0.02em;
           margin: 0;
-          white-space: pre-line;
+          display: flex;
+          flex-direction: column;
+        }
+        .tagline-span {
+          display: block;
+          white-space: nowrap;
         }
         .hero-ctas-pill {
           display: flex;
@@ -1096,7 +1105,10 @@ export default function Home() {
             max-width: 100%;
           }
           .hero-right-tagline {
-            font-size: 1.45rem;
+            font-size: 1.35rem;
+          }
+          .tagline-span {
+            white-space: normal;
           }
           .hero-packages-badge-container {
             position: relative;
@@ -1132,7 +1144,7 @@ export default function Home() {
             font-size: 1.85rem;
           }
           .hero-right-tagline {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
           }
           .btn-pill-primary {
             width: 100%;
