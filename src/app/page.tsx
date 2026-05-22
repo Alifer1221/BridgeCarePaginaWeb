@@ -44,13 +44,12 @@ export default function Home() {
 
     const currentPhrases = language === "es" ? phrasesEs : phrasesEn;
     const currentPhrase = currentPhrases[phraseIndex % currentPhrases.length];
-
     let timer: NodeJS.Timeout;
 
     if (isDeleting) {
       timer = setTimeout(() => {
         setTypedPart2((prev) => prev.slice(0, -1));
-      }, 20); // Faster delete
+      }, 30); // Fluid delete speed
     } else {
       timer = setTimeout(() => {
         setTypedPart2((prev) => {
@@ -59,7 +58,7 @@ export default function Home() {
           }
           return prev;
         });
-      }, 45); // Typing speed
+      }, 75); // Fluid typing speed
     }
 
     if (!isDeleting && typedPart2 === currentPhrase) {
@@ -616,7 +615,7 @@ export default function Home() {
           padding: 8.5rem 0 3.5rem 0;
         }
         .hero-content {
-          max-width: 1150px;
+          max-width: 1000px;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -640,14 +639,14 @@ export default function Home() {
         }
         .hero-content h1 {
           font-size: 2.2rem;
-          line-height: 1.25;
+          line-height: 1.2;
           margin-bottom: 1rem;
           font-weight: 800;
           letter-spacing: -0.02em;
-          max-width: 1100px;
+          max-width: 980px;
           margin-left: auto;
           margin-right: auto;
-          min-height: 2.55em; /* Prevents layout shifting, reserved for exactly 2 lines */
+          min-height: 2.45em; /* Prevents layout shifting, reserved for exactly 2 lines at 1.2 line-height */
         }
         .highlight-color {
           color: var(--mint-accent);
@@ -996,7 +995,7 @@ export default function Home() {
           }
           .hero-content h1 { 
             font-size: 1.8rem; 
-            min-height: 2.55em; /* Prevents layout shifting on tablet (fits in exactly 2 lines) */
+            min-height: 2.45em; /* Prevents layout shifting on tablet (fits in exactly 2 lines) */
           }
           .workflow-steps {
             grid-template-columns: 1fr;
@@ -1022,7 +1021,7 @@ export default function Home() {
           }
           .hero-content h1 {
             font-size: 1.45rem;
-            min-height: 3.85em; /* Prevents layout shifting on mobile (fits in exactly 3 lines) */
+            min-height: 3.65em; /* Prevents layout shifting on mobile (fits in exactly 3 lines) */
           }
           .hero-subheadline {
             font-size: 0.95rem;
