@@ -70,7 +70,7 @@ export default function Contacto() {
               {/* WhatsApp direct card */}
               <div className="info-card glass-card">
                 <div className="info-card-icon wa">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style={{ width: "24px", height: "24px" }} viewBox="0 0 24 24" fill="currentColor">
                     <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.967C16.588 1.971 14.12 .946 11.503.946c-5.44 0-9.866 4.372-9.87 9.802 0 1.714.457 3.39 1.32 4.908l-.888 3.25 3.35-.879zm12.39-7.14c-.266-.134-1.58-.78-1.822-.867-.243-.088-.419-.133-.596.134-.176.265-.685.867-.839 1.044-.156.177-.311.199-.578.066-1.745-.872-3.007-1.517-4.148-3.483-.3-.518.3-.48.86-1.602.156-.312.078-.585-.039-.82-.117-.236-.975-2.355-1.336-3.232-.352-.852-.71-.737-.976-.75-.25-.013-.538-.015-.826-.015-.288 0-.756.108-1.15.538-.396.43-1.512 1.48-1.512 3.61s1.55 4.184 1.767 4.477c.217.294 3.05 4.67 7.387 6.549 1.03.447 1.836.714 2.464.914 1.037.33 1.982.284 2.729.173.832-.124 2.56-1.047 2.92-2.06.36-1.013.36-1.883.252-2.06-.108-.178-.396-.266-.662-.4z"/>
                   </svg>
                 </div>
@@ -101,7 +101,7 @@ export default function Contacto() {
               {/* Free Video Call Card */}
               <div className="info-card glass-card">
                 <div className="info-card-icon call">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style={{ width: "24px", height: "24px" }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M23 7a2 2 0 0 0-2.45-1.45L16 7V5a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2l4.55 1.45A2 2 0 0 0 23 17V7z"/>
                   </svg>
                 </div>
@@ -126,7 +126,7 @@ export default function Contacto() {
               {/* Email Card */}
               <div className="info-card glass-card">
                 <div className="info-card-icon email">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style={{ width: "24px", height: "24px" }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
                     <polyline points="22,6 12,13 2,6"/>
                   </svg>

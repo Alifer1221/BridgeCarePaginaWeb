@@ -30,9 +30,10 @@ const translations: Record<Language, Record<string, string>> = {
     "footer.location.val": "El Poblado, Medellín, Colombia",
     
     // Home Page
-    "hero.title": "Tu Salud en Colombia, con Calidad de Clase Mundial",
-    "hero.subtitle": "Conectamos pacientes internacionales con los mejores cirujanos estéticos, odontólogos y especialistas en bariatría. Ahorra hasta un 70%.",
-    "hero.cta": "Ver Especialidades",
+    "hero.title": "Una Sola Agencia. Todo lo que Necesitas para tu Tratamiento en Colombia.",
+    "hero.subtitle": "Especialistas certificados, logística completa y acompañamiento personalizado en cada paso. Bridge Care es el puente entre tú y la mejor atención médica.",
+    "hero.cta.primary": "Quiero Saber Más",
+    "hero.cta.secondary": "Ver Paquetes",
     "why.title": "Por Qué Colombia",
     "why.subtitle": "Líder mundial en medicina de alta calidad, tecnología de punta y calidez humana.",
     
@@ -167,9 +168,10 @@ const translations: Record<Language, Record<string, string>> = {
     "footer.location.val": "El Poblado, Medellin, Colombia",
     
     // Home Page
-    "hero.title": "Your Health in Colombia, with World-Class Quality",
-    "hero.subtitle": "We connect international patients with the best aesthetic surgeons, dentists, and bariatric specialists. Save up to 70%.",
-    "hero.cta": "View Specialties",
+    "hero.title": "One Single Agency. Everything You Need for Your Treatment in Colombia.",
+    "hero.subtitle": "Certified specialists, complete logistics, and personalized guidance in every step. Bridge Care is the bridge between you and the best medical care.",
+    "hero.cta.primary": "Learn More",
+    "hero.cta.secondary": "View Packages",
     "why.title": "Why Colombia",
     "why.subtitle": "World leader in high-quality medicine, state-of-the-art technology, and warm care.",
     

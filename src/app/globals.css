@@ -627,6 +627,16 @@ select.form-control option {
 /* ==========================================================================
    Splash Screen / Preloader (Initial Entry)
    ========================================================================== */
+html.splash-hidden .splash-screen {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+html.splash-hidden .home-container {
+  opacity: 1 !important;
+}
+
 .splash-screen {
   position: fixed;
   top: 0;

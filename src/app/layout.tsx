@@ -27,6 +27,16 @@ export default function RootLayout({
     <html lang="es" className={inter.variable}>
       <head>
         <link rel="icon" href="/favicon.ico" />
+        <script dangerouslySetInnerHTML={{__html: `
+          (function() {
+            try {
+              var hasShown = sessionStorage.getItem("bc_splash_shown");
+              if (hasShown) {
+                document.documentElement.classList.add("splash-hidden");
+              }
+            } catch (e) {}
+          })();
+        `}} />
       </head>
       <body>
         <LanguageProvider>
