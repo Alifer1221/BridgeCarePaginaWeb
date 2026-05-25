@@ -195,6 +195,94 @@ a {
   box-shadow: 0 8px 24px rgba(93, 202, 165, 0.55);
 }
 
+/* ==========================================================================
+   Bridge Care Premium Hero & Packages Buttons (MyHealthPrac Style)
+   ========================================================================== */
+
+/* 1. "Quiero Saber Más" - White Pill with dark arrow circle */
+.btn-pill-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  background-color: rgba(245, 246, 247, 0.98);
+  color: #000000 !important;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.4rem 0.4rem 1.6rem;
+  border-radius: 9999px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.btn-pill-primary:hover {
+  background-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.18);
+}
+
+.btn-pill-arrow-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: #0c0f0e;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
+}
+
+.btn-pill-primary:hover .btn-pill-arrow-circle {
+  transform: rotate(45deg);
+  background-color: var(--mint-accent);
+  color: #000000;
+}
+
+.pill-arrow-icon {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  fill: none;
+  display: block;
+}
+
+/* 2. "Ver Paquetes" - Black Pill button */
+.hero-packages-badge-container {
+  position: absolute;
+  bottom: 0rem;
+  right: 0rem;
+  z-index: 15;
+}
+
+.hero-packages-badge {
+  display: inline-block;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.75rem 1.75rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.hero-packages-badge:hover {
+  background-color: #0c0f0e !important;
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
 /* Inputs & Form Controls */
 .form-group {
   margin-bottom: 1.5rem;
@@ -306,6 +394,23 @@ select.form-control option {
     right: 1.5rem;
     width: 50px;
     height: 50px;
+  }
+  .btn-pill-primary {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .hero-packages-badge-container {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 1.5rem;
+    width: 100%;
+  }
+  .hero-packages-badge {
+    width: 100%;
+    text-align: center;
   }
 }
 

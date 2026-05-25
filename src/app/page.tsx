@@ -800,75 +800,7 @@ export default function Home() {
           margin-top: 0.5rem;
         }
         
-        /* Pill Button Styling */
-        .btn-pill-primary {
-          display: inline-flex;
-          align-items: center;
-          gap: 1.5rem;
-          background-color: rgba(245, 246, 247, 0.96);
-          color: #0c0f0e !important;
-          font-weight: 700;
-          font-size: 0.95rem;
-          padding: 0.45rem 0.45rem 0.45rem 1.85rem;
-          border-radius: 9999px;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-          cursor: pointer;
-        }
-        .btn-pill-primary:hover {
-          background-color: #ffffff;
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15);
-        }
-        .btn-pill-arrow-circle {
-          width: 38px;
-          height: 38px;
-          border-radius: 50%;
-          background-color: #0c0f0e;
-          color: #ffffff;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .btn-pill-primary:hover .btn-pill-arrow-circle {
-          transform: rotate(45deg);
-        }
-        .pill-arrow-icon {
-          width: 16px;
-          height: 16px;
-        }
-
-        /* Secondary Badge Styling */
-        .hero-packages-badge-container {
-          position: absolute;
-          bottom: 0rem;
-          right: 0rem;
-          z-index: 15;
-        }
-        .hero-packages-badge {
-          display: inline-block;
-          background-color: rgba(12, 15, 14, 0.9);
-          color: var(--white) !important;
-          border: 1.5px solid rgba(255, 255, 255, 0.1);
-          padding: 0.65rem 1.65rem;
-          border-radius: 9999px;
-          font-size: 0.8rem;
-          font-weight: 700;
-          letter-spacing: 0.05em;
-          text-transform: uppercase;
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          transition: all 0.3s ease;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
-        .hero-packages-badge:hover {
-          background-color: rgba(255, 255, 255, 0.08);
-          border-color: rgba(255, 255, 255, 0.3);
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-        }
+        /* Buttons moved to globals.css */
 
         /* Section Headers */
         .section-header {
@@ -1147,10 +1079,7 @@ export default function Home() {
           .hero-right-tagline {
             font-size: 1.1rem;
           }
-          .btn-pill-primary {
-            width: 100%;
-            justify-content: space-between;
-          }
+
           .hero-features-list {
             gap: 1.35rem;
           }
