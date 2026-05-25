@@ -385,6 +385,7 @@ select.form-control option {
 .nav-menu {
   display: flex;
   align-items: center;
+  margin-left: auto;
 }
 
 .nav-list {
@@ -492,6 +493,7 @@ select.form-control option {
   display: flex;
   align-items: center;
   gap: 1.25rem;
+  margin-left: 2.5rem;
 }
 
 .lang-toggle-btn {
@@ -660,6 +662,7 @@ select.form-control option {
     transform: translateY(15px);
     transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+    margin-left: 0;
   }
 
   .nav-menu.open {

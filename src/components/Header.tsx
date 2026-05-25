@@ -74,7 +74,7 @@ export default function Header() {
           <ul className="nav-list">
             <li className="nav-item-dropdown">
               <span className="nav-link dropdown-trigger">
-                {t("nav.specialties")} <span className="arrow">▾</span>
+                {t("nav.specialties")}
               </span>
               <ul className="dropdown-menu glass-dropdown">
                 {specialties.map((spec) => (
@@ -95,7 +95,7 @@ export default function Header() {
 
             <li className="nav-item-dropdown">
               <span className="nav-link dropdown-trigger">
-                {t("nav.destinations")} <span className="arrow">▾</span>
+                {t("nav.destinations")}
               </span>
               <ul className="dropdown-menu glass-dropdown">
                 {destinations.map((dest) => (
@@ -130,23 +130,8 @@ export default function Header() {
           </ul>
         </nav>
 
-        {/* Right Side: WhatsApp Link + CTA Book + Language Toggle at the far right */}
+        {/* Right Side: CTA Book */}
         <div className="header-actions">
-          {/* WhatsApp click number */}
-          <a 
-            href={`https://wa.me/573001234567?text=${encodeURIComponent(
-              language === "es" 
-                ? "Hola, quiero agendar una cita con Bridge Care." 
-                : "Hello, I want to book an appointment with Bridge Care."
-            )}`}
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="whatsapp-number-link"
-          >
-            <span className="wa-icon">💬</span>
-            <span className="wa-number">+57 300 123 4567</span>
-          </a>
-
           {/* CTA Book (High visibility Call To Action) */}
           <Link href="/contacto" className="btn-book">
             <span className="btn-book-text">{t("nav.book")}</span>
@@ -157,15 +142,6 @@ export default function Header() {
               </svg>
             </div>
           </Link>
-
-          {/* Language toggle at the far right */}
-          <button 
-            onClick={() => setLanguage(language === "es" ? "en" : "es")}
-            className="lang-toggle-btn"
-            title={language === "es" ? "Switch to English" : "Cambiar a Español"}
-          >
-            {language === "es" ? "EN" : "ES"}
-          </button>
         </div>
       </div>
     </header>
