@@ -108,9 +108,15 @@ a {
 /* Layout Utilities */
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 1.5rem;
+}
+
+@media (min-width: 992px) {
+  .container {
+    padding: 0 3rem;
+  }
 }
 
 .section {
@@ -334,7 +340,7 @@ select.form-control option {
 
 .header-capsule {
   width: 100%;
-  max-width: 1300px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 2.2rem 3rem;
   display: flex;

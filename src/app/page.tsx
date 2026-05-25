@@ -677,6 +677,7 @@ export default function Home() {
           align-items: flex-end;
           min-height: 72vh;
           position: relative;
+          margin-left: 0 !important;
         }
         
         /* Column Left Styling */
