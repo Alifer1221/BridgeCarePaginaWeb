@@ -1053,24 +1053,23 @@ html.splash-hidden .home-container {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.95rem;
+  font-size: 0.7rem; /* Reduced by 5px (~11px) */
   font-weight: 600;
   height: fit-content;
   color: var(--mint-accent); /* Mint color accent */
   letter-spacing: 0.05em;
-  text-transform: uppercase;
 }
 
 .proceso-tag-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: 16px; /* Scaled down with the text */
+  height: 16px; /* Scaled down with the text */
   background-color: var(--mint-accent); /* Mint color icon background */
   color: var(--negro-suave); /* Dark text on mint */
   border-radius: 50%;
-  font-size: 14px;
+  font-size: 10px;
   font-weight: 800;
 }
 
@@ -1079,7 +1078,6 @@ html.splash-hidden .home-container {
   font-weight: 600;
   margin-bottom: 12px;
   color: var(--mint-accent);
-  text-transform: uppercase;
   letter-spacing: 0.08em;
 }
 
