@@ -494,15 +494,19 @@ export default function Home() {
                 </div>
                 <span className="proceso-card-number">01</span>
               </div>
-              <div className="proceso-card-icon">📝</div>
-              <h3 className="proceso-card-title">
-                {language === "es" ? "Cuéntanos qué necesitas" : "Tell us what you need"}
-              </h3>
-              <p className="proceso-card-desc">
-                {language === "es" 
-                  ? "Llena nuestro formulario en menos de 2 minutos. Sin compromisos ni costos."
-                  : "Fill out our form in under 2 minutes. No commitment, no fees."}
-              </p>
+              <div className="proceso-card-body">
+                <div className="proceso-card-icon">📝</div>
+                <div className="proceso-card-content">
+                  <h3 className="proceso-card-title">
+                    {language === "es" ? "Cuéntanos qué necesitas" : "Tell us what you need"}
+                  </h3>
+                  <p className="proceso-card-desc">
+                    {language === "es" 
+                      ? "Llena nuestro formulario en menos de 2 minutos. Sin compromisos ni costos."
+                      : "Fill out our form in under 2 minutes. No commitment, no fees."}
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div className="proceso-card">
@@ -515,15 +519,19 @@ export default function Home() {
                 </div>
                 <span className="proceso-card-number">02</span>
               </div>
-              <div className="proceso-card-icon">📋</div>
-              <h3 className="proceso-card-title">
-                {language === "es" ? "Recibe tu plan personalizado" : "Receive your personalized plan"}
-              </h3>
-              <p className="proceso-card-desc">
-                {language === "es" 
-                  ? "En menos de 24 horas tienes tu propuesta completa: especialista, procedimiento y costos."
-                  : "In less than 24 hours, you get your complete proposal: specialist, procedure, and costs."}
-              </p>
+              <div className="proceso-card-body">
+                <div className="proceso-card-icon">📋</div>
+                <div className="proceso-card-content">
+                  <h3 className="proceso-card-title">
+                    {language === "es" ? "Recibe tu plan personalizado" : "Receive your personalized plan"}
+                  </h3>
+                  <p className="proceso-card-desc">
+                    {language === "es" 
+                      ? "En menos de 24 horas tienes tu propuesta completa: especialista, procedimiento y costos."
+                      : "In less than 24 hours, you get your complete proposal: specialist, procedure, and costs."}
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div className="proceso-card">
@@ -536,15 +544,19 @@ export default function Home() {
                 </div>
                 <span className="proceso-card-number">03</span>
               </div>
-              <div className="proceso-card-icon">✈️</div>
-              <h3 className="proceso-card-title">
-                {language === "es" ? "Viaja con todo listo" : "Travel with everything ready"}
-              </h3>
-              <p className="proceso-card-desc">
-                {language === "es" 
-                  ? "Vuelo, hotel y traslados ya coordinados. Tú solo llegas a Bogotá."
-                  : "Flights, hotel, and transfers all coordinated. You just arrive in Bogota."}
-              </p>
+              <div className="proceso-card-body">
+                <div className="proceso-card-icon">✈️</div>
+                <div className="proceso-card-content">
+                  <h3 className="proceso-card-title">
+                    {language === "es" ? "Viaja con todo listo" : "Travel with everything ready"}
+                  </h3>
+                  <p className="proceso-card-desc">
+                    {language === "es" 
+                      ? "Vuelo, hotel y traslados ya coordinados. Tú solo llegas a Bogotá."
+                      : "Flights, hotel, and transfers all coordinated. You just arrive in Bogota."}
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div className="proceso-card">
@@ -557,15 +569,19 @@ export default function Home() {
                 </div>
                 <span className="proceso-card-number">04</span>
               </div>
-              <div className="proceso-card-icon">🤝</div>
-              <h3 className="proceso-card-title">
-                {language === "es" ? "Recupérate, nosotros seguimos contigo" : "Recover, we stay by your side"}
-              </h3>
-              <p className="proceso-card-desc">
-                {language === "es" 
-                  ? "Acompañamiento post-procedimiento hasta que estés de vuelta en casa."
-                  : "Post-procedure support until you are safely back home."}
-              </p>
+              <div className="proceso-card-body">
+                <div className="proceso-card-icon">🤝</div>
+                <div className="proceso-card-content">
+                  <h3 className="proceso-card-title">
+                    {language === "es" ? "Recupérate, nosotros seguimos contigo" : "Recover, we stay by your side"}
+                  </h3>
+                  <p className="proceso-card-desc">
+                    {language === "es" 
+                      ? "Acompañamiento post-procedimiento hasta que estés de vuelta en casa."
+                      : "Post-procedure support until you are safely back home."}
+                  </p>
+                </div>
+              </div>
             </div>
 
           </div>

@@ -1164,16 +1164,30 @@ html.splash-hidden .home-container {
   letter-spacing: 0.05em;
 }
 
+.proceso-card-body {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
 .proceso-card-icon {
   font-size: 2.2rem;
-  margin-bottom: 16px;
+  line-height: 1;
+  flex-shrink: 0;
   display: flex;
+  margin-bottom: 0;
+}
+
+.proceso-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .proceso-card-title {
   font-size: 1.05rem;
   font-weight: 600;
-  margin-bottom: 10px;
+  margin-bottom: 0;
   line-height: 1.35;
   color: var(--white);
 }
