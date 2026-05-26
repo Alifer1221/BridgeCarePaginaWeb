@@ -450,34 +450,34 @@ export default function Home() {
         </div>
       </section>
 
-      {/* MI PROCESO - DESARROLLO MVP */}
+      {/* MI PROCESO - NUESTRO PROCESO */}
       <section className="proceso-section">
         <div className="proceso-container">
           <div className="proceso-header">
             <div className="proceso-tag">
-              <span className="proceso-tag-icon">+</span>
-              {language === "es" ? "Mi Proceso" : "My Process"}
+              <span className="proceso-tag-icon">✦</span>
+              {language === "es" ? "Nuestro Proceso" : "Our Process"}
             </div>
             
             <div className="proceso-header-content">
-              <h4>{language === "es" ? "Desarrollo MVP" : "MVP Development"}</h4>
+              <h4>{language === "es" ? "Cómo Funciona" : "How It Works"}</h4>
               <h2>
                 {language === "es" ? (
                   <>
-                    Del concepto al lanzamiento<br />
-                    <span>en solo 4 semanas</span>
+                    Así de simple es<br />
+                    <span>tu tratamiento en Colombia</span>
                   </>
                 ) : (
                   <>
-                    From concept to launch<br />
-                    <span>in just 4 weeks</span>
+                    As simple as that:<br />
+                    <span>your treatment in Colombia</span>
                   </>
                 )}
               </h2>
               <p>
                 {language === "es" 
-                  ? "Un proceso transparente y eficiente desde tu concepto inicial hasta un MVP listo para el mercado. Así es exactamente como lo hago realidad."
-                  : "A transparent and efficient process from your initial concept to a market-ready MVP. This is exactly how I make it happen."}
+                  ? "Un proceso transparente y sin estrés desde tu primera consulta hasta tu recuperación completa. Así es exactamente como lo gestionamos."
+                  : "A transparent and stress-free process from your very first consultation to your complete recovery. That is exactly how we manage it."}
               </p>
             </div>
           </div>
@@ -494,14 +494,14 @@ export default function Home() {
                 </div>
                 <span className="proceso-card-number">01</span>
               </div>
-              <div className="proceso-card-icon">🚜</div>
+              <div className="proceso-card-icon">📝</div>
               <h3 className="proceso-card-title">
-                {language === "es" ? "Llamada de Descubrimiento y Plan de Acción" : "Discovery Call & Action Plan"}
+                {language === "es" ? "Cuéntanos qué necesitas" : "Tell us what you need"}
               </h3>
               <p className="proceso-card-desc">
                 {language === "es" 
-                  ? "Consulta gratuita para validar tu idea y crear una hoja de ruta clara."
-                  : "Free consultation to validate your idea and create a clear roadmap."}
+                  ? "Llena nuestro formulario en menos de 2 minutos. Sin compromisos ni costos."
+                  : "Fill out our form in under 2 minutes. No commitment, no fees."}
               </p>
             </div>
 
@@ -515,14 +515,14 @@ export default function Home() {
                 </div>
                 <span className="proceso-card-number">02</span>
               </div>
-              <div className="proceso-card-icon">👷</div>
+              <div className="proceso-card-icon">📋</div>
               <h3 className="proceso-card-title">
-                {language === "es" ? "Desarrollo Práctico" : "Hands-on Development"}
+                {language === "es" ? "Recibe tu plan personalizado" : "Receive your personalized plan"}
               </h3>
               <p className="proceso-card-desc">
                 {language === "es" 
-                  ? "Desarrollo full-stack con actualizaciones semanales. Construyendo tu MVP píxel a píxel."
-                  : "Full-stack development with weekly updates. Building your MVP pixel by pixel."}
+                  ? "En menos de 24 horas tienes tu propuesta completa: especialista, procedimiento y costos."
+                  : "In less than 24 hours, you get your complete proposal: specialist, procedure, and costs."}
               </p>
             </div>
 
@@ -536,14 +536,14 @@ export default function Home() {
                 </div>
                 <span className="proceso-card-number">03</span>
               </div>
-              <div className="proceso-card-icon">🧍</div>
+              <div className="proceso-card-icon">✈️</div>
               <h3 className="proceso-card-title">
-                {language === "es" ? "Pruebas e Iteración" : "Testing & Iteration"}
+                {language === "es" ? "Viaja con todo listo" : "Travel with everything ready"}
               </h3>
               <p className="proceso-card-desc">
                 {language === "es" 
-                  ? "Pruebas de usuario, integración de feedback y ajustes finales antes del lanzamiento."
-                  : "User testing, feedback integration, and final adjustments before launch."}
+                  ? "Vuelo, hotel y traslados ya coordinados. Tú solo llegas a Bogotá."
+                  : "Flights, hotel, and transfers all coordinated. You just arrive in Bogota."}
               </p>
             </div>
 
@@ -557,14 +557,14 @@ export default function Home() {
                 </div>
                 <span className="proceso-card-number">04</span>
               </div>
-              <div className="proceso-card-icon">🏗️</div>
+              <div className="proceso-card-icon">🤝</div>
               <h3 className="proceso-card-title">
-                {language === "es" ? "Lanzamiento y Soporte de 4 Semanas" : "Launch & 4-Week Support"}
+                {language === "es" ? "Recupérate, nosotros seguimos contigo" : "Recover, we stay by your side"}
               </h3>
               <p className="proceso-card-desc">
                 {language === "es" 
-                  ? "Despliegue a producción más soporte extendido para asegurar el éxito."
-                  : "Deployment to production plus extended support to ensure success."}
+                  ? "Acompañamiento post-procedimiento hasta que estés de vuelta en casa."
+                  : "Post-procedure support until you are safely back home."}
               </p>
             </div>
 
