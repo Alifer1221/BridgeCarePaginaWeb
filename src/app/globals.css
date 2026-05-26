@@ -1178,6 +1178,12 @@ html.splash-hidden .home-container {
   margin-bottom: 0;
 }
 
+.proceso-svg-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
 .proceso-card-content {
   display: flex;
   flex-direction: column;

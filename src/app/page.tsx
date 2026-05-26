@@ -495,7 +495,9 @@ export default function Home() {
                 <span className="proceso-card-number">01</span>
               </div>
               <div className="proceso-card-body">
-                <div className="proceso-card-icon">📝</div>
+                <div className="proceso-card-icon">
+                  <img src="/bridgecare_icon_01.svg" alt="Form" className="proceso-svg-icon" />
+                </div>
                 <div className="proceso-card-content">
                   <h3 className="proceso-card-title">
                     {language === "es" ? "Cuéntanos qué necesitas" : "Tell us what you need"}
@@ -520,7 +522,9 @@ export default function Home() {
                 <span className="proceso-card-number">02</span>
               </div>
               <div className="proceso-card-body">
-                <div className="proceso-card-icon">📋</div>
+                <div className="proceso-card-icon">
+                  <img src="/bridgecare_icon_02.svg" alt="Plan" className="proceso-svg-icon" />
+                </div>
                 <div className="proceso-card-content">
                   <h3 className="proceso-card-title">
                     {language === "es" ? "Recibe tu plan personalizado" : "Receive your personalized plan"}
@@ -545,7 +549,9 @@ export default function Home() {
                 <span className="proceso-card-number">03</span>
               </div>
               <div className="proceso-card-body">
-                <div className="proceso-card-icon">✈️</div>
+                <div className="proceso-card-icon">
+                  <img src="/bridgecare_icon_03.svg" alt="Travel" className="proceso-svg-icon" />
+                </div>
                 <div className="proceso-card-content">
                   <h3 className="proceso-card-title">
                     {language === "es" ? "Viaja con todo listo" : "Travel with everything ready"}
@@ -570,7 +576,9 @@ export default function Home() {
                 <span className="proceso-card-number">04</span>
               </div>
               <div className="proceso-card-body">
-                <div className="proceso-card-icon">🤝</div>
+                <div className="proceso-card-icon">
+                  <img src="/bridgecare_icon_04.svg" alt="Recovery" className="proceso-svg-icon" />
+                </div>
                 <div className="proceso-card-content">
                   <h3 className="proceso-card-title">
                     {language === "es" ? "Recupérate, nosotros seguimos contigo" : "Recover, we stay by your side"}

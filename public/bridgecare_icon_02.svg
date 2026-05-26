@@ -1,0 +1,14 @@
+<svg width="200" height="200" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- Document -->
+  <rect x="18" y="10" width="38" height="50" rx="5" fill="#ffffff" opacity="0.95"/>
+  <path d="M44 10 L56 22 L44 22 Z" fill="#c8e6dc"/>
+  <rect x="44" y="10" width="12" height="12" rx="0" fill="#1DB88E" opacity="0.3"/>
+  <!-- Lines -->
+  <rect x="24" y="28" width="20" height="3.5" rx="1.75" fill="#1DB88E"/>
+  <rect x="24" y="35" width="26" height="3" rx="1.5" fill="#ccc"/>
+  <rect x="24" y="42" width="22" height="3" rx="1.5" fill="#ccc"/>
+  <rect x="24" y="49" width="16" height="3" rx="1.5" fill="#ccc"/>
+  <!-- Check badge -->
+  <circle cx="56" cy="58" r="12" fill="#1DB88E"/>
+  <polyline points="50,58 54,62 62,52" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

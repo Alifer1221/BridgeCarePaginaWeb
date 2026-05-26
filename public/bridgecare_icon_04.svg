@@ -1,0 +1,14 @@
+<svg width="200" height="200" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- Heart -->
+  <path d="M40 65 C40 65 14 50 14 30 C14 20 22 14 30 16 C34 17 37 20 40 24 C43 20 46 17 50 16 C58 14 66 20 66 30 C66 50 40 65 40 65Z" fill="#1DB88E"/>
+  <!-- Heart shine -->
+  <path d="M24 22 C22 26 22 31 25 35" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="3" stroke-linecap="round"/>
+  <!-- Person -->
+  <circle cx="40" cy="34" r="7" fill="#fff" opacity="0.95"/>
+  <path d="M29 50 Q40 43 51 50" fill="#fff" opacity="0.95"/>
+  <!-- Smile -->
+  <path d="M37 35 Q40 38 43 35" fill="none" stroke="#1DB88E" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- Medical cross -->
+  <rect x="55" y="12" width="12" height="4" rx="2" fill="#fff" opacity="0.8"/>
+  <rect x="59" y="8" width="4" height="12" rx="2" fill="#fff" opacity="0.8"/>
+</svg>
