@@ -450,6 +450,128 @@ export default function Home() {
         </div>
       </section>
 
+      {/* MI PROCESO - DESARROLLO MVP */}
+      <section className="proceso-section">
+        <div className="proceso-container">
+          <div className="proceso-header">
+            <div className="proceso-tag">
+              <span className="proceso-tag-icon">+</span>
+              {language === "es" ? "Mi Proceso" : "My Process"}
+            </div>
+            
+            <div className="proceso-header-content">
+              <h4>{language === "es" ? "Desarrollo MVP" : "MVP Development"}</h4>
+              <h2>
+                {language === "es" ? (
+                  <>
+                    Del concepto al lanzamiento<br />
+                    <span>en solo 4 semanas</span>
+                  </>
+                ) : (
+                  <>
+                    From concept to launch<br />
+                    <span>in just 4 weeks</span>
+                  </>
+                )}
+              </h2>
+              <p>
+                {language === "es" 
+                  ? "Un proceso transparente y eficiente desde tu concepto inicial hasta un MVP listo para el mercado. Así es exactamente como lo hago realidad."
+                  : "A transparent and efficient process from your initial concept to a market-ready MVP. This is exactly how I make it happen."}
+              </p>
+            </div>
+          </div>
+
+          <div className="proceso-cards-grid">
+            
+            <div className="proceso-card">
+              <div className="proceso-card-header">
+                <div className="proceso-dots">
+                  <span className="proceso-dot active"></span>
+                  <span className="proceso-dot"></span>
+                  <span className="proceso-dot"></span>
+                  <span className="proceso-dot"></span>
+                </div>
+                <span className="proceso-card-number">01</span>
+              </div>
+              <div className="proceso-card-icon">🚜</div>
+              <h3 className="proceso-card-title">
+                {language === "es" ? "Llamada de Descubrimiento y Plan de Acción" : "Discovery Call & Action Plan"}
+              </h3>
+              <p className="proceso-card-desc">
+                {language === "es" 
+                  ? "Consulta gratuita para validar tu idea y crear una hoja de ruta clara."
+                  : "Free consultation to validate your idea and create a clear roadmap."}
+              </p>
+            </div>
+
+            <div className="proceso-card">
+              <div className="proceso-card-header">
+                <div className="proceso-dots">
+                  <span className="proceso-dot"></span>
+                  <span className="proceso-dot active"></span>
+                  <span className="proceso-dot"></span>
+                  <span className="proceso-dot"></span>
+                </div>
+                <span className="proceso-card-number">02</span>
+              </div>
+              <div className="proceso-card-icon">👷</div>
+              <h3 className="proceso-card-title">
+                {language === "es" ? "Desarrollo Práctico" : "Hands-on Development"}
+              </h3>
+              <p className="proceso-card-desc">
+                {language === "es" 
+                  ? "Desarrollo full-stack con actualizaciones semanales. Construyendo tu MVP píxel a píxel."
+                  : "Full-stack development with weekly updates. Building your MVP pixel by pixel."}
+              </p>
+            </div>
+
+            <div className="proceso-card">
+              <div className="proceso-card-header">
+                <div className="proceso-dots">
+                  <span className="proceso-dot"></span>
+                  <span className="proceso-dot"></span>
+                  <span className="proceso-dot active"></span>
+                  <span className="proceso-dot"></span>
+                </div>
+                <span className="proceso-card-number">03</span>
+              </div>
+              <div className="proceso-card-icon">🧍</div>
+              <h3 className="proceso-card-title">
+                {language === "es" ? "Pruebas e Iteración" : "Testing & Iteration"}
+              </h3>
+              <p className="proceso-card-desc">
+                {language === "es" 
+                  ? "Pruebas de usuario, integración de feedback y ajustes finales antes del lanzamiento."
+                  : "User testing, feedback integration, and final adjustments before launch."}
+              </p>
+            </div>
+
+            <div className="proceso-card">
+              <div className="proceso-card-header">
+                <div className="proceso-dots">
+                  <span className="proceso-dot"></span>
+                  <span className="proceso-dot"></span>
+                  <span className="proceso-dot"></span>
+                  <span className="proceso-dot active"></span>
+                </div>
+                <span className="proceso-card-number">04</span>
+              </div>
+              <div className="proceso-card-icon">🏗️</div>
+              <h3 className="proceso-card-title">
+                {language === "es" ? "Lanzamiento y Soporte de 4 Semanas" : "Launch & 4-Week Support"}
+              </h3>
+              <p className="proceso-card-desc">
+                {language === "es" 
+                  ? "Despliegue a producción más soporte extendido para asegurar el éxito."
+                  : "Deployment to production plus extended support to ensure success."}
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       {/* 2. POR QUÉ COLOMBIA */}
       <section className="section why-colombia-section">
         <div className="container">
