@@ -805,8 +805,8 @@ export default function Home() {
           left: 0;
           right: 0;
           bottom: 0;
-          background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.8) 100%), 
-                      linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.98) 100%);
+          background: radial-gradient(circle at 70% 30%, rgba(250, 246, 240, 0.15) 0%, rgba(250, 246, 240, 0.8) 100%), 
+                      linear-gradient(to bottom, rgba(250, 246, 240, 0.4) 0%, rgba(250, 246, 240, 0.1) 50%, rgba(250, 246, 240, 0.98) 100%);
           z-index: 2;
           pointer-events: none;
         }
