@@ -2,24 +2,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  /* Color Palette - Glowing Premium Dark */
+  /* Color Palette - Premium Light */
   --teal-primary: #1D7A6E;
   --teal-dark: #0A4A42;
-  --mint-accent: #5DCAA5;
-  --verde-noche: #0A1F1A;
-  --negro-suave: #080909;
-  --gris-texto: #A3B8B4;
-  --blanco-hueso: #E2E8F0;
-  --white: #ffffff;
-  --light-gray: rgba(93, 202, 165, 0.12);
+  --mint-accent: #19665c; /* Darker green/teal accent for visibility in light theme */
+  --verde-noche: #f5f7f6; /* Very light gray/mint for contrast */
+  --negro-suave: #ffffff; /* White background */
+  --gris-texto: #515856; /* Dark gray for secondary/paragraph text */
+  --blanco-hueso: #1c2422; /* Almost black for body text */
+  --white: #0f1614; /* Dark slate-black for headings */
+  --light-gray: rgba(29, 122, 110, 0.08);
+
+  /* Pure white token for elements that must stay white in light mode */
+  --pure-white: #ffffff;
 
   /* Typography */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   /* UI Tokens */
-  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.1);
   --radius-sm: 8px;
   --radius-md: 16px;
   --radius-lg: 28px;
@@ -90,18 +93,18 @@ a {
 
 /* Glassmorphism Card Utility */
 .glass-card {
-  background: rgba(15, 17, 17, 0.7);
+  background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: var(--radius-md);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.06);
   transition: var(--transition);
 }
 
 .glass-card:hover {
-  border-color: rgba(93, 202, 165, 0.4);
-  box-shadow: 0 12px 40px 0 rgba(93, 202, 165, 0.15);
+  border-color: rgba(29, 122, 110, 0.25);
+  box-shadow: 0 12px 40px 0 rgba(29, 122, 110, 0.1);
   transform: translateY(-4px);
 }
 
@@ -146,7 +149,7 @@ a {
 
 .btn-primary {
   background-color: var(--teal-primary);
-  color: var(--white);
+  color: var(--pure-white);
   border: 1px solid rgba(93, 202, 165, 0.25);
   box-shadow: 0 4px 14px rgba(29, 122, 110, 0.4);
 }
@@ -170,8 +173,8 @@ a {
 }
 
 .btn-white {
-  background-color: var(--white);
-  color: var(--negro-suave);
+  background-color: var(--pure-white);
+  color: var(--blanco-hueso);
   box-shadow: var(--shadow-md);
 }
 
@@ -436,11 +439,11 @@ select.form-control option {
 
 /* When scrolled, apply esmerilado background and shadow */
 .site-header-wrapper.scrolled {
-  background-color: rgba(10, 12, 11, 0.85);
+  background-color: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 }
 
 .header-capsule {
@@ -473,7 +476,7 @@ select.form-control option {
 .logo-img {
   height: 44px;
   width: auto;
-  filter: brightness(0) invert(1); /* Forces logo to be pure white */
+  filter: brightness(0.1); /* Forces logo to be dark gray */
   transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease;
   transform: translateY(9px); /* Shift visual weight down for perfect center alignment */
 }
@@ -505,14 +508,14 @@ select.form-control option {
 .nav-separator {
   display: flex;
   align-items: center;
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(0, 0, 0, 0.15);
   font-size: 0.7rem;
   user-select: none;
   line-height: 1;
 }
 
 .nav-link {
-  color: rgba(255, 255, 255, 0.7) !important;
+  color: rgba(0, 0, 0, 0.7) !important;
   font-weight: 500 !important;
   font-size: 0.82rem !important;
   cursor: pointer !important;
@@ -525,7 +528,7 @@ select.form-control option {
 }
 
 .nav-link:hover {
-  color: var(--white) !important;
+  color: var(--mint-accent) !important;
 }
 
 /* Dropdowns */
@@ -563,7 +566,7 @@ select.form-control option {
   min-width: 200px;
   border-radius: var(--radius-md);
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   z-index: 10;
 }
 
@@ -574,8 +577,8 @@ select.form-control option {
 }
 
 .glass-dropdown {
-  background: rgba(10, 12, 11, 0.98);
-  border: 1px solid rgba(93, 202, 165, 0.15);
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(10px);
 }
 
@@ -588,7 +591,7 @@ select.form-control option {
 }
 
 .dropdown-item:hover {
-  background-color: rgba(93, 202, 165, 0.08);
+  background-color: rgba(29, 122, 110, 0.06);
   color: var(--mint-accent);
   padding-left: 1.5rem;
 }
@@ -604,7 +607,7 @@ select.form-control option {
 .lang-toggle-btn {
   background: transparent !important;
   border: none !important;
-  color: rgba(255, 255, 255, 0.6) !important;
+  color: rgba(0, 0, 0, 0.6) !important;
   font-size: 0.8rem !important;
   font-weight: 600 !important;
   padding: 0.5rem !important;
@@ -614,7 +617,7 @@ select.form-control option {
 }
 
 .lang-toggle-btn:hover {
-  color: var(--white) !important;
+  color: var(--mint-accent) !important;
   transform: scale(1.05) !important;
 }
 
@@ -1112,13 +1115,13 @@ html.splash-hidden .home-container {
 }
 
 .proceso-card {
-  background: rgba(255, 255, 255, 0.03); /* Glassmorphism look */
+  background: rgba(0, 0, 0, 0.02); /* Soft light gray card */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: 16px;
   padding: 24px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.03);
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), 
               border-color 0.35s ease, 
               box-shadow 0.35s ease,
@@ -1129,9 +1132,9 @@ html.splash-hidden .home-container {
 
 .proceso-card:hover {
   transform: translateY(-6px);
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(93, 202, 165, 0.35); /* Glow mint-accent border on hover */
-  box-shadow: 0 12px 30px rgba(93, 202, 165, 0.08); /* Mint glow shadow */
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(29, 122, 110, 0.25);
+  box-shadow: 0 12px 30px rgba(29, 122, 110, 0.06);
 }
 
 .proceso-card-header {
@@ -1150,7 +1153,7 @@ html.splash-hidden .home-container {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .proceso-dot.active {

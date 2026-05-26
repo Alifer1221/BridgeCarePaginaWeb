@@ -773,7 +773,7 @@ export default function Home() {
           position: relative;
           z-index: 1;
           overflow: hidden;
-          background-color: #0c0f0e;
+          background-color: var(--negro-suave);
           color: var(--white);
           min-height: 100vh;
           display: flex;
@@ -797,7 +797,7 @@ export default function Home() {
           transition: opacity 0.3s ease-in-out;
         }
         .hero-video.playing {
-          opacity: 1;
+          opacity: 0.25; /* Soft watermark video on white */
         }
         .hero-overlay {
           position: absolute;
@@ -805,8 +805,8 @@ export default function Home() {
           left: 0;
           right: 0;
           bottom: 0;
-          background: radial-gradient(circle at 70% 30%, rgba(12, 15, 14, 0.15) 0%, rgba(12, 15, 14, 0.8) 100%), 
-                      linear-gradient(to bottom, rgba(12, 15, 14, 0.6) 0%, rgba(12, 15, 14, 0.1) 50%, rgba(12, 15, 14, 0.95) 100%);
+          background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.8) 100%), 
+                      linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.98) 100%);
           z-index: 2;
           pointer-events: none;
         }
@@ -906,7 +906,7 @@ export default function Home() {
         }
         .hero-feature-desc {
           font-size: 0.84rem;
-          color: rgba(255, 255, 255, 0.65);
+          color: var(--gris-texto);
           margin: 0;
           line-height: 1.4;
           max-width: 320px;
