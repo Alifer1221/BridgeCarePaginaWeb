@@ -1471,19 +1471,79 @@ html.splash-hidden .home-container {
   padding: 6rem 0;
   width: 100%;
 }
-
-.why-colombia-section .section-header {
-  text-align: left;
-  margin-left: 0;
+.why-col-header {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 20px;
+  margin-bottom: 50px;
 }
 
-.why-colombia-section .header-bar {
-  margin-left: 0;
+.why-col-tag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  height: fit-content;
+  color: var(--mint-accent);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
-.why-colombia-section h2 em {
-  font-style: normal;
-  color: var(--teal-primary);
+.why-col-tag-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background-color: var(--mint-accent);
+  color: var(--negro-suave);
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.why-col-header-content h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--mint-accent);
+  letter-spacing: 0.08em;
+}
+
+.why-col-header-content h2 {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  color: var(--white);
+  background: linear-gradient(135deg, var(--white) 30%, var(--gris-texto) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.why-col-header-content h2 span {
+  color: var(--gris-texto);
+  -webkit-text-fill-color: var(--gris-texto);
+}
+
+.why-col-header-content p {
+  color: var(--gris-texto);
+  font-size: 1.05rem;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+@media (max-width: 992px) {
+  .why-col-header {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+  .why-col-header-content h2 {
+    font-size: 2.25rem;
+  }
 }
 
 .why-col-main-card {

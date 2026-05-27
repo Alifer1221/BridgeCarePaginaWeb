@@ -997,23 +997,33 @@ export default function Home() {
       {/* 2. POR QUÉ COLOMBIA */}
       <section className="section why-colombia-section">
         <div className="container">
-          <div className="section-header">
-            <span className="section-subtitle">
+          <div className="why-col-header">
+            <div className="why-col-tag">
+              <span className="why-col-tag-icon">✦</span>
               {language === "es" ? "¿Por qué Colombia?" : "Why Colombia?"}
-            </span>
-            <h2>
-              {language === "es" ? (
-                <>Una decisión inteligente, una experiencia <em>inolvidable</em></>
-              ) : (
-                <>A smart decision, an <em>unforgettable</em> experience</>
-              )}
-            </h2>
-            <div className="header-bar"></div>
-            <p className="section-desc">
-              {language === "es"
-                ? "Colombia no es un destino de segunda opción — es la primera elección de quienes saben lo que quieren."
-                : "Colombia is not a second-choice destination — it is the first choice for those who know what they want."}
-            </p>
+            </div>
+            
+            <div className="why-col-header-content">
+              <h4>{language === "es" ? "Excelencia e Innovación" : "Excellence & Innovation"}</h4>
+              <h2>
+                {language === "es" ? (
+                  <>
+                    Una decisión inteligente,<br />
+                    <span>una experiencia inolvidable</span>
+                  </>
+                ) : (
+                  <>
+                    A smart decision,<br />
+                    <span>an unforgettable experience</span>
+                  </>
+                )}
+              </h2>
+              <p>
+                {language === "es"
+                  ? "Colombia no es un destino de segunda opción — es la primera elección de quienes saben lo que quieren."
+                  : "Colombia is not a second-choice destination — it is the first choice for those who know what they want."}
+              </p>
+            </div>
           </div>
 
           <article className="why-col-main-card">
