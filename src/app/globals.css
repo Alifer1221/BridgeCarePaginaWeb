@@ -1245,7 +1245,11 @@ html.splash-hidden .home-container {
 }
 
 .esp-specialties-tabs-section .section-header {
-  margin-bottom: 1.75rem;
+  margin-bottom: 0.8rem;
+}
+
+.esp-specialties-tabs-section .section-desc {
+  margin-bottom: 0;
 }
 
 .esp-main-wrapper {
