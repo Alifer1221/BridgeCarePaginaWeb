@@ -1244,6 +1244,10 @@ html.splash-hidden .home-container {
   padding: 2.2rem 0 6rem 0;
 }
 
+.esp-specialties-tabs-section .section-header {
+  margin-bottom: 2.5rem;
+}
+
 .esp-main-wrapper {
   max-width: 1100px;
   margin: 0 auto;
