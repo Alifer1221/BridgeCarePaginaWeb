@@ -41,7 +41,7 @@ const whySlides = [
     ]
   },
   {
-    image: "https://images.unsplash.com/photo-1596120202271-925206ee85cf?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1570114603079-42b0d122f16f?auto=format&fit=crop&q=80&w=800",
     locationEs: "Medellín, Colombia",
     locationEn: "Medellin, Colombia",
     labelEs: "Innovación Médica",
@@ -76,7 +76,7 @@ const whySlides = [
     ]
   },
   {
-    image: "https://images.unsplash.com/photo-1589909202802-8f4aadce1849?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1590001155093-a3c66ab0c3ff?auto=format&fit=crop&q=80&w=800",
     locationEs: "Bogotá, Colombia",
     locationEn: "Bogota, Colombia",
     labelEs: "Liderazgo Médico",
@@ -111,7 +111,7 @@ const whySlides = [
     ]
   },
   {
-    image: "https://images.unsplash.com/photo-1628150383188-75c1d354b1f6?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1598449356475-b9f71db7d847?auto=format&fit=crop&q=80&w=800",
     locationEs: "Cali, Colombia",
     locationEn: "Cali, Colombia",
     labelEs: "Cuidado Humano",
@@ -159,6 +159,51 @@ export default function Home() {
   const [typedPart2, setTypedPart2] = useState("");
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const [displayedWhyTitle, setDisplayedWhyTitle] = useState("");
+  const [displayedWhyDesc, setDisplayedWhyDesc] = useState("");
+
+  useEffect(() => {
+    if (!mounted) return;
+    const fullTitle = language === "es" ? whySlides[currentWhySlide].titleEs : whySlides[currentWhySlide].titleEn;
+    const fullDesc = language === "es" ? whySlides[currentWhySlide].descEs : whySlides[currentWhySlide].descEn;
+
+    setDisplayedWhyTitle("");
+    setDisplayedWhyDesc("");
+
+    let titleIndex = 0;
+    let descIndex = 0;
+    let titleText = "";
+    let descText = "";
+
+    // Type title first
+    const typeTitleInterval = setInterval(() => {
+      if (titleIndex < fullTitle.length) {
+        titleText += fullTitle[titleIndex];
+        setDisplayedWhyTitle(titleText);
+        titleIndex++;
+      } else {
+        clearInterval(typeTitleInterval);
+        
+        // Start typing description after title is finished
+        const typeDescInterval = setInterval(() => {
+          if (descIndex < fullDesc.length) {
+            descText += fullDesc[descIndex];
+            setDisplayedWhyDesc(descText);
+            descIndex++;
+          } else {
+            clearInterval(typeDescInterval);
+          }
+        }, 6); // Fast typing for description
+        
+        return () => clearInterval(typeDescInterval);
+      }
+    }, 12); // Fast typing for title
+
+    return () => {
+      clearInterval(typeTitleInterval);
+    };
+  }, [currentWhySlide, language, mounted]);
 
   // Reset typewriter when language changes
   useEffect(() => {
@@ -1022,10 +1067,16 @@ export default function Home() {
                 {language === "es" ? whySlides[currentWhySlide].labelEs : whySlides[currentWhySlide].labelEn}
               </span>
               <h3 className="why-col-title">
-                {language === "es" ? whySlides[currentWhySlide].titleEs : whySlides[currentWhySlide].titleEn}
+                {displayedWhyTitle}
+                {displayedWhyTitle.length < (language === "es" ? whySlides[currentWhySlide].titleEs : whySlides[currentWhySlide].titleEn).length && (
+                  <span className="why-col-cursor">|</span>
+                )}
               </h3>
               <p className="why-col-desc">
-                {language === "es" ? whySlides[currentWhySlide].descEs : whySlides[currentWhySlide].descEn}
+                {displayedWhyDesc}
+                {displayedWhyDesc.length > 0 && displayedWhyDesc.length < (language === "es" ? whySlides[currentWhySlide].descEs : whySlides[currentWhySlide].descEn).length && (
+                  <span className="why-col-cursor">|</span>
+                )}
               </p>
               
               <div className="why-col-pillars">
