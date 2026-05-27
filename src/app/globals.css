@@ -1308,7 +1308,7 @@ html.splash-hidden .home-container {
   transform: translate(-50%, -50%);
   width: 700px;
   height: 700px;
-  background: radial-gradient(circle, rgba(29, 122, 110, 0.12) 0%, rgba(255, 255, 255, 0) 65%);
+  background: radial-gradient(circle, rgba(29, 122, 110, 0.42) 0%, rgba(255, 255, 255, 0) 65%);
   filter: blur(40px);
   z-index: 1;
   pointer-events: none;
