@@ -1241,7 +1241,7 @@ html.splash-hidden .home-container {
   --esp-font-main: var(--font-sans);
   
   background-color: var(--esp-bg-page);
-  padding: 1rem 0 6rem 0;
+  padding: 2.2rem 0 6rem 0;
 }
 
 .esp-main-wrapper {
