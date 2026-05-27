@@ -804,53 +804,125 @@ export default function Home() {
         <div className="container">
           <div className="section-header text-center">
             <span className="section-subtitle">
-              {language === "es" ? "Excelencia e Innovación" : "Excellence & Innovation"}
+              {language === "es" ? "¿Por qué Colombia?" : "Why Colombia?"}
             </span>
-            <h2>{t("why.title")}</h2>
+            <h2>
+              {language === "es" ? (
+                <>Una decisión inteligente, una experiencia <em>inolvidable</em></>
+              ) : (
+                <>A smart decision, an <em>unforgettable</em> experience</>
+              )}
+            </h2>
             <div className="header-bar"></div>
-            <p className="section-desc">{t("why.subtitle")}</p>
+            <p className="section-desc">
+              {language === "es"
+                ? "Colombia no es un destino de segunda opción — es la primera elección de quienes saben lo que quieren."
+                : "Colombia is not a second-choice destination — it is the first choice for those who know what they want."}
+            </p>
           </div>
 
-          <div className="grid grid-4 why-grid">
-            <div className="why-card glass-card">
-              <div className="why-icon-box">
-                <svg width="26" height="26" style={{ width: "26px", height: "26px" }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
-                </svg>
+          <article className="why-col-main-card">
+            <div 
+              className="why-col-img-col" 
+              style={{ backgroundImage: `url('https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&q=80&w=800')` }}
+            >
+              <div className="why-col-img-tag">
+                <div className="why-col-img-tag-dot"></div>
+                <span className="why-col-img-tag-text">
+                  {language === "es" ? "Colombia, América Latina" : "Colombia, Latin America"}
+                </span>
               </div>
-              <h3>{t("why.card1.title")}</h3>
-              <p>{t("why.card1.desc")}</p>
             </div>
 
-            <div className="why-card glass-card">
-              <div className="why-icon-box">
-                <svg width="26" height="26" style={{ width: "26px", height: "26px" }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                </svg>
+            <div className="why-col-content-col">
+              <span className="why-col-label">
+                {language === "es" ? "Lo que te espera" : "What awaits you"}
+              </span>
+              <h3 className="why-col-title">
+                {language === "es" 
+                  ? "Especialistas de talla mundial en un entorno de clase mundial" 
+                  : "World-class specialists in a world-class environment"}
+              </h3>
+              <p className="why-col-desc">
+                {language === "es"
+                  ? "Colombia ha consolidado una generación de médicos con formación internacional que atienden pacientes exigentes de todo el mundo. No vendrás a conformarte — vendrás a sorprenderte."
+                  : "Colombia has consolidated a generation of doctors with international training who care for demanding patients from all over the world. You won't come to settle — you'll come to be amazed."}
+              </p>
+              
+              <div className="why-col-pillars">
+                <div className="why-col-pillar">
+                  <div className="why-col-pillar-icon">✦</div>
+                  <div className="why-col-pillar-text">
+                    <h4 className="why-col-pillar-title">
+                      {language === "es" 
+                        ? "Colombia no es el camino. Es parte del viaje." 
+                        : "Colombia is not just the path. It is part of the journey."}
+                    </h4>
+                    <p className="why-col-pillar-desc">
+                      {language === "es"
+                        ? "Gastronomía, naturaleza, cultura y ciudades que enamoran. Tu recuperación sucede en uno de los destinos más fascinantes de América Latina."
+                        : "Gastronomy, nature, culture, and cities that make you fall in love. Your recovery happens in one of the most fascinating destinations in Latin America."}
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="why-col-pillar">
+                  <div className="why-col-pillar-icon">◎</div>
+                  <div className="why-col-pillar-text">
+                    <h4 className="why-col-pillar-title">
+                      {language === "es" 
+                        ? "Un viaje diseñado alrededor de ti" 
+                        : "A trip designed around you"}
+                    </h4>
+                    <p className="why-col-pillar-desc">
+                      {language === "es"
+                        ? "Bridge Care combina lo mejor de la medicina con lo mejor del turismo. Cada detalle pensado para que vivas una experiencia que va mucho más allá de un procedimiento."
+                        : "Bridge Care combines the best of medicine with the best of tourism. Every detail thought out for you to live an experience that goes far beyond a procedure."}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <h3>{t("why.card2.title")}</h3>
-              <p>{t("why.card2.desc")}</p>
             </div>
+          </article>
 
-            <div className="why-card glass-card">
-              <div className="why-icon-box">
-                <svg width="26" height="26" style={{ width: "26px", height: "26px" }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                </svg>
-              </div>
-              <h3>{t("why.card3.title")}</h3>
-              <p>{t("why.card3.desc")}</p>
+          <div className="why-col-bottom-grid">
+            <div className="why-col-stat-card glass-card">
+              <div className="why-col-stat-line"></div>
+              <div className="why-col-stat-num">50k<span>+</span></div>
+              <h5 className="why-col-stat-title">
+                {language === "es" ? "Pacientes internacionales al año" : "International patients per year"}
+              </h5>
+              <p className="why-col-stat-desc">
+                {language === "es"
+                  ? "Colombia recibe miles de pacientes internacionales cada año que eligen sus especialistas por calidad, no por precio."
+                  : "Colombia receives thousands of international patients each year who choose their specialists for quality, not for price."}
+              </p>
             </div>
-
-            <div className="why-card glass-card">
-              <div className="why-icon-box">
-                <svg width="26" height="26" style={{ width: "26px", height: "26px" }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                </svg>
-              </div>
-              <h3>{t("why.card4.title")}</h3>
-              <p>{t("why.card4.desc")}</p>
+            
+            <div className="why-col-stat-card glass-card">
+              <div className="why-col-stat-line"></div>
+              <div className="why-col-stat-num">Top<span> 3</span></div>
+              <h5 className="why-col-stat-title">
+                {language === "es" ? "Destino médico en Latinoamérica" : "Medical destination in Latin America"}
+              </h5>
+              <p className="why-col-stat-desc">
+                {language === "es"
+                  ? "Reconocido por Patients Beyond Borders como uno de los destinos de turismo médico más destacados de la región."
+                  : "Recognized by Patients Beyond Borders as one of the region's most prominent medical tourism destinations."}
+              </p>
+            </div>
+            
+            <div className="why-col-stat-card glass-card">
+              <div className="why-col-stat-line"></div>
+              <div className="why-col-stat-num">JCI</div>
+              <h5 className="why-col-stat-title">
+                {language === "es" ? "Estándares internacionales" : "International standards"}
+              </h5>
+              <p className="why-col-stat-desc">
+                {language === "es"
+                  ? "Las principales instituciones médicas de Colombia cuentan con acreditaciones internacionales que garantizan los más altos estándares."
+                  : "Colombia's leading medical institutions hold international accreditations guaranteeing the highest safety standards."}
+              </p>
             </div>
           </div>
         </div>
@@ -1182,39 +1254,6 @@ export default function Home() {
           color: var(--gris-texto);
         }
 
-        /* Por qué Colombia */
-        .why-colombia-section {
-          position: relative;
-        }
-        .why-card {
-          padding: 2.5rem 2rem;
-        }
-        .why-icon-box {
-          background-color: rgba(93, 202, 165, 0.08);
-          color: var(--mint-accent);
-          width: 54px;
-          height: 54px;
-          border-radius: var(--radius-sm);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: 1.75rem;
-          border: 1px solid rgba(93, 202, 165, 0.15);
-        }
-        .why-icon {
-          width: 26px;
-          height: 26px;
-        }
-        .why-card h3 {
-          font-size: 1.25rem;
-          margin-bottom: 1rem;
-        }
-        .why-card p {
-          font-size: 0.9rem;
-          margin-bottom: 0;
-          color: var(--gris-texto);
-          line-height: 1.5;
-        }
 
         /* Specialties Cards */
         .specialty-card {
