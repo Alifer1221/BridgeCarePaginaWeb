@@ -8,6 +8,7 @@ import { useLanguage } from "@/context/LanguageContext";
 export default function Home() {
   const { language, setLanguage, t } = useLanguage();
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
+  const [activeSpecialtyTab, setActiveSpecialtyTab] = useState("cirugia-plastica");
   const [mounted, setMounted] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
@@ -719,6 +720,219 @@ export default function Home() {
               <div className="step-content">
                 <h3>{t("how.step4.title")}</h3>
                 <p>{t("how.step4.desc")}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ESPECIALIDADES INTERACTIVAS */}
+      <section className="section esp-specialties-tabs-section">
+        <div className="container esp-main-wrapper">
+          <div className="section-header text-center">
+            <span className="section-subtitle">
+              {language === "es" ? "Atención Experta" : "Expert Care"}
+            </span>
+            <h2>{language === "es" ? "Especialidades" : "Specialties"}</h2>
+            <div className="header-bar"></div>
+            <p className="section-desc">
+              {language === "es"
+                ? "Atención experta internacional en tu propio idioma. Bridge Care te conecta con los mejores especialistas de Latinoamérica."
+                : "Expert international care in your own language. Bridge Care connects you with the best specialists in Latin America."}
+            </p>
+          </div>
+
+          <div className="esp-tabs-wrapper">
+            <button
+              className={`esp-tab-btn ${activeSpecialtyTab === "cirugia-plastica" ? "active" : ""}`}
+              onClick={() => setActiveSpecialtyTab("cirugia-plastica")}
+            >
+              {language === "es" ? "Cirugía Plástica" : "Plastic Surgery"}
+            </button>
+            <button
+              className={`esp-tab-btn ${activeSpecialtyTab === "odontologia" ? "active" : ""}`}
+              onClick={() => setActiveSpecialtyTab("odontologia")}
+            >
+              {language === "es" ? "Odontología" : "Dentistry"}
+            </button>
+            <button
+              className={`esp-tab-btn ${activeSpecialtyTab === "oftalmologia" ? "active" : ""}`}
+              onClick={() => setActiveSpecialtyTab("oftalmologia")}
+            >
+              {language === "es" ? "Oftalmología" : "Ophthalmology"}
+            </button>
+            <button
+              className={`esp-tab-btn ${activeSpecialtyTab === "estetica" ? "active" : ""}`}
+              onClick={() => setActiveSpecialtyTab("estetica")}
+            >
+              {language === "es" ? "Estética" : "Aesthetics"}
+            </button>
+          </div>
+
+          <div className="esp-card-container">
+            <div className="esp-glow-effect"></div>
+
+            {/* Cirugía Plástica */}
+            <div className={`esp-specialty-pane ${activeSpecialtyTab === "cirugia-plastica" ? "active" : ""}`}>
+              <div className="esp-image-col">
+                <img
+                  src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=800"
+                  alt={language === "es" ? "Cirujanos plásticos" : "Plastic surgeons"}
+                />
+              </div>
+              <div className="esp-text-col">
+                <h3>{language === "es" ? "Cirugía Plástica" : "Plastic Surgery"}</h3>
+                <p>
+                  {language === "es"
+                    ? "Procedimientos estéticos y reconstructivos realizados por cirujanos certificados internacionalmente. Recupera tu confianza con técnicas avanzadas y resultados naturales."
+                    : "Aesthetic and reconstructive procedures performed by internationally certified surgeons. Regain your confidence with advanced techniques and natural results."}
+                </p>
+                <ul className="esp-procedures-list">
+                  <li>
+                    <svg viewBox="0 0 24 24">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    {language === "es" ? "Rinoplastia" : "Rhinoplasty"}
+                  </li>
+                  <li>
+                    <svg viewBox="0 0 24 24">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    {language === "es" ? "Liposucción" : "Liposuction"}
+                  </li>
+                  <li>
+                    <svg viewBox="0 0 24 24">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    {language === "es" ? "Aumento Mamario" : "Breast Augmentation"}
+                  </li>
+                </ul>
+                <Link href="/specialties/cirugia-estetica" className="esp-cta-button">
+                  {language === "es" ? "Ver detalles" : "View details"}
+                </Link>
+              </div>
+            </div>
+
+            {/* Odontología */}
+            <div className={`esp-specialty-pane ${activeSpecialtyTab === "odontologia" ? "active" : ""}`}>
+              <div className="esp-image-col">
+                <img
+                  src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&q=80&w=800"
+                  alt={language === "es" ? "Odontología" : "Dentistry"}
+                />
+              </div>
+              <div className="esp-text-col">
+                <h3>{language === "es" ? "Odontología" : "Dentistry"}</h3>
+                <p>
+                  {language === "es"
+                    ? "Cuida tu salud oral y diseña tu sonrisa perfecta con odontólogos especializados y tecnología dental de vanguardia. Te ofrecemos atención dental de primer nivel."
+                    : "Take care of your oral health and design your perfect smile with specialized dentists and cutting-edge dental technology. We offer you world-class dental care."}
+                </p>
+                <ul className="esp-procedures-list">
+                  <li>
+                    <svg viewBox="0 0 24 24">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    {language === "es" ? "Diseño de Sonrisa" : "Smile Design"}
+                  </li>
+                  <li>
+                    <svg viewBox="0 0 24 24">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    {language === "es" ? "Implantes Dentales" : "Dental Implants"}
+                  </li>
+                  <li>
+                    <svg viewBox="0 0 24 24">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    {language === "es" ? "Ortodoncia Invisible" : "Invisible Orthodontics"}
+                  </li>
+                </ul>
+                <Link href="/specialties/odontologia" className="esp-cta-button">
+                  {language === "es" ? "Ver detalles" : "View details"}
+                </Link>
+              </div>
+            </div>
+
+            {/* Oftalmología */}
+            <div className={`esp-specialty-pane ${activeSpecialtyTab === "oftalmologia" ? "active" : ""}`}>
+              <div className="esp-image-col">
+                <img
+                  src="https://images.unsplash.com/photo-1581594549595-35e6ed91d740?auto=format&fit=crop&q=80&w=800"
+                  alt={language === "es" ? "Oftalmología" : "Ophthalmology"}
+                />
+              </div>
+              <div className="esp-text-col">
+                <h3>{language === "es" ? "Oftalmología" : "Ophthalmology"}</h3>
+                <p>
+                  {language === "es"
+                    ? "Cuidamos de tu visión con diagnósticos precisos y tratamientos avanzados para diversas patologías oculares, realizados por oftalmólogos certificados."
+                    : "We take care of your vision with precise diagnoses and advanced treatments for various ocular pathologies, performed by certified ophthalmologists."}
+                </p>
+                <ul className="esp-procedures-list">
+                  <li>
+                    <svg viewBox="0 0 24 24">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    {language === "es" ? "Cirugía Refractiva (LASIK)" : "Refractive Surgery (LASIK)"}
+                  </li>
+                  <li>
+                    <svg viewBox="0 0 24 24">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    {language === "es" ? "Cirugía de Cataratas" : "Cataract Surgery"}
+                  </li>
+                  <li>
+                    <svg viewBox="0 0 24 24">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    {language === "es" ? "Tratamiento de Glaucoma" : "Glaucoma Treatment"}
+                  </li>
+                </ul>
+                <Link href="/contacto" className="esp-cta-button">
+                  {language === "es" ? "Ver detalles" : "View details"}
+                </Link>
+              </div>
+            </div>
+
+            {/* Estética */}
+            <div className={`esp-specialty-pane ${activeSpecialtyTab === "estetica" ? "active" : ""}`}>
+              <div className="esp-image-col">
+                <img
+                  src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=800"
+                  alt={language === "es" ? "Medicina Estética" : "Aesthetic Medicine"}
+                />
+              </div>
+              <div className="esp-text-col">
+                <h3>{language === "es" ? "Estética" : "Aesthetics"}</h3>
+                <p>
+                  {language === "es"
+                    ? "Realza tu belleza natural con tratamientos de medicina estética no invasivos. Rejuvenecimiento facial, remodelación corporal y cuidado integral de la piel."
+                    : "Enhance your natural beauty with non-invasive medical aesthetic treatments. Facial rejuvenation, body contouring, and comprehensive skincare."}
+                </p>
+                <ul className="esp-procedures-list">
+                  <li>
+                    <svg viewBox="0 0 24 24">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    {language === "es" ? "Toxina Botulínica (Botox)" : "Botulinum Toxin (Botox)"}
+                  </li>
+                  <li>
+                    <svg viewBox="0 0 24 24">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    {language === "es" ? "Ácido Hialurónico" : "Hyaluronic Acid"}
+                  </li>
+                  <li>
+                    <svg viewBox="0 0 24 24">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    {language === "es" ? "Rejuvenecimiento Láser" : "Laser Rejuvenation"}
+                  </li>
+                </ul>
+                <Link href="/specialties/estetica" className="esp-cta-button">
+                  {language === "es" ? "Ver detalles" : "View details"}
+                </Link>
               </div>
             </div>
           </div>

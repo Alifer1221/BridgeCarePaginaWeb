@@ -1226,3 +1226,231 @@ html.splash-hidden .home-container {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   Especialidades Interactivas (Tabs Showcase Section)
+   ========================================================================== */
+.esp-specialties-tabs-section {
+  --esp-primary-color: var(--teal-primary);
+  --esp-primary-hover: var(--teal-dark);
+  --esp-bg-page: var(--negro-suave);
+  --esp-bg-card: var(--pure-white);
+  --esp-text-main: var(--blanco-hueso);
+  --esp-text-muted: var(--gris-texto);
+  --esp-tab-inactive: var(--light-gray);
+  --esp-font-main: var(--font-sans);
+  
+  background-color: var(--esp-bg-page);
+  padding: 6rem 0;
+}
+
+.esp-main-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Pestañas (Tabs) */
+.esp-tabs-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 35px;
+}
+
+.esp-tab-btn {
+  background-color: var(--esp-tab-inactive);
+  color: var(--esp-text-muted);
+  border: 1px solid rgba(29, 122, 110, 0.15);
+  padding: 10px 24px;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+  font-family: var(--esp-font-main);
+}
+
+.esp-tab-btn:hover {
+  background-color: rgba(29, 122, 110, 0.15);
+  color: var(--esp-text-main);
+}
+
+.esp-tab-btn.active {
+  background-color: var(--esp-primary-color);
+  color: var(--esp-bg-card);
+  border-color: var(--esp-primary-color);
+  box-shadow: 0 4px 15px rgba(29, 122, 110, 0.3);
+}
+
+/* Contenedor Principal de la Tarjeta */
+.esp-card-container {
+  background-color: var(--esp-bg-card);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden; 
+  width: 100%;
+  border: 1px solid rgba(29, 122, 110, 0.1);
+}
+
+/* EL RESPLANDOR (GLOW) */
+.esp-glow-effect {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(29, 122, 110, 0.12) 0%, rgba(255, 255, 255, 0) 65%);
+  filter: blur(40px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Paneles de Especialidad (Lógica de 2 columnas) */
+.esp-specialty-pane {
+  display: none; 
+  width: 100%;
+  position: relative;
+  z-index: 2; 
+  opacity: 0;
+}
+
+.esp-specialty-pane.active {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 50px;
+  align-items: center;
+  animation: espFadeIn 0.5s ease forwards;
+}
+
+@keyframes espFadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* COLUMNA 1: IMAGEN */
+.esp-image-col {
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.esp-image-col img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  aspect-ratio: 4/3; 
+}
+
+.esp-specialty-pane.active .esp-image-col:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+/* COLUMNA 2: TEXTO */
+.esp-text-col {
+  width: 100%;
+}
+
+.esp-text-col h3 {
+  font-size: 2.2rem;
+  color: var(--esp-primary-color);
+  margin-bottom: 16px;
+  font-weight: 700;
+  line-height: 1.1;
+  font-family: var(--esp-font-main);
+  background: none;
+  -webkit-text-fill-color: initial;
+}
+
+.esp-text-col p {
+  font-size: 1.05rem;
+  color: var(--esp-text-muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  font-family: var(--esp-font-main);
+}
+
+/* Lista de procedimientos */
+.esp-procedures-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+  padding: 0;
+}
+
+.esp-procedures-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  color: var(--esp-text-main);
+  font-size: 1rem;
+  font-family: var(--esp-font-main);
+}
+
+.esp-procedures-list li svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: var(--esp-primary-color);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Botón de Acción */
+.esp-cta-button {
+  display: inline-block;
+  background-color: var(--esp-primary-color);
+  color: var(--esp-bg-card) !important;
+  padding: 12px 32px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(29, 122, 110, 0.2);
+  transition: var(--transition);
+  font-family: var(--esp-font-main);
+  border: 1px solid rgba(29, 122, 110, 0.25);
+  cursor: pointer;
+}
+
+.esp-cta-button:hover {
+  background-color: var(--esp-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(29, 122, 110, 0.35);
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .esp-specialty-pane.active {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .esp-glow-effect {
+    top: 20%;
+    left: 50%;
+  }
+  .esp-text-col {
+    text-align: center;
+  }
+  .esp-procedures-list {
+    align-items: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .esp-card-container {
+    padding: 30px 20px;
+  }
+}
