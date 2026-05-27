@@ -997,7 +997,7 @@ export default function Home() {
       {/* 2. POR QUÉ COLOMBIA */}
       <section className="section why-colombia-section">
         <div className="container">
-          <div className="section-header text-center">
+          <div className="section-header">
             <span className="section-subtitle">
               {language === "es" ? "¿Por qué Colombia?" : "Why Colombia?"}
             </span>

@@ -1472,8 +1472,17 @@ html.splash-hidden .home-container {
   width: 100%;
 }
 
+.why-colombia-section .section-header {
+  text-align: left;
+  margin-left: 0;
+}
+
+.why-colombia-section .header-bar {
+  margin-left: 0;
+}
+
 .why-colombia-section h2 em {
-  font-style: italic;
+  font-style: normal;
   color: var(--teal-primary);
 }
 
