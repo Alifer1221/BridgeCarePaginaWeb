@@ -586,146 +586,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. POR QUÉ COLOMBIA */}
-      <section className="section why-colombia-section">
-        <div className="container">
-          <div className="section-header text-center">
-            <span className="section-subtitle">
-              {language === "es" ? "Excelencia e Innovación" : "Excellence & Innovation"}
-            </span>
-            <h2>{t("why.title")}</h2>
-            <div className="header-bar"></div>
-            <p className="section-desc">{t("why.subtitle")}</p>
-          </div>
-
-          <div className="grid grid-4 why-grid">
-            <div className="why-card glass-card">
-              <div className="why-icon-box">
-                <svg width="26" height="26" style={{ width: "26px", height: "26px" }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
-                </svg>
-              </div>
-              <h3>{t("why.card1.title")}</h3>
-              <p>{t("why.card1.desc")}</p>
-            </div>
-
-            <div className="why-card glass-card">
-              <div className="why-icon-box">
-                <svg width="26" height="26" style={{ width: "26px", height: "26px" }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                </svg>
-              </div>
-              <h3>{t("why.card2.title")}</h3>
-              <p>{t("why.card2.desc")}</p>
-            </div>
-
-            <div className="why-card glass-card">
-              <div className="why-icon-box">
-                <svg width="26" height="26" style={{ width: "26px", height: "26px" }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                </svg>
-              </div>
-              <h3>{t("why.card3.title")}</h3>
-              <p>{t("why.card3.desc")}</p>
-            </div>
-
-            <div className="why-card glass-card">
-              <div className="why-icon-box">
-                <svg width="26" height="26" style={{ width: "26px", height: "26px" }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                </svg>
-              </div>
-              <h3>{t("why.card4.title")}</h3>
-              <p>{t("why.card4.desc")}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. ESPECIALIDADES VISTA RÁPIDA */}
-      <section className="section specialties-section">
-        <div className="container">
-          <div className="section-header text-center">
-            <span className="section-subtitle">
-              {language === "es" ? "Nuestros Procedimientos" : "Our Procedures"}
-            </span>
-            <h2>{t("spec.title")}</h2>
-            <div className="header-bar"></div>
-            <p className="section-desc">{t("spec.subtitle")}</p>
-          </div>
-
-          <div className="grid grid-4 specialties-grid">
-            {mounted && specialties.map((spec) => (
-              <div key={spec.id} className="specialty-card glass-card">
-                <div 
-                  className="spec-card-img" 
-                  style={{ backgroundImage: `url(${spec.image})` }}
-                >
-                  <div className="spec-card-overlay"></div>
-                </div>
-                <div className="spec-card-content">
-                  <h3>{language === "es" ? spec.name : spec.nameEn}</h3>
-                  <p>{language === "es" ? spec.description : spec.descriptionEn}</p>
-                  <Link href={`/specialties/${spec.id}`} className="spec-link">
-                    {language === "es" ? "Saber más" : "Learn more"}{" "}
-                    <span className="spec-link-arrow">&rarr;</span>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 4. CÓMO FUNCIONA */}
-      <section className="section-dark section workflow-section">
-        <div className="container">
-          <div className="section-header text-center">
-            <span className="section-subtitle">
-              {language === "es" ? "Paso a Paso" : "Step by Step"}
-            </span>
-            <h2>{t("how.title")}</h2>
-            <div className="header-bar"></div>
-            <p className="section-desc">{t("how.subtitle")}</p>
-          </div>
-
-          <div className="workflow-steps">
-            <div className="step-item">
-              <div className="step-num">1</div>
-              <div className="step-content">
-                <h3>{t("how.step1.title")}</h3>
-                <p>{t("how.step1.desc")}</p>
-              </div>
-            </div>
-
-            <div className="step-item">
-              <div className="step-num">2</div>
-              <div className="step-content">
-                <h3>{t("how.step2.title")}</h3>
-                <p>{t("how.step2.desc")}</p>
-              </div>
-            </div>
-
-            <div className="step-item">
-              <div className="step-num">3</div>
-              <div className="step-content">
-                <h3>{t("how.step3.title")}</h3>
-                <p>{t("how.step3.desc")}</p>
-              </div>
-            </div>
-
-            <div className="step-item">
-              <div className="step-num">4</div>
-              <div className="step-content">
-                <h3>{t("how.step4.title")}</h3>
-                <p>{t("how.step4.desc")}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ESPECIALIDADES INTERACTIVAS */}
       <section className="section esp-specialties-tabs-section">
         <div className="container esp-main-wrapper">
@@ -933,6 +793,146 @@ export default function Home() {
                 <Link href="/specialties/estetica" className="esp-cta-button">
                   {language === "es" ? "Ver detalles" : "View details"}
                 </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. POR QUÉ COLOMBIA */}
+      <section className="section why-colombia-section">
+        <div className="container">
+          <div className="section-header text-center">
+            <span className="section-subtitle">
+              {language === "es" ? "Excelencia e Innovación" : "Excellence & Innovation"}
+            </span>
+            <h2>{t("why.title")}</h2>
+            <div className="header-bar"></div>
+            <p className="section-desc">{t("why.subtitle")}</p>
+          </div>
+
+          <div className="grid grid-4 why-grid">
+            <div className="why-card glass-card">
+              <div className="why-icon-box">
+                <svg width="26" height="26" style={{ width: "26px", height: "26px" }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                </svg>
+              </div>
+              <h3>{t("why.card1.title")}</h3>
+              <p>{t("why.card1.desc")}</p>
+            </div>
+
+            <div className="why-card glass-card">
+              <div className="why-icon-box">
+                <svg width="26" height="26" style={{ width: "26px", height: "26px" }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                </svg>
+              </div>
+              <h3>{t("why.card2.title")}</h3>
+              <p>{t("why.card2.desc")}</p>
+            </div>
+
+            <div className="why-card glass-card">
+              <div className="why-icon-box">
+                <svg width="26" height="26" style={{ width: "26px", height: "26px" }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+              </div>
+              <h3>{t("why.card3.title")}</h3>
+              <p>{t("why.card3.desc")}</p>
+            </div>
+
+            <div className="why-card glass-card">
+              <div className="why-icon-box">
+                <svg width="26" height="26" style={{ width: "26px", height: "26px" }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="why-icon">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                </svg>
+              </div>
+              <h3>{t("why.card4.title")}</h3>
+              <p>{t("why.card4.desc")}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. ESPECIALIDADES VISTA RÁPIDA */}
+      <section className="section specialties-section">
+        <div className="container">
+          <div className="section-header text-center">
+            <span className="section-subtitle">
+              {language === "es" ? "Nuestros Procedimientos" : "Our Procedures"}
+            </span>
+            <h2>{t("spec.title")}</h2>
+            <div className="header-bar"></div>
+            <p className="section-desc">{t("spec.subtitle")}</p>
+          </div>
+
+          <div className="grid grid-4 specialties-grid">
+            {mounted && specialties.map((spec) => (
+              <div key={spec.id} className="specialty-card glass-card">
+                <div 
+                  className="spec-card-img" 
+                  style={{ backgroundImage: `url(${spec.image})` }}
+                >
+                  <div className="spec-card-overlay"></div>
+                </div>
+                <div className="spec-card-content">
+                  <h3>{language === "es" ? spec.name : spec.nameEn}</h3>
+                  <p>{language === "es" ? spec.description : spec.descriptionEn}</p>
+                  <Link href={`/specialties/${spec.id}`} className="spec-link">
+                    {language === "es" ? "Saber más" : "Learn more"}{" "}
+                    <span className="spec-link-arrow">&rarr;</span>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. CÓMO FUNCIONA */}
+      <section className="section-dark section workflow-section">
+        <div className="container">
+          <div className="section-header text-center">
+            <span className="section-subtitle">
+              {language === "es" ? "Paso a Paso" : "Step by Step"}
+            </span>
+            <h2>{t("how.title")}</h2>
+            <div className="header-bar"></div>
+            <p className="section-desc">{t("how.subtitle")}</p>
+          </div>
+
+          <div className="workflow-steps">
+            <div className="step-item">
+              <div className="step-num">1</div>
+              <div className="step-content">
+                <h3>{t("how.step1.title")}</h3>
+                <p>{t("how.step1.desc")}</p>
+              </div>
+            </div>
+
+            <div className="step-item">
+              <div className="step-num">2</div>
+              <div className="step-content">
+                <h3>{t("how.step2.title")}</h3>
+                <p>{t("how.step2.desc")}</p>
+              </div>
+            </div>
+
+            <div className="step-item">
+              <div className="step-num">3</div>
+              <div className="step-content">
+                <h3>{t("how.step3.title")}</h3>
+                <p>{t("how.step3.desc")}</p>
+              </div>
+            </div>
+
+            <div className="step-item">
+              <div className="step-num">4</div>
+              <div className="step-content">
+                <h3>{t("how.step4.title")}</h3>
+                <p>{t("how.step4.desc")}</p>
               </div>
             </div>
           </div>
