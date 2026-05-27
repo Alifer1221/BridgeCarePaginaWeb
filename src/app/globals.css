@@ -1502,6 +1502,9 @@ html.splash-hidden .home-container {
   font-size: 10px;
   font-weight: 800;
 }
+.why-col-header-content {
+  text-align: center;
+}
 
 .why-col-header-content h4 {
   font-size: 1rem;
@@ -1533,6 +1536,7 @@ html.splash-hidden .home-container {
   font-size: 1.05rem;
   max-width: 600px;
   line-height: 1.6;
+  margin: 0 auto;
 }
 
 @media (max-width: 992px) {
