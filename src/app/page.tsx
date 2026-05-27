@@ -434,12 +434,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Secondary Badge: Ver Paquetes / View Packages in bottom-right corner of Hero */}
-            <div className="hero-packages-badge-container">
-              <Link href="/nosotros#packages" className="hero-packages-badge">
-                {t("hero.cta.secondary")}
-              </Link>
-            </div>
 
           </div>
         </div>
