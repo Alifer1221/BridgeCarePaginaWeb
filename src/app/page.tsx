@@ -4,11 +4,154 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { getStoredSpecialties, Specialty } from "@/lib/db";
 import { useLanguage } from "@/context/LanguageContext";
+const whySlides = [
+  {
+    image: "https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&q=80&w=800",
+    locationEs: "Cartagena, Colombia",
+    locationEn: "Cartagena, Colombia",
+    labelEs: "Lo que te espera",
+    labelEn: "What awaits you",
+    titleEs: "Especialistas de talla mundial en un entorno de clase mundial",
+    titleEn: "World-class specialists in a world-class environment",
+    descEs: "Colombia ha consolidado una generación de médicos con formación internacional que atienden pacientes exigentes de todo el mundo. No vendrás a conformarte — vendrás a sorprenderte.",
+    descEn: "Colombia has consolidated a generation of doctors with international training who care for demanding patients from all over the world. You won't come to settle — you'll come to be amazed.",
+    pillarsEs: [
+      {
+        icon: "✦",
+        title: "Colombia no es el camino. Es parte del viaje.",
+        desc: "Gastronomía, naturaleza, cultura y ciudades que enamoran. Tu recuperación sucede en uno de los destinos más fascinantes de América Latina."
+      },
+      {
+        icon: "◎",
+        title: "Un viaje diseñado alrededor de ti",
+        desc: "Bridge Care combina lo mejor de la medicina con lo mejor del turismo. Cada detalle pensado para que vivas una experiencia que va mucho más allá de un procedimiento."
+      }
+    ],
+    pillarsEn: [
+      {
+        icon: "✦",
+        title: "Colombia is not just the path. It is part of the journey.",
+        desc: "Gastronomy, nature, culture, and cities that make you fall in love. Your recovery happens in one of the most fascinating destinations in Latin America."
+      },
+      {
+        icon: "◎",
+        title: "A trip designed around you",
+        desc: "Bridge Care combines the best of medicine with the best of tourism. Every detail thought out for you to live an experience that goes far beyond a procedure."
+      }
+    ]
+  },
+  {
+    image: "https://images.unsplash.com/photo-1596120202271-925206ee85cf?auto=format&fit=crop&q=80&w=800",
+    locationEs: "Medellín, Colombia",
+    locationEn: "Medellin, Colombia",
+    labelEs: "Innovación Médica",
+    labelEn: "Medical Innovation",
+    titleEs: "Medellín: El hub de salud e innovación de la región",
+    titleEn: "Medellin: The health and innovation hub of the region",
+    descEs: "Conocida como la 'Ciudad de la Eterna Primavera', Medellín ofrece clínicas de alta complejidad que lideran rankings latinoamericanos y un clima primaveral perfecto para tu recuperación.",
+    descEn: "Known as the 'City of Eternal Spring', Medellin offers high-complexity clinics that lead Latin American rankings and a perfect spring-like climate for your recovery.",
+    pillarsEs: [
+      {
+        icon: "✦",
+        title: "Clínicas Acreditadas JCI",
+        desc: "Nuestras clínicas aliadas cuentan con las certificaciones internacionales más estrictas del mundo."
+      },
+      {
+        icon: "◎",
+        title: "Clima templado todo el año",
+        desc: "Un entorno de 22°C (71°F) constante que favorece una recuperación posoperatoria cómoda y desinflamatoria."
+      }
+    ],
+    pillarsEn: [
+      {
+        icon: "✦",
+        title: "JCI Accredited Clinics",
+        desc: "Our allied clinics hold the strictest international quality certifications in the world."
+      },
+      {
+        icon: "◎",
+        title: "Temperate climate year-round",
+        desc: "A constant 22°C (71°F) environment that promotes a comfortable, swelling-reducing post-op recovery."
+      }
+    ]
+  },
+  {
+    image: "https://images.unsplash.com/photo-1589909202802-8f4aadce1849?auto=format&fit=crop&q=80&w=800",
+    locationEs: "Bogotá, Colombia",
+    locationEn: "Bogota, Colombia",
+    labelEs: "Liderazgo Médico",
+    labelEn: "Medical Leadership",
+    titleEs: "Bogotá: Excelencia científica y tecnología de vanguardia",
+    titleEn: "Bogota: Scientific excellence and cutting-edge technology",
+    descEs: "La capital del país alberga los hospitales universitarios más prestigiosos y centros de investigación que son referentes de la medicina en toda América Latina.",
+    descEn: "The country's capital houses the most prestigious university hospitals and research centers that are benchmarks of medicine throughout Latin America.",
+    pillarsEs: [
+      {
+        icon: "✦",
+        title: "Tecnología de última generación",
+        desc: "Acceso a cirugía robótica, quirófanos inteligentes e infraestructura diagnóstica de primer nivel mundial."
+      },
+      {
+        icon: "◎",
+        title: "Los mejores cirujanos del país",
+        desc: "Especialistas adscritos a juntas médicas nacionales con entrenamientos avanzados en EE. UU. y Europa."
+      }
+    ],
+    pillarsEn: [
+      {
+        icon: "✦",
+        title: "State-of-the-art technology",
+        desc: "Access to robotic surgery, smart operating rooms, and world-class diagnostic infrastructure."
+      },
+      {
+        icon: "◎",
+        title: "The country's top surgeons",
+        desc: "Specialists certified by national medical boards with advanced fellowships in the US and Europe."
+      }
+    ]
+  },
+  {
+    image: "https://images.unsplash.com/photo-1628150383188-75c1d354b1f6?auto=format&fit=crop&q=80&w=800",
+    locationEs: "Cali, Colombia",
+    locationEn: "Cali, Colombia",
+    labelEs: "Cuidado Humano",
+    labelEn: "Humane Care",
+    titleEs: "Cali: Pionera en tratamientos de bariatría y odontología",
+    titleEn: "Cali: Pioneer in bariatric and dental treatments",
+    descEs: "Famosa mundialmente por su cultura vibrante, Cali se destaca por sus centros especializados en pérdida de peso y rehabilitación oral con un trato humano insuperable.",
+    descEn: "World-famous for its vibrant culture, Cali stands out for its specialized weight loss and oral rehabilitation centers with unsurpassed human warmth.",
+    pillarsEs: [
+      {
+        icon: "✦",
+        title: "Calidez humana sin fronteras",
+        desc: "El personal médico y de enfermería te brindará un acompañamiento cálido y familiar, reduciendo el estrés del viaje."
+      },
+      {
+        icon: "◎",
+        title: "Precios competitivos incomparables",
+        desc: "Obtén tratamientos de la más alta calidad con ahorros que superan el 70% en comparación con EE. UU."
+      }
+    ],
+    pillarsEn: [
+      {
+        icon: "✦",
+        title: "Warmth without borders",
+        desc: "Allied medical and nursing staff provide warm, family-like support, reducing international travel stress."
+      },
+      {
+        icon: "◎",
+        title: "Unbeatable competitive pricing",
+        desc: "Receive top-tier medical and dental procedures with savings exceeding 70% compared to the US."
+      }
+    ]
+  }
+];
 
 export default function Home() {
   const { language, setLanguage, t } = useLanguage();
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [activeSpecialtyTab, setActiveSpecialtyTab] = useState("cirugia-plastica");
+  const [currentWhySlide, setCurrentWhySlide] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
@@ -97,6 +240,13 @@ export default function Home() {
       clearTimeout(timer);
       window.removeEventListener("bc_db_update", handleUpdate);
     };
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentWhySlide((prev) => (prev + 1) % 4);
+    }, 7000);
+    return () => clearInterval(interval);
   }, []);
 
   const selectLanguage = (lang: "es" | "en") => {
@@ -822,65 +972,72 @@ export default function Home() {
           </div>
 
           <article className="why-col-main-card">
-            <div 
-              className="why-col-img-col" 
-              style={{ backgroundImage: `url('https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&q=80&w=800')` }}
-            >
-              <div className="why-col-img-tag">
+            <div className="why-col-img-col">
+              <div 
+                key={currentWhySlide}
+                className="why-col-img-bg" 
+                style={{ backgroundImage: `url(${whySlides[currentWhySlide].image})` }}
+              />
+              
+              <button 
+                className="why-col-carousel-arrow left" 
+                onClick={() => setCurrentWhySlide((prev) => (prev === 0 ? whySlides.length - 1 : prev - 1))}
+                aria-label="Previous slide"
+              >
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+              <button 
+                className="why-col-carousel-arrow right" 
+                onClick={() => setCurrentWhySlide((prev) => (prev === whySlides.length - 1 ? 0 : prev + 1))}
+                aria-label="Next slide"
+              >
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+
+              <div className="why-col-img-tag" key={`tag-${currentWhySlide}`}>
                 <div className="why-col-img-tag-dot"></div>
                 <span className="why-col-img-tag-text">
-                  {language === "es" ? "Colombia, América Latina" : "Colombia, Latin America"}
+                  {language === "es" ? whySlides[currentWhySlide].locationEs : whySlides[currentWhySlide].locationEn}
                 </span>
+              </div>
+
+              <div className="why-col-carousel-dots">
+                {whySlides.map((_, idx) => (
+                  <button
+                    key={idx}
+                    className={`why-col-carousel-dot ${idx === currentWhySlide ? "active" : ""}`}
+                    onClick={() => setCurrentWhySlide(idx)}
+                    aria-label={`Go to slide ${idx + 1}`}
+                  />
+                ))}
               </div>
             </div>
 
-            <div className="why-col-content-col">
+            <div className="why-col-content-col" key={currentWhySlide}>
               <span className="why-col-label">
-                {language === "es" ? "Lo que te espera" : "What awaits you"}
+                {language === "es" ? whySlides[currentWhySlide].labelEs : whySlides[currentWhySlide].labelEn}
               </span>
               <h3 className="why-col-title">
-                {language === "es" 
-                  ? "Especialistas de talla mundial en un entorno de clase mundial" 
-                  : "World-class specialists in a world-class environment"}
+                {language === "es" ? whySlides[currentWhySlide].titleEs : whySlides[currentWhySlide].titleEn}
               </h3>
               <p className="why-col-desc">
-                {language === "es"
-                  ? "Colombia ha consolidado una generación de médicos con formación internacional que atienden pacientes exigentes de todo el mundo. No vendrás a conformarte — vendrás a sorprenderte."
-                  : "Colombia has consolidated a generation of doctors with international training who care for demanding patients from all over the world. You won't come to settle — you'll come to be amazed."}
+                {language === "es" ? whySlides[currentWhySlide].descEs : whySlides[currentWhySlide].descEn}
               </p>
               
               <div className="why-col-pillars">
-                <div className="why-col-pillar">
-                  <div className="why-col-pillar-icon">✦</div>
-                  <div className="why-col-pillar-text">
-                    <h4 className="why-col-pillar-title">
-                      {language === "es" 
-                        ? "Colombia no es el camino. Es parte del viaje." 
-                        : "Colombia is not just the path. It is part of the journey."}
-                    </h4>
-                    <p className="why-col-pillar-desc">
-                      {language === "es"
-                        ? "Gastronomía, naturaleza, cultura y ciudades que enamoran. Tu recuperación sucede en uno de los destinos más fascinantes de América Latina."
-                        : "Gastronomy, nature, culture, and cities that make you fall in love. Your recovery happens in one of the most fascinating destinations in Latin America."}
-                    </p>
+                {(language === "es" ? whySlides[currentWhySlide].pillarsEs : whySlides[currentWhySlide].pillarsEn).map((pillar, idx) => (
+                  <div className="why-col-pillar" key={idx}>
+                    <div className="why-col-pillar-icon">{pillar.icon}</div>
+                    <div className="why-col-pillar-text">
+                      <h4 className="why-col-pillar-title">{pillar.title}</h4>
+                      <p className="why-col-pillar-desc">{pillar.desc}</p>
+                    </div>
                   </div>
-                </div>
-                
-                <div className="why-col-pillar">
-                  <div className="why-col-pillar-icon">◎</div>
-                  <div className="why-col-pillar-text">
-                    <h4 className="why-col-pillar-title">
-                      {language === "es" 
-                        ? "Un viaje diseñado alrededor de ti" 
-                        : "A trip designed around you"}
-                    </h4>
-                    <p className="why-col-pillar-desc">
-                      {language === "es"
-                        ? "Bridge Care combina lo mejor de la medicina con lo mejor del turismo. Cada detalle pensado para que vivas una experiencia que va mucho más allá de un procedimiento."
-                        : "Bridge Care combines the best of medicine with the best of tourism. Every detail thought out for you to live an experience that goes far beyond a procedure."}
-                    </p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </article>

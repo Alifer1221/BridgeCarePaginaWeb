@@ -1496,6 +1496,7 @@ html.splash-hidden .home-container {
   display: flex;
   align-items: flex-end;
   padding: 2.5rem;
+  overflow: hidden;
 }
 
 .why-col-img-col::before {
@@ -1702,5 +1703,132 @@ html.splash-hidden .home-container {
   .why-col-bottom-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
+  }
+}
+
+/* ==========================================================================
+   Carrusel de Diapositivas en ¿Por qué Colombia?
+   ========================================================================== */
+.why-col-img-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  animation: whyImgFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes whyImgFadeIn {
+  from {
+    opacity: 0.5;
+    transform: scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.why-col-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: var(--pure-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  padding: 0;
+}
+
+.why-col-carousel-arrow:hover {
+  background: rgba(255, 255, 255, 0.3);
+  color: var(--pure-white);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.why-col-carousel-arrow.left {
+  left: 20px;
+}
+
+.why-col-carousel-arrow.right {
+  right: 20px;
+}
+
+.why-col-carousel-dots {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 5;
+}
+
+.why-col-carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.why-col-carousel-dot:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.why-col-carousel-dot.active {
+  background: var(--teal-primary);
+  width: 24px;
+  border-radius: 5px;
+  box-shadow: 0 0 8px var(--teal-primary);
+}
+
+/* Animaciones del panel derecho de contenido */
+@keyframes whySlideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.why-col-content-col {
+  animation: whySlideFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Ajustes Responsive para el carrusel */
+@media (max-width: 992px) {
+  .why-col-carousel-arrow {
+    width: 38px;
+    height: 38px;
+  }
+  .why-col-carousel-arrow.left {
+    left: 15px;
+  }
+  .why-col-carousel-arrow.right {
+    right: 15px;
+  }
+  .why-col-carousel-dots {
+    bottom: 16px;
   }
 }
