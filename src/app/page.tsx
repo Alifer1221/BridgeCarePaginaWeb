@@ -367,8 +367,8 @@ export default function Home() {
                 <div className="hero-feature-item">
                   <div className="hero-feature-icon-box">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="hero-feature-icon">
-                      <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
-                      <path d="M22 12A10 10 0 0 0 12 2v10z" />
+                      <line x1="12" y1="1" x2="12" y2="23"></line>
+                      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                     </svg>
                   </div>
                   <div className="hero-feature-content">
@@ -381,13 +381,8 @@ export default function Home() {
                 <div className="hero-feature-item">
                   <div className="hero-feature-icon-box">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="hero-feature-icon">
-                      <path d="M4.5 2.5C6.5 5 17.5 19 19.5 21.5" />
-                      <path d="M19.5 2.5C17.5 5 6.5 19 4.5 21.5" />
-                      <path d="M6 5h12" />
-                      <path d="M8 9h8" />
-                      <path d="M10 13h4" />
-                      <path d="M8 17h8" />
-                      <path d="M6 19h12" />
+                      <polyline points="9 11 12 14 22 4"></polyline>
+                      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
                     </svg>
                   </div>
                   <div className="hero-feature-content">
@@ -400,8 +395,8 @@ export default function Home() {
                 <div className="hero-feature-item">
                   <div className="hero-feature-icon-box">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="hero-feature-icon">
-                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                      <path d="M6 12h3l2-3 2 6 1-3h4" />
+                      <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                      <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
                     </svg>
                   </div>
                   <div className="hero-feature-content">
