@@ -1467,7 +1467,7 @@ html.splash-hidden .home-container {
    Por Qué Colombia - Secciones Premium Rediseñadas
    ========================================================================== */
 .why-colombia-section {
-  background-color: var(--verde-noche); /* Sandy-beige contrast background */
+  background-color: var(--negro-suave); /* Match page background */
   padding: 6rem 0;
   width: 100%;
 }
