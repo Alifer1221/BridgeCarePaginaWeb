@@ -1550,8 +1550,8 @@ export default function Home() {
         }
         .reveal-text-content span {
           color: var(--blanco-hueso);
-          opacity: 0.15;
-          filter: blur(2.5px);
+          opacity: 0.25;
+          filter: blur(1.2px);
           transition: opacity 0.35s ease, filter 0.35s ease;
         }
         .reveal-text-content span.active {
