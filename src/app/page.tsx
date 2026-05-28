@@ -312,10 +312,10 @@ export default function Home() {
       const containerHeight = rect.height;
       const windowHeight = window.innerHeight;
       
-      // Start revealing when the container top is 85% down the viewport (entering screen)
-      // End revealing when the container top is 25% down the viewport (fully centered and readable, before pinning)
-      const startScroll = windowHeight * 0.85;
-      const endScroll = windowHeight * 0.25;
+      // Start revealing when the container top is 60% down the viewport (text begins entering from bottom)
+      // End revealing when the container top is 10% down the viewport (text is fully centered, right before pinning)
+      const startScroll = windowHeight * 0.6;
+      const endScroll = windowHeight * 0.1;
       
       const totalDistance = startScroll - endScroll;
       const currentPosition = startScroll - containerTop;
