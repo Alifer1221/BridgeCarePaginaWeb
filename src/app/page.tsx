@@ -1516,7 +1516,7 @@ export default function Home() {
         .reveal-scroll-container {
           height: 220vh; 
           position: relative;
-          background-color: var(--verde-noche); /* Warm bone/beige contrast background */
+          background-color: var(--negro-suave); /* Match page background */
           width: 100%;
         }
         .reveal-sticky-content {
