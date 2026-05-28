@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { getStoredSpecialties, Specialty } from "@/lib/db";
 import { useLanguage } from "@/context/LanguageContext";
@@ -149,6 +149,8 @@ const whySlides = [
 
 export default function Home() {
   const { language, setLanguage, t } = useLanguage();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLHeadingElement>(null);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [activeSpecialtyTab, setActiveSpecialtyTab] = useState("cirugia-plastica");
   const [currentWhySlide, setCurrentWhySlide] = useState(0);
@@ -293,6 +295,49 @@ export default function Home() {
     }, 7000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    const handleScroll = () => {
+      const scrollContainer = scrollContainerRef.current;
+      const textElement = textRef.current;
+      if (!scrollContainer || !textElement) return;
+
+      const spans = textElement.querySelectorAll("span");
+      if (spans.length === 0) return;
+
+      const rect = scrollContainer.getBoundingClientRect();
+      const containerTop = rect.top;
+      const containerHeight = rect.height;
+      const windowHeight = window.innerHeight;
+      
+      const scrollableDistance = containerHeight - windowHeight;
+      let scrollProgress = 0;
+      
+      if (containerTop <= 0) {
+        scrollProgress = Math.abs(containerTop) / scrollableDistance;
+      }
+      
+      scrollProgress = Math.max(0, Math.min(1, scrollProgress));
+      const charsToLight = Math.floor(scrollProgress * spans.length);
+      
+      for (let i = 0; i < spans.length; i++) {
+        if (i < charsToLight) {
+          spans[i].classList.add("active");
+        } else {
+          spans[i].classList.remove("active");
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [language, mounted]);
 
   const selectLanguage = (lang: "es" | "en") => {
     setLanguage(lang);
@@ -1146,6 +1191,32 @@ export default function Home() {
         </div>
       </section>
 
+      {/* TEXT REVEAL ON SCROLL SECTION */}
+      <div className="reveal-scroll-container" id="reveal-scroll-container" ref={scrollContainerRef}>
+        <div className="reveal-sticky-content">
+          <div className="reveal-subtitle">
+            {language === "es" ? "[ Tu bienestar en las mejores manos ]" : "[ Your wellness in the best hands ]"}
+          </div>
+          <h1 className="reveal-text-content" id="text-to-reveal" ref={textRef}>
+            {mounted ? (
+              (language === "es"
+                ? "Bridge Care te conecta con la excelencia médica de Colombia. Diseñamos una experiencia de salud sin fronteras, donde especialistas certificados, clínicas de vanguardia y un acompañamiento cálido y personalizado se unen para que tu único enfoque sea tu bienestar y una recuperación extraordinaria."
+                : "Bridge Care connects you with Colombia's medical excellence. We design a health experience without borders, where certified specialists, state-of-the-art clinics, and warm, personalized support come together so your only focus is your wellness and an extraordinary recovery."
+              ).split("").map((char, index) => (
+                <span key={index}>{char}</span>
+              ))
+            ) : (
+              language === "es"
+                ? "Bridge Care te conecta con la excelencia médica de Colombia. Diseñamos una experiencia de salud sin fronteras, donde especialistas certificados, clínicas de vanguardia y un acompañamiento cálido y personalizado se unen para que tu único enfoque sea tu bienestar y una recuperación extraordinaria."
+                : "Bridge Care connects you with Colombia's medical excellence. We design a health experience without borders, where certified specialists, state-of-the-art clinics, and warm, personalized support come together so your only focus is your wellness and an extraordinary recovery."
+            )}
+          </h1>
+          <Link href="/contacto" className="btn btn-primary">
+            {language === "es" ? "Iniciar Consulta" : "Start Consultation"}
+          </Link>
+        </div>
+      </div>
+
       {/* 3. ESPECIALIDADES VISTA RÁPIDA */}
       <section className="section specialties-section">
         <div className="container">
@@ -1440,6 +1511,50 @@ export default function Home() {
         }
         
         /* Buttons moved to globals.css */
+
+        /* Text Reveal on Scroll */
+        .reveal-scroll-container {
+          height: 220vh; 
+          position: relative;
+          background-color: var(--verde-noche); /* Warm bone/beige contrast background */
+          width: 100%;
+        }
+        .reveal-sticky-content {
+          position: sticky;
+          top: 0;
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          padding: 0 24px;
+          overflow: hidden;
+        }
+        .reveal-subtitle {
+          font-size: 0.9rem;
+          color: var(--mint-accent);
+          font-weight: 700;
+          margin-bottom: 2rem;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+        }
+        .reveal-text-content {
+          font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+          font-weight: 500;
+          max-width: 950px;
+          line-height: 1.45;
+          margin-bottom: 3.5rem;
+          color: rgba(28, 36, 34, 0.22); /* Light opacity text base */
+          text-align: center;
+          letter-spacing: -0.01em;
+        }
+        .reveal-text-content span {
+          transition: color 0.12s ease;
+        }
+        .reveal-text-content span.active {
+          color: var(--blanco-hueso); /* Dark premium text color */
+        }
 
         /* Section Headers */
         .section-header {
