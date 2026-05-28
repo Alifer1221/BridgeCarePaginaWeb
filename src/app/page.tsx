@@ -312,13 +312,15 @@ export default function Home() {
       const containerHeight = rect.height;
       const windowHeight = window.innerHeight;
       
-      const scrollableDistance = containerHeight - windowHeight;
-      let scrollProgress = 0;
+      // Start revealing when the container top is 80% down the viewport (coming into view)
+      // End revealing when the container is scrolled through (sticky content is about to unpin)
+      const startScroll = windowHeight * 0.8;
+      const endScroll = - (containerHeight - windowHeight);
       
-      if (containerTop <= 0) {
-        scrollProgress = Math.abs(containerTop) / scrollableDistance;
-      }
+      const totalDistance = startScroll - endScroll;
+      const currentPosition = startScroll - containerTop;
       
+      let scrollProgress = currentPosition / totalDistance;
       scrollProgress = Math.max(0, Math.min(1, scrollProgress));
       const charsToLight = Math.floor(scrollProgress * spans.length);
       
@@ -1514,7 +1516,7 @@ export default function Home() {
 
         /* Text Reveal on Scroll */
         .reveal-scroll-container {
-          height: 220vh; 
+          height: 180vh; 
           position: relative;
           background-color: var(--negro-suave); /* Match page background */
           width: 100%;
