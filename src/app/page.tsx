@@ -312,10 +312,10 @@ export default function Home() {
       const containerHeight = rect.height;
       const windowHeight = window.innerHeight;
       
-      // Start revealing when the container top is 60% down the viewport (text begins entering from bottom)
-      // End revealing when the container top is 10% down the viewport (text is fully centered, right before pinning)
-      const startScroll = windowHeight * 0.6;
-      const endScroll = windowHeight * 0.1;
+      // Start revealing when the container top is 25% down the viewport (text begins entering)
+      // End revealing when the container reaches top 0% (text is fully centered and pinned)
+      const startScroll = windowHeight * 0.25;
+      const endScroll = 0;
       
       const totalDistance = startScroll - endScroll;
       const currentPosition = startScroll - containerTop;
@@ -1516,7 +1516,7 @@ export default function Home() {
 
         /* Text Reveal on Scroll */
         .reveal-scroll-container {
-          height: 180vh; 
+          height: 125vh; 
           position: relative;
           background-color: var(--negro-suave); /* Match page background */
           width: 100%;
