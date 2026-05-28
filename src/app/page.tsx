@@ -1545,15 +1545,18 @@ export default function Home() {
           max-width: 950px;
           line-height: 1.45;
           margin-bottom: 3.5rem;
-          color: rgba(28, 36, 34, 0.22); /* Light opacity text base */
           text-align: center;
           letter-spacing: -0.01em;
         }
         .reveal-text-content span {
-          transition: color 0.12s ease;
+          color: var(--blanco-hueso);
+          opacity: 0.15;
+          filter: blur(2.5px);
+          transition: opacity 0.35s ease, filter 0.35s ease;
         }
         .reveal-text-content span.active {
-          color: var(--blanco-hueso); /* Dark premium text color */
+          opacity: 1;
+          filter: blur(0px);
         }
 
         /* Section Headers */
