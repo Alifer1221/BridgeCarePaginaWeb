@@ -1197,7 +1197,7 @@ export default function Home() {
           <div className="reveal-subtitle">
             {language === "es" ? "[ Tu bienestar en las mejores manos ]" : "[ Your wellness in the best hands ]"}
           </div>
-          <h1 className="reveal-text-content" id="text-to-reveal" ref={textRef}>
+          <h2 className="reveal-text-content" id="text-to-reveal" ref={textRef}>
             {mounted ? (
               (language === "es"
                 ? "Bridge Care te conecta con la excelencia médica de Colombia. Diseñamos una experiencia de salud sin fronteras, donde especialistas certificados, clínicas de vanguardia y un acompañamiento cálido y personalizado se unen para que tu único enfoque sea tu bienestar y una recuperación extraordinaria."
@@ -1210,7 +1210,7 @@ export default function Home() {
                 ? "Bridge Care te conecta con la excelencia médica de Colombia. Diseñamos una experiencia de salud sin fronteras, donde especialistas certificados, clínicas de vanguardia y un acompañamiento cálido y personalizado se unen para que tu único enfoque sea tu bienestar y una recuperación extraordinaria."
                 : "Bridge Care connects you with Colombia's medical excellence. We design a health experience without borders, where certified specialists, state-of-the-art clinics, and warm, personalized support come together so your only focus is your wellness and an extraordinary recovery."
             )}
-          </h1>
+          </h2>
           <Link href="/contacto" className="btn btn-primary">
             {language === "es" ? "Iniciar Consulta" : "Start Consultation"}
           </Link>
@@ -1547,16 +1547,22 @@ export default function Home() {
           margin-bottom: 3.5rem;
           text-align: center;
           letter-spacing: -0.01em;
+          /* Reset background gradient clip from global h1 just in case */
+          background: none !important;
+          -webkit-background-clip: initial !important;
+          background-clip: initial !important;
+          -webkit-text-fill-color: initial !important;
         }
         .reveal-text-content span {
-          color: var(--blanco-hueso);
+          color: var(--blanco-hueso) !important;
+          -webkit-text-fill-color: var(--blanco-hueso) !important;
           opacity: 0.25;
           filter: blur(1.2px);
           transition: opacity 0.35s ease, filter 0.35s ease;
         }
         .reveal-text-content span.active {
-          opacity: 1;
-          filter: blur(0px);
+          opacity: 1 !important;
+          filter: blur(0px) !important;
         }
 
         /* Section Headers */
