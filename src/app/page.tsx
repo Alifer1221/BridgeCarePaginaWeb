@@ -173,37 +173,27 @@ export default function Home() {
     setDisplayedWhyTitle("");
     setDisplayedWhyDesc("");
 
-    let titleIndex = 0;
-    let descIndex = 0;
+    let charIndex = 0;
     let titleText = "";
     let descText = "";
 
-    // Type title first
-    const typeTitleInterval = setInterval(() => {
-      if (titleIndex < fullTitle.length) {
-        titleText += fullTitle[titleIndex];
+    const interval = setInterval(() => {
+      if (charIndex < fullTitle.length) {
+        titleText += fullTitle[charIndex];
         setDisplayedWhyTitle(titleText);
-        titleIndex++;
+        charIndex++;
+      } else if (charIndex - fullTitle.length < fullDesc.length) {
+        const descCharIndex = charIndex - fullTitle.length;
+        descText += fullDesc[descCharIndex];
+        setDisplayedWhyDesc(descText);
+        charIndex++;
       } else {
-        clearInterval(typeTitleInterval);
-        
-        // Start typing description after title is finished
-        const typeDescInterval = setInterval(() => {
-          if (descIndex < fullDesc.length) {
-            descText += fullDesc[descIndex];
-            setDisplayedWhyDesc(descText);
-            descIndex++;
-          } else {
-            clearInterval(typeDescInterval);
-          }
-        }, 6); // Fast typing for description
-        
-        return () => clearInterval(typeDescInterval);
+        clearInterval(interval);
       }
-    }, 12); // Fast typing for title
+    }, 10); // Uniform fluid typing speed
 
     return () => {
-      clearInterval(typeTitleInterval);
+      clearInterval(interval);
     };
   }, [currentWhySlide, language, mounted]);
 
