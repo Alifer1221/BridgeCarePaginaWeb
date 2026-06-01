@@ -214,6 +214,16 @@ export default function Home() {
     setPhraseIndex(0);
   }, [language]);
 
+  // Auto-play for the "Why Colombia" slideshow (switches every 1 minute)
+  useEffect(() => {
+    if (!mounted) return;
+    const interval = setInterval(() => {
+      setCurrentWhySlide((prev) => (prev === whySlides.length - 1 ? 0 : prev + 1));
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, [currentWhySlide, mounted]);
+
   useEffect(() => {
     if (!mounted) return;
 
