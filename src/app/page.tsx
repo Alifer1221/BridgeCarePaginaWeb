@@ -299,12 +299,7 @@ export default function Home() {
     };
   }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentWhySlide((prev) => (prev + 1) % 4);
-    }, 7000);
-    return () => clearInterval(interval);
-  }, []);
+
 
   useEffect(() => {
     if (!mounted) return;
