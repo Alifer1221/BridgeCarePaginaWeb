@@ -1071,6 +1071,9 @@ export default function Home() {
                   : "Colombia is not a second-choice destination — it is the first choice for those who know what they want."}
               </p>
             </div>
+            
+            {/* Empty spacer to center header content relative to the 3-column grid on desktop */}
+            <div className="why-col-header-spacer"></div>
           </div>
 
           <article className="why-col-main-card">
@@ -1817,36 +1820,6 @@ export default function Home() {
           }
           .hero-feature-desc {
             max-width: 100%;
-          }
-        }
-
-        /* Centering Por Qué Colombia Header */
-        .why-col-header {
-          display: flex !important;
-          flex-direction: column !important;
-          align-items: center !important;
-          text-align: center !important;
-          margin-bottom: 50px !important;
-          gap: 15px !important;
-        }
-        .why-col-tag {
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          gap: 10px !important;
-          font-size: 0.7rem !important;
-          font-weight: 600 !important;
-          height: fit-content !important;
-          color: var(--mint-accent) !important;
-          letter-spacing: 0.05em !important;
-          text-transform: uppercase !important;
-        }
-        .why-col-header-content {
-          text-align: center !important;
-        }
-        @media (max-width: 992px) {
-          .why-col-header {
-            margin-bottom: 25px !important;
           }
         }
       `}</style>

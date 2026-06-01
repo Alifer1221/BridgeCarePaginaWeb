@@ -1472,12 +1472,11 @@ html.splash-hidden .home-container {
   width: 100%;
 }
 .why-col-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+  display: grid;
+  grid-template-columns: 250px 1fr 250px;
+  gap: 20px;
   margin-bottom: 50px;
-  gap: 15px;
+  align-items: start;
 }
 
 .why-col-tag {
@@ -1543,7 +1542,12 @@ html.splash-hidden .home-container {
 
 @media (max-width: 992px) {
   .why-col-header {
+    grid-template-columns: 1fr;
+    gap: 15px;
     margin-bottom: 25px;
+  }
+  .why-col-header-spacer {
+    display: none;
   }
   .why-col-header-content h2 {
     font-size: 2.25rem;
