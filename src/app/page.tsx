@@ -1200,15 +1200,15 @@ export default function Home() {
           <h2 className="reveal-text-content" id="text-to-reveal" ref={textRef}>
             {mounted ? (
               (language === "es"
-                ? "Bridge Care te conecta con la excelencia médica de Colombia. Diseñamos una experiencia de salud sin fronteras, donde especialistas certificados, clínicas de vanguardia y un acompañamiento cálido y personalizado se unen para que tu único enfoque sea tu bienestar y una recuperación extraordinaria."
-                : "Bridge Care connects you with Colombia's medical excellence. We design a health experience without borders, where certified specialists, state-of-the-art clinics, and warm, personalized support come together so your only focus is your wellness and an extraordinary recovery."
+                ? "Tu transformación, diseñada sin que muevas un dedo.\nEspecialistas de primer nivel, clínica, hotel, traslados y seguimiento — todo resuelto."
+                : "Your transformation, designed without you lifting a finger.\nTop-tier specialists, clinic, hotel, transfers, and follow-up — everything solved."
               ).split("").map((char, index) => (
                 <span key={index}>{char}</span>
               ))
             ) : (
               language === "es"
-                ? "Bridge Care te conecta con la excelencia médica de Colombia. Diseñamos una experiencia de salud sin fronteras, donde especialistas certificados, clínicas de vanguardia y un acompañamiento cálido y personalizado se unen para que tu único enfoque sea tu bienestar y una recuperación extraordinaria."
-                : "Bridge Care connects you with Colombia's medical excellence. We design a health experience without borders, where certified specialists, state-of-the-art clinics, and warm, personalized support come together so your only focus is your wellness and an extraordinary recovery."
+                ? "Tu transformación, diseñada sin que muevas un dedo.\nEspecialistas de primer nivel, clínica, hotel, traslados y seguimiento — todo resuelto."
+                : "Your transformation, designed without you lifting a finger.\nTop-tier specialists, clinic, hotel, transfers, and follow-up — everything solved."
             )}
           </h2>
           <Link href="/contacto" className="btn btn-primary">
@@ -1547,6 +1547,7 @@ export default function Home() {
           margin-bottom: 3.5rem;
           text-align: center;
           letter-spacing: -0.01em;
+          white-space: pre-line;
           /* Reset background gradient clip from global h1 just in case */
           background: none !important;
           -webkit-background-clip: initial !important;
