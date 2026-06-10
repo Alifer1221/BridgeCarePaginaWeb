@@ -1514,21 +1514,21 @@ export default function Home() {
 
         /* Text Reveal on Scroll */
         .reveal-scroll-container {
-          height: 125vh; 
+          height: 100vh; 
           position: relative;
           background-color: var(--negro-suave); /* Match page background */
           width: 100%;
         }
         .reveal-sticky-content {
           position: sticky;
-          top: 0;
-          height: 100vh;
+          top: 12vh;
+          height: 70vh;
           display: flex;
           flex-direction: column;
-          justify-content: center;
+          justify-content: flex-start;
           align-items: center;
           text-align: center;
-          padding: 0 24px;
+          padding: 3rem 24px 0 24px;
           overflow: hidden;
         }
         .reveal-subtitle {
