@@ -1540,10 +1540,10 @@ export default function Home() {
           text-transform: uppercase;
         }
         .reveal-text-content {
-          font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+          font-size: clamp(1.3rem, 2vw, 1.85rem);
           font-weight: 500;
-          max-width: 950px;
-          line-height: 1.45;
+          max-width: 1200px;
+          line-height: 1.6;
           margin-bottom: 3.5rem;
           text-align: center;
           letter-spacing: -0.01em;
