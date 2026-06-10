@@ -1468,14 +1468,14 @@ html.splash-hidden .home-container {
    ========================================================================== */
 .why-colombia-section {
   background-color: var(--negro-suave); /* Match page background */
-  padding: 6rem 0;
+  padding: 3rem 0;
   width: 100%;
 }
 .why-col-header {
   display: grid;
   grid-template-columns: 250px 1fr 250px;
   gap: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 24px;
   align-items: start;
 }
 
@@ -1516,11 +1516,11 @@ html.splash-hidden .home-container {
 }
 
 .why-col-header-content h2 {
-  font-size: 3rem;
+  font-size: 2.4rem;
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.02em;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   color: var(--white);
   background: linear-gradient(135deg, var(--white) 30%, var(--gris-texto) 100%);
   -webkit-background-clip: text;
@@ -1534,9 +1534,9 @@ html.splash-hidden .home-container {
 
 .why-col-header-content p {
   color: var(--gris-texto);
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   max-width: 600px;
-  line-height: 1.6;
+  line-height: 1.5;
   margin: 0 auto;
 }
 
@@ -1560,20 +1560,20 @@ html.splash-hidden .home-container {
   background-color: var(--pure-white);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   box-shadow: var(--shadow-md);
   border: 1px solid rgba(29, 122, 110, 0.08);
-  min-height: 540px; /* Keep height stable across slides to avoid image scaling jumps */
+  min-height: 410px; /* Keep height stable across slides to avoid image scaling jumps */
 }
 
 .why-col-img-col {
   background-size: cover;
   background-position: center;
   position: relative;
-  min-height: 480px;
+  min-height: 350px;
   display: flex;
   align-items: flex-end;
-  padding: 2.5rem;
+  padding: 1.75rem;
   overflow: hidden;
 }
 
@@ -1616,7 +1616,7 @@ html.splash-hidden .home-container {
 }
 
 .why-col-content-col {
-  padding: 3.5rem;
+  padding: 2.2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1628,31 +1628,31 @@ html.splash-hidden .home-container {
   letter-spacing: 0.15em;
   color: var(--teal-primary);
   text-transform: uppercase;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .why-col-title {
-  font-size: 1.85rem;
+  font-size: 1.5rem;
   font-weight: 800;
   color: var(--white);
   line-height: 1.25;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.75rem;
   letter-spacing: -0.01em;
   background: none;
   -webkit-text-fill-color: initial;
 }
 
 .why-col-desc {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--gris-texto);
-  line-height: 1.75;
-  margin-bottom: 2rem;
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
 }
 
 .why-col-pillars {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.85rem;
 }
 
 .why-col-pillar {
@@ -1715,7 +1715,7 @@ html.splash-hidden .home-container {
 }
 
 .why-col-stat-card {
-  padding: 2.2rem 2rem;
+  padding: 1.25rem 1.5rem;
   display: flex;
   flex-direction: column;
   border: 1px solid rgba(29, 122, 110, 0.1);
@@ -1736,7 +1736,7 @@ html.splash-hidden .home-container {
   height: 3px;
   background: var(--teal-primary);
   border-radius: var(--radius-full);
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.75rem;
   transition: var(--transition);
 }
 
@@ -1745,31 +1745,31 @@ html.splash-hidden .home-container {
 }
 
 .why-col-stat-num {
-  font-size: 2.25rem;
+  font-size: 1.85rem;
   font-weight: 800;
   color: var(--white);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
   line-height: 1;
   letter-spacing: -0.02em;
 }
 
 .why-col-stat-num span {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   color: var(--teal-primary);
   margin-left: 2px;
 }
 
 .why-col-stat-title {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 700;
   color: var(--white);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .why-col-stat-desc {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--gris-texto);
-  line-height: 1.6;
+  line-height: 1.4;
   margin-bottom: 0;
 }
 
