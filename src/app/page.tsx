@@ -975,55 +975,51 @@ export default function Home() {
             </button>
           </div>
 
-          <div className="esp-card-container">
-            <div className="esp-glow-effect"></div>
-
-            {Object.entries(specialtyData).map(([key, data]) => {
-              const isActive = activeSpecialtyTab === key;
-              const activeIndex = activeCardIndices[key] || 0;
-              
-              return (
-                <div key={key} className={`esp-specialty-pane ${isActive ? "active" : ""}`}>
-                  {/* Columna de Texto - A la izquierda */}
-                  <div className="esp-text-col">
-                    <span className="esp-badge">{language === "es" ? data.badge.es : data.badge.en}</span>
-                    <h3 className="esp-tagline">{language === "es" ? data.tagline.es : data.tagline.en}</h3>
-                    <p className="esp-desc">
-                      {language === "es" ? data.description.es : data.description.en}
-                    </p>
-                    <Link href={data.link} className="esp-cta-button">
-                      {language === "es" ? "Ver detalles" : "View details"}
-                    </Link>
-                  </div>
-                  
-                  {/* Columna de Stack de Tarjetas - A la derecha */}
-                  <div className="esp-stack-col" onClick={() => cycleCard(key)}>
-                    <div className="esp-card-stack">
-                      {data.procedures.map((proc, index) => {
-                        const position = (index - activeIndex + 3) % 3;
-                        
-                        return (
-                          <div 
-                            key={index} 
-                            className={`esp-stack-card esp-card-pos-${position}`}
-                          >
-                            <img src={proc.image} alt={language === "es" ? proc.title.es : proc.title.en} />
-                            <div className="esp-card-overlay"></div>
-                            <div className="esp-card-info">
-                              <h4>{language === "es" ? proc.title.es : proc.title.en}</h4>
-                            </div>
-                            <div className="esp-card-indicator">
-                              <div className="esp-indicator-inner"></div>
-                            </div>
+          {Object.entries(specialtyData).map(([key, data]) => {
+            const isActive = activeSpecialtyTab === key;
+            const activeIndex = activeCardIndices[key] || 0;
+            
+            return (
+              <div key={key} className={`esp-specialty-pane ${isActive ? "active" : ""}`}>
+                {/* Columna de Texto - A la izquierda */}
+                <div className="esp-text-col">
+                  <span className="esp-badge">{language === "es" ? data.badge.es : data.badge.en}</span>
+                  <h3 className="esp-tagline">{language === "es" ? data.tagline.es : data.tagline.en}</h3>
+                  <p className="esp-desc">
+                    {language === "es" ? data.description.es : data.description.en}
+                  </p>
+                  <Link href={data.link} className="esp-cta-button">
+                    {language === "es" ? "Ver detalles" : "View details"}
+                  </Link>
+                </div>
+                
+                {/* Columna de Stack de Tarjetas - A la derecha */}
+                <div className="esp-stack-col" onClick={() => cycleCard(key)}>
+                  <div className="esp-card-stack">
+                    {data.procedures.map((proc, index) => {
+                      const position = (index - activeIndex + 3) % 3;
+                      
+                      return (
+                        <div 
+                          key={index} 
+                          className={`esp-stack-card esp-card-pos-${position}`}
+                        >
+                          <img src={proc.image} alt={language === "es" ? proc.title.es : proc.title.en} />
+                          <div className="esp-card-overlay"></div>
+                          <div className="esp-card-info">
+                            <h4>{language === "es" ? proc.title.es : proc.title.en}</h4>
                           </div>
-                        );
-                      })}
-                    </div>
+                          <div className="esp-card-indicator">
+                            <div className="esp-indicator-inner"></div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
       </section>
 
