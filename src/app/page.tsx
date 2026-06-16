@@ -988,8 +988,9 @@ export default function Home() {
                   <p className="esp-desc">
                     {language === "es" ? data.description.es : data.description.en}
                   </p>
-                  <Link href={data.link} className="esp-cta-button">
-                    {language === "es" ? "Ver detalles" : "View details"}
+                  <Link href={data.link} className="esp-cta-link">
+                    <span>{language === "es" ? "Ver detalles" : "View details"}</span>
+                    <span className="esp-cta-link-arrow">→</span>
                   </Link>
                 </div>
                 
@@ -1810,42 +1811,70 @@ export default function Home() {
         }
 
         /* ==========================================================
-           Specialties Interactive 3D Card Stack Styles
+           Specialties Interactive 3D Card Stack Styles (Ultra-Minimalist)
            ========================================================== */
         .esp-specialty-pane.active {
           display: grid;
           grid-template-columns: 1.2fr 1fr;
-          gap: 60px;
+          gap: 70px;
           align-items: center;
         }
 
         .esp-badge {
           display: inline-block;
-          background-color: rgba(29, 122, 110, 0.08);
-          color: var(--teal-primary);
-          padding: 6px 16px;
-          border-radius: 9999px;
-          font-size: 0.85rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          margin-bottom: 1.25rem;
+          background-color: rgba(0, 0, 0, 0.05); /* very light gray */
+          color: #111827; /* dark gray/black */
+          padding: 4px 10px;
+          border-radius: 6px; /* slightly rounded, not pill */
+          font-size: 0.78rem;
+          font-weight: 600;
+          text-transform: none; /* sentence case */
+          letter-spacing: -0.01em;
+          margin-bottom: 1.5rem;
         }
 
         .esp-tagline {
-          font-size: 2.6rem;
+          font-size: 3.2rem; /* larger, bold */
           font-weight: 800;
-          line-height: 1.15;
-          color: var(--teal-dark);
-          margin-bottom: 1.25rem;
-          letter-spacing: -0.02em;
+          line-height: 1.1;
+          color: #000000; /* solid black */
+          margin-bottom: 1.5rem;
+          letter-spacing: -0.03em;
         }
 
         .esp-desc {
-          font-size: 1.05rem;
-          color: var(--gris-texto);
-          line-height: 1.65;
+          font-size: 0.98rem; /* slightly smaller and cleaner */
+          color: #4b5563; /* gray-600 */
+          line-height: 1.6;
           margin-bottom: 2rem;
+          max-width: 520px;
+        }
+
+        /* Minimalist text link instead of pill button */
+        .esp-cta-link {
+          display: inline-flex;
+          align-items: center;
+          color: #000000;
+          font-weight: 700;
+          font-size: 0.95rem;
+          text-decoration: none;
+          gap: 0.5rem;
+          transition: all 0.2s ease;
+          border-bottom: 2px solid transparent;
+          padding-bottom: 2px;
+        }
+
+        .esp-cta-link:hover {
+          color: var(--teal-primary);
+          border-bottom-color: var(--teal-primary);
+        }
+
+        .esp-cta-link-arrow {
+          transition: transform 0.2s ease;
+        }
+
+        .esp-cta-link:hover .esp-cta-link-arrow {
+          transform: translateX(4px);
         }
 
         .esp-stack-col {
@@ -1859,10 +1888,10 @@ export default function Home() {
 
         .esp-card-stack {
           position: relative;
-          width: 320px;
+          width: 310px;
           height: 380px;
-          margin-right: 30px;
-          margin-bottom: 30px;
+          margin-right: 20px;
+          margin-bottom: 20px;
         }
 
         .esp-stack-card {
@@ -1871,13 +1900,13 @@ export default function Home() {
           left: 0;
           width: 100%;
           height: 100%;
-          border-radius: 24px;
+          border-radius: 12px; /* cleaner, sharper radius */
           overflow: hidden;
-          box-shadow: var(--shadow-md);
-          transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02); /* soft shadow */
+          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
                       z-index 0.6s step-end,
                       opacity 0.6s ease;
-          border: 1px solid rgba(255, 255, 255, 0.15);
+          border: 1px solid rgba(0, 0, 0, 0.04);
         }
 
         .esp-stack-card img {
@@ -1893,46 +1922,49 @@ export default function Home() {
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.75) 100%);
+          background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.6) 100%);
           z-index: 1;
         }
 
         .esp-card-info {
           position: absolute;
-          bottom: 24px;
-          left: 24px;
-          right: 24px;
+          bottom: 20px;
+          left: 0;
+          right: 0;
+          text-align: center; /* centered text at the bottom */
           z-index: 2;
+          padding: 0 15px;
         }
 
         .esp-card-info h4 {
           color: #ffffff;
-          font-size: 1.35rem;
-          font-weight: 700;
+          font-size: 1.15rem;
+          font-weight: 600;
           margin: 0;
-          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+          letter-spacing: -0.01em;
         }
 
+        /* Top right circular indicator ring */
         .esp-card-indicator {
           position: absolute;
           top: 20px;
           right: 20px;
-          width: 28px;
-          height: 28px;
+          width: 24px;
+          height: 24px;
           border-radius: 50%;
-          border: 2px solid rgba(255, 255, 255, 0.75);
+          border: 1.5px solid rgba(255, 255, 255, 0.4);
           display: flex;
           align-items: center;
           justify-content: center;
           z-index: 2;
-          background-color: rgba(0, 0, 0, 0.15);
-          backdrop-filter: blur(4px);
+          background-color: rgba(0, 0, 0, 0.05);
+          backdrop-filter: blur(2px);
           transition: border-color 0.3s ease;
         }
 
         .esp-indicator-inner {
-          width: 10px;
-          height: 10px;
+          width: 8px;
+          height: 8px;
           border-radius: 50%;
           background-color: #ffffff;
           opacity: 0;
@@ -1946,34 +1978,38 @@ export default function Home() {
           opacity: 1;
         }
 
+        .esp-card-pos-0 .esp-card-indicator {
+          border-color: rgba(255, 255, 255, 0.95);
+        }
+
         .esp-card-pos-0 .esp-indicator-inner {
           opacity: 1;
         }
 
         .esp-card-pos-1 {
           z-index: 2;
-          transform: translate(16px, 16px) scale(0.96) rotate(2.5deg);
+          transform: translate(12px, 12px) scale(0.97) rotate(1.5deg);
           opacity: 0.95;
         }
 
         .esp-card-pos-2 {
           z-index: 1;
-          transform: translate(32px, 32px) scale(0.92) rotate(-2.5deg);
-          opacity: 0.85;
+          transform: translate(24px, 24px) scale(0.94) rotate(-1.5deg);
+          opacity: 0.9;
         }
 
         /* Hover animation fanning out */
         .esp-stack-col:hover .esp-card-pos-0 {
-          transform: translate(-6px, -6px) scale(1.02) rotate(-1deg);
-          box-shadow: var(--shadow-lg);
+          transform: translate(-4px, -4px) scale(1.01) rotate(-0.5deg);
+          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
         }
 
         .esp-stack-col:hover .esp-card-pos-1 {
-          transform: translate(16px, 10px) scale(0.98) rotate(4deg);
+          transform: translate(12px, 8px) scale(0.98) rotate(3deg);
         }
 
         .esp-stack-col:hover .esp-card-pos-2 {
-          transform: translate(38px, 26px) scale(0.94) rotate(-4deg);
+          transform: translate(28px, 20px) scale(0.95) rotate(-3deg);
         }
 
         @media (max-width: 900px) {
@@ -1987,26 +2023,20 @@ export default function Home() {
             flex-direction: column;
             align-items: center;
           }
+          .esp-tagline {
+            font-size: 2.4rem;
+          }
           .esp-card-stack {
-            width: 290px;
+            width: 280px;
             height: 340px;
-            margin-right: 20px;
-            margin-bottom: 20px;
+            margin-right: 15px;
+            margin-bottom: 15px;
           }
           .esp-card-pos-1 {
-            transform: translate(12px, 12px) scale(0.96) rotate(2.5deg);
+            transform: translate(10px, 10px) scale(0.97) rotate(1.5deg);
           }
           .esp-card-pos-2 {
-            transform: translate(24px, 24px) scale(0.92) rotate(-2.5deg);
-          }
-          .esp-stack-col:hover .esp-card-pos-0 {
-            transform: translate(-4px, -4px) scale(1.02) rotate(-1deg);
-          }
-          .esp-stack-col:hover .esp-card-pos-1 {
-            transform: translate(12px, 8px) scale(0.98) rotate(4deg);
-          }
-          .esp-stack-col:hover .esp-card-pos-2 {
-            transform: translate(28px, 20px) scale(0.94) rotate(-4deg);
+            transform: translate(20px, 20px) scale(0.94) rotate(-1.5deg);
           }
         }
       `}</style>
