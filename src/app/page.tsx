@@ -1573,6 +1573,9 @@ export default function Home() {
           position: relative;
           z-index: 10;
         }
+        .esp-specialties-tabs-section .section-header {
+          margin-bottom: 2.5rem;
+        }
         .text-center {
           text-align: center;
         }
