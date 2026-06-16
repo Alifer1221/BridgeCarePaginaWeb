@@ -1895,8 +1895,8 @@ export default function Home() {
 
         .esp-card-stack {
           position: relative;
-          width: 310px;
-          height: 380px;
+          width: 380px;
+          height: 460px;
           margin-right: 20px;
           margin-bottom: 20px;
         }
