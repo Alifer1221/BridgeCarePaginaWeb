@@ -1814,10 +1814,16 @@ export default function Home() {
            Specialties Interactive 3D Card Stack Styles (Ultra-Minimalist)
            ========================================================== */
         .esp-specialty-pane.active {
-          display: grid;
-          grid-template-columns: 1.2fr 1fr;
-          gap: 70px;
+          display: flex;
+          justify-content: space-between;
           align-items: center;
+          width: 100%;
+          gap: 80px;
+        }
+
+        .esp-text-col {
+          max-width: 550px;
+          flex: 1;
         }
 
         .esp-badge {
@@ -1878,12 +1884,13 @@ export default function Home() {
         }
 
         .esp-stack-col {
-          width: 100%;
+          flex: 1;
           display: flex;
-          justify-content: center;
+          justify-content: flex-end;
           align-items: center;
           cursor: pointer;
           user-select: none;
+          padding-right: 30px;
         }
 
         .esp-card-stack {
