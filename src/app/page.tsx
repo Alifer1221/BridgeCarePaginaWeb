@@ -147,12 +147,121 @@ const whySlides = [
   }
 ];
 
+const specialtyData = {
+  "cirugia-plastica": {
+    badge: { es: "Cirugía Plástica", en: "Plastic Surgery" },
+    tagline: { es: "Resultados naturales para redescubrir tu confianza", en: "Natural results to rediscover your confidence" },
+    description: {
+      es: "Procedimientos estéticos y reconstructivos realizados por cirujanos certificados internacionalmente. Recupera tu confianza con técnicas avanzadas y resultados naturales.",
+      en: "Aesthetic and reconstructive procedures performed by internationally certified surgeons. Regain your confidence with advanced techniques and natural results."
+    },
+    link: "/specialties/cirugia-estetica",
+    procedures: [
+      {
+        title: { es: "Rinoplastia", en: "Rhinoplasty" },
+        image: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&q=80&w=800"
+      },
+      {
+        title: { es: "Liposucción", en: "Liposuction" },
+        image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800"
+      },
+      {
+        title: { es: "Aumento Mamario", en: "Breast Augmentation" },
+        image: "https://images.unsplash.com/photo-1522337360788-8b13edd793be?auto=format&fit=crop&q=80&w=800"
+      }
+    ]
+  },
+  "odontologia": {
+    badge: { es: "Odontología", en: "Dentistry" },
+    tagline: { es: "Una sonrisa saludable y radiante para toda la vida", en: "A healthy, radiant smile for a lifetime" },
+    description: {
+      es: "Cuida tu salud oral y diseña tu sonrisa perfecta con odontólogos especializados y tecnología dental de vanguardia. Te ofrecemos atención dental de primer nivel.",
+      en: "Take care of your oral health and design your perfect smile with specialized dentists and cutting-edge dental technology. We offer you world-class dental care."
+    },
+    link: "/specialties/odontologia",
+    procedures: [
+      {
+        title: { es: "Diseño de Sonrisa", en: "Smile Design" },
+        image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&q=80&w=800"
+      },
+      {
+        title: { es: "Implantes Dentales", en: "Dental Implants" },
+        image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=800"
+      },
+      {
+        title: { es: "Ortodoncia Invisible", en: "Invisible Orthodontics" },
+        image: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&q=80&w=800"
+      }
+    ]
+  },
+  "oftalmologia": {
+    badge: { es: "Oftalmología", en: "Ophthalmology" },
+    tagline: { es: "Una visión clara para disfrutar cada momento", en: "Clear vision to enjoy every moment" },
+    description: {
+      es: "Cuidamos de tu visión con diagnósticos precisos y tratamientos avanzados para diversas patologías oculares, realizados por oftalmólogos certificados.",
+      en: "We take care of your vision with precise diagnoses and advanced treatments for various ocular pathologies, performed by certified ophthalmologists."
+    },
+    link: "/contacto",
+    procedures: [
+      {
+        title: { es: "Cirugía Refractiva (LASIK)", en: "Refractive Surgery (LASIK)" },
+        image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800"
+      },
+      {
+        title: { es: "Cirugía de Cataratas", en: "Cataract Surgery" },
+        image: "https://images.unsplash.com/photo-1579684389782-64d84b5e901a?auto=format&fit=crop&q=80&w=800"
+      },
+      {
+        title: { es: "Tratamiento de Glaucoma", en: "Glaucoma Treatment" },
+        image: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&q=80&w=800"
+      }
+    ]
+  },
+  "estetica": {
+    badge: { es: "Medicina Estética", en: "Aesthetic Medicine" },
+    tagline: { es: "Realza tu belleza natural sin cirugía", en: "Enhance your natural beauty without surgery" },
+    description: {
+      es: "Realza tu belleza natural con tratamientos de medicina estética no invasivos. Rejuvenecimiento facial, remodelación corporal y cuidado integral de la piel.",
+      en: "Enhance your natural beauty with non-invasive medical aesthetic treatments. Facial rejuvenation, body contouring, and comprehensive skincare."
+    },
+    link: "/specialties/estetica",
+    procedures: [
+      {
+        title: { es: "Toxina Botulínica (Botox)", en: "Botulinum Toxin (Botox)" },
+        image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=800"
+      },
+      {
+        title: { es: "Ácido Hialurónico", en: "Hyaluronic Acid" },
+        image: "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=800"
+      },
+      {
+        title: { es: "Rejuvenecimiento Láser", en: "Laser Rejuvenation" },
+        image: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&q=80&w=800"
+      }
+    ]
+  }
+};
+
 export default function Home() {
   const { language, setLanguage, t } = useLanguage();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [activeSpecialtyTab, setActiveSpecialtyTab] = useState("cirugia-plastica");
+  const [activeCardIndices, setActiveCardIndices] = useState<Record<string, number>>({
+    "cirugia-plastica": 0,
+    "odontologia": 0,
+    "oftalmologia": 0,
+    "estetica": 0
+  });
+
+  const cycleCard = (specialty: string) => {
+    setActiveCardIndices(prev => ({
+      ...prev,
+      [specialty]: (prev[specialty] + 1) % 3
+    }));
+  };
+
   const [currentWhySlide, setCurrentWhySlide] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
@@ -869,169 +978,51 @@ export default function Home() {
           <div className="esp-card-container">
             <div className="esp-glow-effect"></div>
 
-            {/* Cirugía Plástica */}
-            <div className={`esp-specialty-pane ${activeSpecialtyTab === "cirugia-plastica" ? "active" : ""}`}>
-              <div className="esp-image-col">
-                <img
-                  src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=800"
-                  alt={language === "es" ? "Cirujanos plásticos" : "Plastic surgeons"}
-                />
-              </div>
-              <div className="esp-text-col">
-                <h3>{language === "es" ? "Cirugía Plástica" : "Plastic Surgery"}</h3>
-                <p>
-                  {language === "es"
-                    ? "Procedimientos estéticos y reconstructivos realizados por cirujanos certificados internacionalmente. Recupera tu confianza con técnicas avanzadas y resultados naturales."
-                    : "Aesthetic and reconstructive procedures performed by internationally certified surgeons. Regain your confidence with advanced techniques and natural results."}
-                </p>
-                <ul className="esp-procedures-list">
-                  <li>
-                    <svg viewBox="0 0 24 24">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    {language === "es" ? "Rinoplastia" : "Rhinoplasty"}
-                  </li>
-                  <li>
-                    <svg viewBox="0 0 24 24">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    {language === "es" ? "Liposucción" : "Liposuction"}
-                  </li>
-                  <li>
-                    <svg viewBox="0 0 24 24">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    {language === "es" ? "Aumento Mamario" : "Breast Augmentation"}
-                  </li>
-                </ul>
-                <Link href="/specialties/cirugia-estetica" className="esp-cta-button">
-                  {language === "es" ? "Ver detalles" : "View details"}
-                </Link>
-              </div>
-            </div>
-
-            {/* Odontología */}
-            <div className={`esp-specialty-pane ${activeSpecialtyTab === "odontologia" ? "active" : ""}`}>
-              <div className="esp-image-col">
-                <img
-                  src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&q=80&w=800"
-                  alt={language === "es" ? "Odontología" : "Dentistry"}
-                />
-              </div>
-              <div className="esp-text-col">
-                <h3>{language === "es" ? "Odontología" : "Dentistry"}</h3>
-                <p>
-                  {language === "es"
-                    ? "Cuida tu salud oral y diseña tu sonrisa perfecta con odontólogos especializados y tecnología dental de vanguardia. Te ofrecemos atención dental de primer nivel."
-                    : "Take care of your oral health and design your perfect smile with specialized dentists and cutting-edge dental technology. We offer you world-class dental care."}
-                </p>
-                <ul className="esp-procedures-list">
-                  <li>
-                    <svg viewBox="0 0 24 24">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    {language === "es" ? "Diseño de Sonrisa" : "Smile Design"}
-                  </li>
-                  <li>
-                    <svg viewBox="0 0 24 24">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    {language === "es" ? "Implantes Dentales" : "Dental Implants"}
-                  </li>
-                  <li>
-                    <svg viewBox="0 0 24 24">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    {language === "es" ? "Ortodoncia Invisible" : "Invisible Orthodontics"}
-                  </li>
-                </ul>
-                <Link href="/specialties/odontologia" className="esp-cta-button">
-                  {language === "es" ? "Ver detalles" : "View details"}
-                </Link>
-              </div>
-            </div>
-
-            {/* Oftalmología */}
-            <div className={`esp-specialty-pane ${activeSpecialtyTab === "oftalmologia" ? "active" : ""}`}>
-              <div className="esp-image-col">
-                <img
-                  src="https://images.unsplash.com/photo-1581594549595-35e6ed91d740?auto=format&fit=crop&q=80&w=800"
-                  alt={language === "es" ? "Oftalmología" : "Ophthalmology"}
-                />
-              </div>
-              <div className="esp-text-col">
-                <h3>{language === "es" ? "Oftalmología" : "Ophthalmology"}</h3>
-                <p>
-                  {language === "es"
-                    ? "Cuidamos de tu visión con diagnósticos precisos y tratamientos avanzados para diversas patologías oculares, realizados por oftalmólogos certificados."
-                    : "We take care of your vision with precise diagnoses and advanced treatments for various ocular pathologies, performed by certified ophthalmologists."}
-                </p>
-                <ul className="esp-procedures-list">
-                  <li>
-                    <svg viewBox="0 0 24 24">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    {language === "es" ? "Cirugía Refractiva (LASIK)" : "Refractive Surgery (LASIK)"}
-                  </li>
-                  <li>
-                    <svg viewBox="0 0 24 24">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    {language === "es" ? "Cirugía de Cataratas" : "Cataract Surgery"}
-                  </li>
-                  <li>
-                    <svg viewBox="0 0 24 24">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    {language === "es" ? "Tratamiento de Glaucoma" : "Glaucoma Treatment"}
-                  </li>
-                </ul>
-                <Link href="/contacto" className="esp-cta-button">
-                  {language === "es" ? "Ver detalles" : "View details"}
-                </Link>
-              </div>
-            </div>
-
-            {/* Estética */}
-            <div className={`esp-specialty-pane ${activeSpecialtyTab === "estetica" ? "active" : ""}`}>
-              <div className="esp-image-col">
-                <img
-                  src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=800"
-                  alt={language === "es" ? "Medicina Estética" : "Aesthetic Medicine"}
-                />
-              </div>
-              <div className="esp-text-col">
-                <h3>{language === "es" ? "Estética" : "Aesthetics"}</h3>
-                <p>
-                  {language === "es"
-                    ? "Realza tu belleza natural con tratamientos de medicina estética no invasivos. Rejuvenecimiento facial, remodelación corporal y cuidado integral de la piel."
-                    : "Enhance your natural beauty with non-invasive medical aesthetic treatments. Facial rejuvenation, body contouring, and comprehensive skincare."}
-                </p>
-                <ul className="esp-procedures-list">
-                  <li>
-                    <svg viewBox="0 0 24 24">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    {language === "es" ? "Toxina Botulínica (Botox)" : "Botulinum Toxin (Botox)"}
-                  </li>
-                  <li>
-                    <svg viewBox="0 0 24 24">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    {language === "es" ? "Ácido Hialurónico" : "Hyaluronic Acid"}
-                  </li>
-                  <li>
-                    <svg viewBox="0 0 24 24">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    {language === "es" ? "Rejuvenecimiento Láser" : "Laser Rejuvenation"}
-                  </li>
-                </ul>
-                <Link href="/specialties/estetica" className="esp-cta-button">
-                  {language === "es" ? "Ver detalles" : "View details"}
-                </Link>
-              </div>
-            </div>
+            {Object.entries(specialtyData).map(([key, data]) => {
+              const isActive = activeSpecialtyTab === key;
+              const activeIndex = activeCardIndices[key] || 0;
+              
+              return (
+                <div key={key} className={`esp-specialty-pane ${isActive ? "active" : ""}`}>
+                  {/* Columna de Texto - A la izquierda */}
+                  <div className="esp-text-col">
+                    <span className="esp-badge">{language === "es" ? data.badge.es : data.badge.en}</span>
+                    <h3 className="esp-tagline">{language === "es" ? data.tagline.es : data.tagline.en}</h3>
+                    <p className="esp-desc">
+                      {language === "es" ? data.description.es : data.description.en}
+                    </p>
+                    <Link href={data.link} className="esp-cta-button">
+                      {language === "es" ? "Ver detalles" : "View details"}
+                    </Link>
+                  </div>
+                  
+                  {/* Columna de Stack de Tarjetas - A la derecha */}
+                  <div className="esp-stack-col" onClick={() => cycleCard(key)}>
+                    <div className="esp-card-stack">
+                      {data.procedures.map((proc, index) => {
+                        const position = (index - activeIndex + 3) % 3;
+                        
+                        return (
+                          <div 
+                            key={index} 
+                            className={`esp-stack-card esp-card-pos-${position}`}
+                          >
+                            <img src={proc.image} alt={language === "es" ? proc.title.es : proc.title.en} />
+                            <div className="esp-card-overlay"></div>
+                            <div className="esp-card-info">
+                              <h4>{language === "es" ? proc.title.es : proc.title.en}</h4>
+                            </div>
+                            <div className="esp-card-indicator">
+                              <div className="esp-indicator-inner"></div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -1819,6 +1810,207 @@ export default function Home() {
           }
           .hero-feature-desc {
             max-width: 100%;
+          }
+        }
+
+        /* ==========================================================
+           Specialties Interactive 3D Card Stack Styles
+           ========================================================== */
+        .esp-specialty-pane.active {
+          display: grid;
+          grid-template-columns: 1.2fr 1fr;
+          gap: 60px;
+          align-items: center;
+        }
+
+        .esp-badge {
+          display: inline-block;
+          background-color: rgba(29, 122, 110, 0.08);
+          color: var(--teal-primary);
+          padding: 6px 16px;
+          border-radius: 9999px;
+          font-size: 0.85rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin-bottom: 1.25rem;
+        }
+
+        .esp-tagline {
+          font-size: 2.6rem;
+          font-weight: 800;
+          line-height: 1.15;
+          color: var(--teal-dark);
+          margin-bottom: 1.25rem;
+          letter-spacing: -0.02em;
+        }
+
+        .esp-desc {
+          font-size: 1.05rem;
+          color: var(--gris-texto);
+          line-height: 1.65;
+          margin-bottom: 2rem;
+        }
+
+        .esp-stack-col {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          user-select: none;
+        }
+
+        .esp-card-stack {
+          position: relative;
+          width: 320px;
+          height: 380px;
+          margin-right: 30px;
+          margin-bottom: 30px;
+        }
+
+        .esp-stack-card {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border-radius: 24px;
+          overflow: hidden;
+          box-shadow: var(--shadow-md);
+          transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+                      z-index 0.6s step-end,
+                      opacity 0.6s ease;
+          border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .esp-stack-card img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .esp-card-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.75) 100%);
+          z-index: 1;
+        }
+
+        .esp-card-info {
+          position: absolute;
+          bottom: 24px;
+          left: 24px;
+          right: 24px;
+          z-index: 2;
+        }
+
+        .esp-card-info h4 {
+          color: #ffffff;
+          font-size: 1.35rem;
+          font-weight: 700;
+          margin: 0;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .esp-card-indicator {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          border: 2px solid rgba(255, 255, 255, 0.75);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 2;
+          background-color: rgba(0, 0, 0, 0.15);
+          backdrop-filter: blur(4px);
+          transition: border-color 0.3s ease;
+        }
+
+        .esp-indicator-inner {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background-color: #ffffff;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+
+        /* Positions */
+        .esp-card-pos-0 {
+          z-index: 3;
+          transform: translate(0, 0) scale(1) rotate(0deg);
+          opacity: 1;
+        }
+
+        .esp-card-pos-0 .esp-indicator-inner {
+          opacity: 1;
+        }
+
+        .esp-card-pos-1 {
+          z-index: 2;
+          transform: translate(16px, 16px) scale(0.96) rotate(2.5deg);
+          opacity: 0.95;
+        }
+
+        .esp-card-pos-2 {
+          z-index: 1;
+          transform: translate(32px, 32px) scale(0.92) rotate(-2.5deg);
+          opacity: 0.85;
+        }
+
+        /* Hover animation fanning out */
+        .esp-stack-col:hover .esp-card-pos-0 {
+          transform: translate(-6px, -6px) scale(1.02) rotate(-1deg);
+          box-shadow: var(--shadow-lg);
+        }
+
+        .esp-stack-col:hover .esp-card-pos-1 {
+          transform: translate(16px, 10px) scale(0.98) rotate(4deg);
+        }
+
+        .esp-stack-col:hover .esp-card-pos-2 {
+          transform: translate(38px, 26px) scale(0.94) rotate(-4deg);
+        }
+
+        @media (max-width: 900px) {
+          .esp-specialty-pane.active {
+            grid-template-columns: 1fr;
+            gap: 40px;
+          }
+          .esp-text-col {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+          .esp-card-stack {
+            width: 290px;
+            height: 340px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+          }
+          .esp-card-pos-1 {
+            transform: translate(12px, 12px) scale(0.96) rotate(2.5deg);
+          }
+          .esp-card-pos-2 {
+            transform: translate(24px, 24px) scale(0.92) rotate(-2.5deg);
+          }
+          .esp-stack-col:hover .esp-card-pos-0 {
+            transform: translate(-4px, -4px) scale(1.02) rotate(-1deg);
+          }
+          .esp-stack-col:hover .esp-card-pos-1 {
+            transform: translate(12px, 8px) scale(0.98) rotate(4deg);
+          }
+          .esp-stack-col:hover .esp-card-pos-2 {
+            transform: translate(28px, 20px) scale(0.94) rotate(-4deg);
           }
         }
       `}</style>
