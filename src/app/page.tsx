@@ -1843,7 +1843,7 @@ export default function Home() {
           font-size: 3.2rem; /* larger, bold */
           font-weight: 800;
           line-height: 1.1;
-          color: #000000; /* solid black */
+          color: var(--white);
           margin-bottom: 1.5rem;
           letter-spacing: -0.03em;
         }
