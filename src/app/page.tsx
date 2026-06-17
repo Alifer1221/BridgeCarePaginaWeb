@@ -254,13 +254,37 @@ export default function Home() {
     "oftalmologia": 0,
     "estetica": 0
   });
+  const [progress, setProgress] = useState(0);
 
   const cycleCard = (specialty: string) => {
     setActiveCardIndices(prev => ({
       ...prev,
       [specialty]: (prev[specialty] + 1) % 3
     }));
+    setProgress(0);
   };
+
+  useEffect(() => {
+    if (!activeSpecialtyTab) return;
+
+    setProgress(0);
+
+    const intervalTime = 50;
+    const duration = 5000;
+    const increment = (100 * intervalTime) / duration;
+
+    const timer = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 100) {
+          cycleCard(activeSpecialtyTab);
+          return 0;
+        }
+        return prev + increment;
+      });
+    }, intervalTime);
+
+    return () => clearInterval(timer);
+  }, [activeSpecialtyTab]);
 
   const [currentWhySlide, setCurrentWhySlide] = useState(0);
   const [mounted, setMounted] = useState(false);
@@ -1011,7 +1035,34 @@ export default function Home() {
                             <h4>{language === "es" ? proc.title.es : proc.title.en}</h4>
                           </div>
                           <div className="esp-card-indicator">
-                            <div className="esp-indicator-inner"></div>
+                            {position === 0 ? (
+                              <svg className="esp-progress-ring" width="24" height="24">
+                                <circle
+                                  className="esp-progress-ring-bg"
+                                  stroke="rgba(255, 255, 255, 0.25)"
+                                  strokeWidth="1.5"
+                                  fill="transparent"
+                                  r="9"
+                                  cx="12"
+                                  cy="12"
+                                />
+                                <circle
+                                  className="esp-progress-ring-circle"
+                                  stroke="#ffffff"
+                                  strokeWidth="2"
+                                  fill="transparent"
+                                  r="9"
+                                  cx="12"
+                                  cy="12"
+                                  strokeDasharray="56.54"
+                                  strokeDashoffset={56.54 - (56.54 * progress) / 100}
+                                  transform="rotate(-90 12 12)"
+                                  strokeLinecap="round"
+                                />
+                              </svg>
+                            ) : (
+                              <div className="esp-indicator-inner"></div>
+                            )}
                           </div>
                         </div>
                       );
@@ -2000,8 +2051,7 @@ export default function Home() {
         }
 
         .esp-card-pos-2 {
-          z-index: 1;
-          transform: translate(24px, 24px) scale(0.94) rotate(-1.5deg);
+          animation: sendToBack 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           opacity: 0.9;
         }
 
@@ -2019,9 +2069,58 @@ export default function Home() {
           transform: translate(28px, 20px) scale(0.95) rotate(-3deg);
         }
 
+        .esp-progress-ring {
+          width: 24px;
+          height: 24px;
+          display: block;
+        }
+
+        .esp-progress-ring-circle {
+          transition: stroke-dashoffset 0.05s linear;
+        }
+
+        @keyframes sendToBack {
+          0% {
+            z-index: 3;
+            transform: translate(0, 0) scale(1) rotate(0deg);
+          }
+          45% {
+            z-index: 3;
+            transform: translate(-105%, 10px) scale(0.96) rotate(-6deg);
+          }
+          50% {
+            z-index: 1;
+            transform: translate(-105%, 10px) scale(0.92) rotate(-6deg);
+          }
+          100% {
+            z-index: 1;
+            transform: translate(24px, 24px) scale(0.94) rotate(-1.5deg);
+          }
+        }
+
+        @keyframes sendToBackMobile {
+          0% {
+            z-index: 3;
+            transform: translate(0, 0) scale(1) rotate(0deg);
+          }
+          45% {
+            z-index: 3;
+            transform: translate(-105%, 10px) scale(0.96) rotate(-6deg);
+          }
+          50% {
+            z-index: 1;
+            transform: translate(-105%, 10px) scale(0.92) rotate(-6deg);
+          }
+          100% {
+            z-index: 1;
+            transform: translate(20px, 20px) scale(0.94) rotate(-1.5deg);
+          }
+        }
+
         @media (max-width: 900px) {
           .esp-specialty-pane.active {
-            grid-template-columns: 1fr;
+            flex-direction: column;
+            justify-content: center;
             gap: 40px;
           }
           .esp-text-col {
@@ -2043,7 +2142,7 @@ export default function Home() {
             transform: translate(10px, 10px) scale(0.97) rotate(1.5deg);
           }
           .esp-card-pos-2 {
-            transform: translate(20px, 20px) scale(0.94) rotate(-1.5deg);
+            animation: sendToBackMobile 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           }
         }
       `}</style>
