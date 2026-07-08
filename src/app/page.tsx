@@ -1612,6 +1612,11 @@ export default function Home() {
           position: relative;
           z-index: 10;
         }
+        .esp-specialties-tabs-section {
+          padding-top: 9.5rem;
+          padding-bottom: 6rem;
+          scroll-margin-top: 100px;
+        }
         .esp-specialties-tabs-section .section-header {
           margin-bottom: 2.5rem;
         }
