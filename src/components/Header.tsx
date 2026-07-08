@@ -132,6 +132,13 @@ export default function Header() {
 
         {/* Right Side: CTA Book */}
         <div className="header-actions">
+          <button 
+            className="lang-toggle-btn"
+            onClick={() => setLanguage(language === "es" ? "en" : "es")}
+            aria-label="Toggle language"
+          >
+            {language === "es" ? "EN" : "ES"}
+          </button>
           {/* CTA Book (High visibility Call To Action) */}
           <Link href="/contacto" className="btn-book">
             <span className="btn-book-text">{t("nav.book")}</span>

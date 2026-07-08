@@ -18,6 +18,14 @@ export default function Contacto() {
 
   useEffect(() => {
     setSpecialties(getStoredSpecialties());
+
+    if (typeof window !== "undefined") {
+      const searchParams = new URLSearchParams(window.location.search);
+      const specParam = searchParams.get("specialty");
+      if (specParam) {
+        setFormData((prev) => ({ ...prev, specialty: specParam }));
+      }
+    }
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -27,7 +35,29 @@ export default function Contacto() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    
+    const newLead = {
+      id: "lead_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9),
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      specialty: formData.specialty,
+      message: formData.message,
+      date: new Date().toISOString().split("T")[0],
+      status: "nuevo",
+      adminNotes: ""
+    };
+
+    try {
+      const existing = localStorage.getItem("bc_leads");
+      const leads = existing ? JSON.parse(existing) : [];
+      leads.push(newLead);
+      localStorage.setItem("bc_leads", JSON.stringify(leads));
+      window.dispatchEvent(new Event("bc_db_update"));
+    } catch (err) {
+      console.error("Error saving lead to localStorage:", err);
+    }
+
     setSubmitted(true);
   };
 
@@ -157,7 +187,10 @@ export default function Contacto() {
                     ? "Gracias por confiar en Bridge Care. Uno de nuestros coordinadores de pacientes internacionales se contactará contigo por correo electrónico o WhatsApp dentro de las próximas 24 horas hábiles."
                     : "Thank you for trusting Bridge Care. One of our international patient coordinators will contact you via email or WhatsApp within the next 24 business hours."}
                 </p>
-                <button className="btn btn-primary" onClick={() => setSubmitted(false)}>
+                <button className="btn btn-primary" onClick={() => {
+                  setFormData({ name: "", email: "", phone: "", specialty: "", message: "" });
+                  setSubmitted(false);
+                }}>
                   {language === "es" ? "Enviar otro mensaje" : "Send another message"}
                 </button>
               </div>

@@ -7,11 +7,38 @@ import { useLanguage } from "@/context/LanguageContext";
 
 type TabId = "quienes-somos" | "red-medica" | "paquetes" | "garantias" | "blog-faq";
 
+const faqs = [
+  {
+    qEs: "¿Necesito visa para viajar a Colombia por tratamiento médico?",
+    qEn: "Do I need a visa to travel to Colombia for medical treatment?",
+    aEs: "Los ciudadanos de EE. UU., Canadá, la Unión Europea y la mayoría de países de Latinoamérica no requieren visa para estadías de turismo o tratamientos médicos cortos inferiores a 90 días; solo necesitan su pasaporte vigente.",
+    aEn: "Citizens of the US, Canada, the European Union, and most Latin American countries do not require a visa for tourism or short medical treatments under 90 days; they only need a valid passport."
+  },
+  {
+    qEs: "¿Cómo realizan el seguimiento cuando regrese a mi país?",
+    qEn: "How do you handle follow-ups when I return to my home country?",
+    aEs: "Coordinamos un calendario de revisiones virtuales por videollamada durante los primeros 3 a 6 meses. Además, te facilitamos un informe médico detallado para que puedas compartirlo con tu doctor local en caso de ser necesario.",
+    aEn: "We coordinate a calendar of virtual check-ups via video call during the first 3 to 6 months. Additionally, we provide a detailed medical report for you to share with your local doctor if needed."
+  },
+  {
+    qEs: "¿Por qué son tan bajos los precios en comparación con EE. UU.?",
+    qEn: "Why are prices so low compared to the United States?",
+    aEs: "La diferencia de costos radica principalmente en el menor costo operativo de las clínicas en Colombia, el valor de la moneda local (Peso Colombiano) frente al Dólar, y costos significativamente menores en seguros de mala práctica para los médicos.",
+    aEn: "The cost difference is primarily due to lower operating expenses of clinics in Colombia, the exchange rate of the local currency (Colombian Peso) against the Dollar, and significantly lower malpractice insurance costs for physicians."
+  }
+];
+
 export default function Nosotros() {
   const { language, t } = useLanguage();
   const [activeTab, setActiveTab] = useState<TabId>("quienes-somos");
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [mounted, setMounted] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
+
+  const toggleFaq = (index: number) => {
+    setOpenFaq(openFaq === index ? null : index);
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -357,7 +384,7 @@ export default function Nosotros() {
 
               <div className="grid grid-3 blog-grid">
                 {mounted && blogPosts.map((post) => (
-                  <article key={post.id} className="blog-card glass-card">
+                  <article key={post.id} className="blog-card glass-card clickable-blog-card" onClick={() => setSelectedPost(post)}>
                     <div className="blog-card-meta">
                       <span className="blog-cat">
                         {language === "es" ? post.category : post.categoryEn}
@@ -373,51 +400,42 @@ export default function Nosotros() {
                       <span className="blog-author">
                         {language === "es" ? "Por" : "By"}: {post.author}
                       </span>
+                      <span className="read-more-text">
+                        {language === "es" ? "Leer más →" : "Read more →"}
+                      </span>
                     </div>
                   </article>
                 ))}
               </div>
 
-              {/* MOCK FAQ */}
+              {/* MOCK FAQ ACCORDION */}
               <div className="faq-wrapper">
                 <h2>{language === "es" ? "Preguntas Frecuentes" : "Frequently Asked Questions"}</h2>
                 <div className="faq-list">
-                  <div className="faq-item glass-card">
-                    <h4>
-                      {language === "es" 
-                        ? "¿Necesito visa para viajar a Colombia por tratamiento médico?" 
-                        : "Do I need a visa to travel to Colombia for medical treatment?"}
-                    </h4>
-                    <p>
-                      {language === "es"
-                        ? "Los ciudadanos de EE. UU., Canadá, la Unión Europea y la mayoría de países de Latinoamérica no requieren visa para estadías de turismo o tratamientos médicos cortos inferiores a 90 días; solo necesitan su pasaporte vigente."
-                        : "Citizens of the US, Canada, the European Union, and most Latin American countries do not require a visa for tourism or short medical treatments under 90 days; they only need a valid passport."}
-                    </p>
-                  </div>
-                  <div className="faq-item glass-card">
-                    <h4>
-                      {language === "es" 
-                        ? "¿Cómo realizan el seguimiento cuando regrese a mi país?" 
-                        : "How do you handle follow-ups when I return to my home country?"}
-                    </h4>
-                    <p>
-                      {language === "es"
-                        ? "Coordinamos un calendario de revisiones virtuales por videollamada durante los primeros 3 a 6 meses. Además, te facilitamos un informe médico detallado para que puedas compartirlo con tu doctor local en caso de ser necesario."
-                        : "We coordinate a calendar of virtual check-ups via video call during the first 3 to 6 months. Additionally, we provide a detailed medical report for you to share with your local doctor if needed."}
-                    </p>
-                  </div>
-                  <div className="faq-item glass-card">
-                    <h4>
-                      {language === "es" 
-                        ? "¿Por qué son tan bajos los precios en comparación con EE. UU.?" 
-                        : "Why are prices so low compared to the United States?"}
-                    </h4>
-                    <p>
-                      {language === "es"
-                        ? "La diferencia de costos radica principalmente en el menor costo operativo de las clínicas en Colombia, el valor de la moneda local (Peso Colombiano) frente al Dólar, y costos significativamente menores en seguros de mala práctica para los médicos."
-                        : "The cost difference is primarily due to lower operating expenses of clinics in Colombia, the exchange rate of the local currency (Colombian Peso) against the Dollar, and significantly lower malpractice insurance costs for physicians."}
-                    </p>
-                  </div>
+                  {faqs.map((faq, index) => {
+                    const isOpen = openFaq === index;
+                    return (
+                      <div 
+                        key={index} 
+                        className={`faq-item glass-card accordion-item ${isOpen ? "active" : ""}`}
+                        onClick={() => toggleFaq(index)}
+                      >
+                        <div className="faq-header">
+                          <h4>
+                            {language === "es" ? faq.qEs : faq.qEn}
+                          </h4>
+                          <span className="faq-arrow-icon">
+                            ▼
+                          </span>
+                        </div>
+                        <div className="faq-body">
+                          <p>
+                            {language === "es" ? faq.aEs : faq.aEn}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -425,6 +443,33 @@ export default function Nosotros() {
 
         </div>
       </section>
+
+      {/* Blog Modal Reader */}
+      {selectedPost && (
+        <div className="blog-modal-overlay animate-fade-in" onClick={() => setSelectedPost(null)}>
+          <div className="blog-modal-content glass-card" onClick={(e) => e.stopPropagation()}>
+            <button className="close-btn" onClick={() => setSelectedPost(null)} aria-label="Close">
+              &times;
+            </button>
+            <div className="modal-header-meta">
+              <span className="modal-category">
+                {language === "es" ? selectedPost.category : selectedPost.categoryEn}
+              </span>
+              <span className="modal-date">{selectedPost.date}</span>
+            </div>
+            <h2>{language === "es" ? selectedPost.title : selectedPost.titleEn}</h2>
+            <div className="modal-author">
+              {language === "es" ? "Por" : "By"}: <strong>{selectedPost.author}</strong>
+            </div>
+            <div className="modal-divider"></div>
+            <div className="modal-body-text">
+              {(language === "es" ? selectedPost.content : selectedPost.contentEn).split("\n").map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       <style jsx>{`
         .nosotros-page {
@@ -748,14 +793,35 @@ export default function Nosotros() {
           border-top: 1px solid rgba(93, 202, 165, 0.15);
           padding-top: 1rem;
           margin-top: 1.25rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
         }
         .blog-author {
           font-size: 0.8rem;
           font-weight: 500;
           color: var(--white);
         }
+        .clickable-blog-card {
+          cursor: pointer;
+          transition: var(--transition);
+        }
+        .clickable-blog-card:hover {
+          transform: translateY(-6px);
+          border-color: rgba(29, 122, 110, 0.3);
+          box-shadow: var(--shadow-lg);
+        }
+        .read-more-text {
+          font-size: 0.8rem;
+          font-weight: 700;
+          color: var(--mint-accent);
+          transition: var(--transition-fast);
+        }
+        .clickable-blog-card:hover .read-more-text {
+          transform: translateX(3px);
+        }
 
-        /* FAQ Styling */
+        /* FAQ Accordion Styling */
         .faq-wrapper {
           margin-top: 5rem;
           border-top: 1px solid rgba(93, 202, 165, 0.15);
@@ -764,25 +830,138 @@ export default function Nosotros() {
         .faq-list {
           display: flex;
           flex-direction: column;
-          gap: 1.75rem;
+          gap: 1.25rem;
           margin-top: 2.5rem;
         }
         .faq-item {
-          padding: 2rem;
+          padding: 1.5rem 2rem;
+          cursor: pointer;
+          transition: var(--transition-fast);
         }
         .faq-item:hover {
           transform: translateY(-2px);
         }
+        .faq-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 1rem;
+        }
         .faq-item h4 {
-          font-size: 1.2rem;
+          font-size: 1.25rem;
+          color: var(--white);
+          margin-bottom: 0;
+          transition: var(--transition-fast);
+        }
+        .faq-item.active h4 {
           color: var(--mint-accent);
-          margin-bottom: 0.75rem;
+        }
+        .faq-arrow-icon {
+          font-size: 0.75rem;
+          color: var(--mint-accent);
+          transition: transform 0.3s ease;
+        }
+        .faq-item.active .faq-arrow-icon {
+          transform: rotate(180deg);
+        }
+        .faq-body {
+          max-height: 0;
+          overflow: hidden;
+          opacity: 0;
+          transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease, margin-top 0.35s ease;
+          margin-top: 0;
+        }
+        .faq-item.active .faq-body {
+          max-height: 500px;
+          opacity: 1;
+          margin-top: 1rem;
         }
         .faq-item p {
           font-size: 0.95rem;
           margin-bottom: 0;
           color: var(--gris-texto);
           line-height: 1.6;
+        }
+
+        /* Blog Modal */
+        .blog-modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(3, 8, 6, 0.6);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 2000;
+          padding: 1.5rem;
+        }
+        .blog-modal-content {
+          max-width: 680px;
+          width: 100%;
+          max-height: 80vh;
+          overflow-y: auto;
+          padding: 3rem 2.5rem;
+          position: relative;
+          background: rgba(255, 255, 255, 0.96) !important;
+          border: 1px solid rgba(29, 122, 110, 0.2);
+          box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+          animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .close-btn {
+          position: absolute;
+          top: 1.25rem;
+          right: 1.5rem;
+          background: transparent;
+          border: none;
+          font-size: 2.2rem;
+          color: var(--gris-texto);
+          cursor: pointer;
+          line-height: 1;
+          transition: var(--transition-fast);
+        }
+        .close-btn:hover {
+          color: var(--mint-accent);
+          transform: scale(1.1);
+        }
+        .modal-header-meta {
+          display: flex;
+          justify-content: space-between;
+          font-size: 0.8rem;
+          font-weight: 700;
+          color: var(--mint-accent);
+          margin-bottom: 0.75rem;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+        .blog-modal-content h2 {
+          font-size: 1.8rem;
+          margin-bottom: 0.5rem;
+          line-height: 1.3;
+          color: var(--white);
+        }
+        .modal-author {
+          font-size: 0.85rem;
+          color: var(--gris-texto);
+          margin-bottom: 1.5rem;
+        }
+        .modal-divider {
+          height: 1px;
+          background: rgba(29, 122, 110, 0.12);
+          margin-bottom: 1.5rem;
+        }
+        .modal-body-text p {
+          font-size: 0.95rem;
+          line-height: 1.65;
+          color: var(--blanco-hueso);
+          margin-bottom: 1.25rem;
+        }
+        @keyframes slideUp {
+          from { transform: translateY(20px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
         }
         .w-full {
           width: 100%;

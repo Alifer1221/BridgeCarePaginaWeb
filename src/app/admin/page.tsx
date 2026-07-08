@@ -8,7 +8,19 @@ import {
 } from "@/lib/db";
 import { useLanguage } from "@/context/LanguageContext";
 
-type AdminTab = "specialties" | "destinations" | "blog";
+type AdminTab = "specialties" | "destinations" | "blog" | "leads";
+
+interface Lead {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  specialty: string;
+  message: string;
+  date: string;
+  status: "nuevo" | "contactado" | "archivado";
+  adminNotes?: string;
+}
 
 export default function AdminPanel() {
   const { language, t } = useLanguage();
@@ -22,6 +34,14 @@ export default function AdminPanel() {
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [leads, setLeads] = useState<Lead[]>([]);
+
+  // Leads search & filters
+  const [searchLeadQuery, setSearchLeadQuery] = useState("");
+  const [filterLeadStatus, setFilterLeadStatus] = useState("all");
+  const [filterLeadSpec, setFilterLeadSpec] = useState("all");
+  const [activeLeadNotes, setActiveLeadNotes] = useState<Record<string, string>>({});
+
   const [mounted, setMounted] = useState(false);
 
   // Form States
@@ -93,7 +113,101 @@ export default function AdminPanel() {
     setSpecialties(getStoredSpecialties());
     setDestinations(getStoredDestinations());
     setBlogPosts(getStoredBlogPosts());
+
+    const loadLeads = () => {
+      const storedLeads = localStorage.getItem("bc_leads");
+      if (storedLeads) {
+        try {
+          const parsed = JSON.parse(storedLeads);
+          setLeads(parsed);
+          
+          const notesMap: Record<string, string> = {};
+          parsed.forEach((l: Lead) => {
+            notesMap[l.id] = l.adminNotes || "";
+          });
+          setActiveLeadNotes(notesMap);
+        } catch (e) {
+          console.error("Error reading stored leads:", e);
+        }
+      }
+    };
+    loadLeads();
+
+    const handleUpdate = () => {
+      loadLeads();
+      setSpecialties(getStoredSpecialties());
+      setDestinations(getStoredDestinations());
+      setBlogPosts(getStoredBlogPosts());
+    };
+    window.addEventListener("bc_db_update", handleUpdate);
+    return () => window.removeEventListener("bc_db_update", handleUpdate);
   }, []);
+
+  const updateLeadStatus = (leadId: string, status: "nuevo" | "contactado" | "archivado") => {
+    const list = [...leads];
+    const idx = list.findIndex(l => l.id === leadId);
+    if (idx > -1) {
+      list[idx] = { ...list[idx], status };
+      setLeads(list);
+      localStorage.setItem("bc_leads", JSON.stringify(list));
+      window.dispatchEvent(new Event("bc_db_update"));
+    }
+  };
+
+  const updateLeadNotes = (leadId: string, notes: string) => {
+    const list = [...leads];
+    const idx = list.findIndex(l => l.id === leadId);
+    if (idx > -1) {
+      list[idx] = { ...list[idx], adminNotes: notes };
+      setLeads(list);
+      localStorage.setItem("bc_leads", JSON.stringify(list));
+      window.dispatchEvent(new Event("bc_db_update"));
+      alert("Nota de seguimiento guardada correctamente.");
+    }
+  };
+
+  const deleteLead = (leadId: string) => {
+    if (confirm("¿Estás seguro de eliminar permanentemente este registro de contacto?")) {
+      const updated = leads.filter(l => l.id !== leadId);
+      setLeads(updated);
+      localStorage.setItem("bc_leads", JSON.stringify(updated));
+      window.dispatchEvent(new Event("bc_db_update"));
+    }
+  };
+
+  const exportLeadsToCSV = () => {
+    if (leads.length === 0) {
+      alert("No hay leads registrados para exportar.");
+      return;
+    }
+    
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "ID,Fecha,Nombre,Email,WhatsApp,Especialidad,Estado,Mensaje,Notas del Administrador\n";
+    
+    leads.forEach((lead) => {
+      const specName = specialties.find(s => s.id === lead.specialty)?.name || lead.specialty;
+      const row = [
+        lead.id,
+        lead.date,
+        `"${lead.name.replace(/"/g, '""')}"`,
+        `"${lead.email.replace(/"/g, '""')}"`,
+        `"${lead.phone.replace(/"/g, '""')}"`,
+        `"${specName.replace(/"/g, '""')}"`,
+        lead.status,
+        `"${lead.message.replace(/"/g, '""').replace(/\n/g, ' ')}"`,
+        `"${(lead.adminNotes || "").replace(/"/g, '""').replace(/\n/g, ' ')}"`
+      ].join(",");
+      csvContent += row + "\n";
+    });
+    
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `leads_bridge_care_${new Date().toISOString().split("T")[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -429,6 +543,19 @@ export default function AdminPanel() {
     });
   };
 
+  const filteredLeads = leads.filter((lead) => {
+    const matchesSearch = 
+      lead.name.toLowerCase().includes(searchLeadQuery.toLowerCase()) ||
+      lead.email.toLowerCase().includes(searchLeadQuery.toLowerCase()) ||
+      lead.phone.includes(searchLeadQuery);
+    
+    const matchesStatus = filterLeadStatus === "all" || lead.status === filterLeadStatus;
+    
+    const matchesSpec = filterLeadSpec === "all" || lead.specialty === filterLeadSpec;
+    
+    return matchesSearch && matchesStatus && matchesSpec;
+  });
+
   if (!mounted) return null;
 
   // Render LOCK SCREEN if not authenticated
@@ -542,10 +669,183 @@ export default function AdminPanel() {
         >
           Blog / Noticias ({blogPosts.length})
         </button>
+        <button 
+          className={`admin-tab-btn ${activeTab === "leads" ? "active" : ""}`}
+          onClick={() => { setActiveTab("leads"); }}
+        >
+          Leads / Contactos ({leads.length})
+        </button>
       </div>
 
-      {/* Admin Grid Layout */}
-      <div className="admin-grid mt-3">
+      {/* Admin Grid Layout or Leads Dashboard */}
+      {activeTab === "leads" ? (
+        <div className="leads-dashboard glass-card card mt-3" style={{ padding: "2.5rem" }}>
+          <div className="leads-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem", flexWrap: "wrap", gap: "1rem" }}>
+            <div>
+              <h2 style={{ fontSize: "1.6rem", color: "var(--white)", borderBottom: "none", paddingBottom: 0, marginBottom: "0.25rem" }}>
+                Leads de Contacto ({filteredLeads.length} filtrados)
+              </h2>
+              <p className="small-text" style={{ margin: 0, fontSize: "0.85rem", color: "var(--gris-texto)" }}>
+                Visualiza y gestiona las solicitudes de contacto y valoraciones virtuales recibidas.
+              </p>
+            </div>
+            <button className="btn btn-primary" onClick={exportLeadsToCSV}>
+              Exportar CSV 📥
+            </button>
+          </div>
+
+          {/* Search & Filters */}
+          <div className="leads-filters" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem", marginBottom: "2rem" }}>
+            <div className="form-group" style={{ margin: 0 }}>
+              <label className="form-label" style={{ fontSize: "0.8rem", marginBottom: "0.25rem" }}>Buscar paciente</label>
+              <input 
+                type="text" 
+                className="form-control" 
+                placeholder="Nombre, email o teléfono..." 
+                value={searchLeadQuery} 
+                onChange={(e) => setSearchLeadQuery(e.target.value)} 
+              />
+            </div>
+            <div className="form-group" style={{ margin: 0 }}>
+              <label className="form-label" style={{ fontSize: "0.8rem", marginBottom: "0.25rem" }}>Estado</label>
+              <select 
+                className="form-control" 
+                value={filterLeadStatus} 
+                onChange={(e) => setFilterLeadStatus(e.target.value)}
+              >
+                <option value="all">Todos los estados</option>
+                <option value="nuevo">Nuevo</option>
+                <option value="contactado">Contactado</option>
+                <option value="archivado">Archivado</option>
+              </select>
+            </div>
+            <div className="form-group" style={{ margin: 0 }}>
+              <label className="form-label" style={{ fontSize: "0.8rem", marginBottom: "0.25rem" }}>Especialidad</label>
+              <select 
+                className="form-control" 
+                value={filterLeadSpec} 
+                onChange={(e) => setFilterLeadSpec(e.target.value)}
+              >
+                <option value="all">Todas las especialidades</option>
+                {specialties.map(spec => (
+                  <option key={spec.id} value={spec.id}>{language === "es" ? spec.name : spec.nameEn}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Leads List */}
+          <div className="leads-list-wrapper" style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+            {filteredLeads.length === 0 ? (
+              <div className="text-center" style={{ padding: "4rem 2rem", color: "var(--gris-texto)" }}>
+                <p style={{ fontSize: "1.15rem", fontWeight: "bold", marginBottom: "0.5rem" }}>No se encontraron leads.</p>
+                <p style={{ fontSize: "0.9rem", margin: 0 }}>Intenta cambiar los filtros o el término de búsqueda.</p>
+              </div>
+            ) : (
+              filteredLeads.map((lead) => {
+                const specName = specialties.find(s => s.id === lead.specialty)?.name || lead.specialty;
+                const specNameEn = specialties.find(s => s.id === lead.specialty)?.nameEn || lead.specialty;
+                const cleanPhone = lead.phone.replace(/[^0-9+]/g, "");
+                
+                return (
+                  <div key={lead.id} className="lead-card-item" style={{ 
+                    padding: "1.75rem", 
+                    borderRadius: "var(--radius-md)", 
+                    backgroundColor: "rgba(15, 17, 17, 0.4)",
+                    border: "1px solid rgba(255, 255, 255, 0.06)", 
+                    position: "relative" 
+                  }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem", marginBottom: "1rem" }}>
+                      <div>
+                        <span className={`status-badge status-${lead.status}`}>
+                          {lead.status}
+                        </span>
+                        <span style={{ fontSize: "0.8rem", color: "var(--gris-texto)" }}>{lead.date}</span>
+                      </div>
+                      <div>
+                        <span className="badge" style={{ margin: 0 }}>ID: {lead.id}</span>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-2" style={{ gap: "1.5rem", marginBottom: "1.5rem" }}>
+                      {/* Personal Info */}
+                      <div>
+                        <h4 style={{ margin: "0 0 0.5rem 0", color: "var(--white)", fontSize: "1.15rem" }}>{lead.name}</h4>
+                        <p style={{ margin: "0 0 0.35rem 0", fontSize: "0.85rem", color: "var(--gris-texto)" }}>
+                          📧 <a href={`mailto:${lead.email}`} style={{ color: "var(--mint-accent)", textDecoration: "underline" }}>{lead.email}</a>
+                        </p>
+                        <p style={{ margin: "0", fontSize: "0.85rem", color: "var(--gris-texto)" }}>
+                          💬 <a href={`https://wa.me/${cleanPhone.replace("+", "")}`} target="_blank" rel="noopener noreferrer" style={{ color: "#25D366", fontWeight: "bold" }}>
+                            {lead.phone} (WhatsApp)
+                          </a>
+                        </p>
+                      </div>
+
+                      {/* Request Details */}
+                      <div>
+                        <h5 style={{ margin: "0 0 0.25rem 0", color: "var(--white)", fontWeight: "600", fontSize: "0.9rem" }}>
+                          Especialidad de Interés:
+                        </h5>
+                        <p style={{ color: "var(--mint-accent)", fontWeight: "bold", fontSize: "0.9rem", margin: "0 0 0.75rem 0" }}>
+                          {language === "es" ? specName : specNameEn}
+                        </p>
+                        <h5 style={{ margin: "0 0 0.25rem 0", color: "var(--white)", fontWeight: "600", fontSize: "0.9rem" }}>Mensaje del paciente:</h5>
+                        <p style={{ fontStyle: "italic", margin: 0, fontSize: "0.85rem", color: "var(--gris-texto)", lineHeight: "1.5" }}>
+                          "{lead.message}"
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Admin Actions and Notes */}
+                    <div style={{ borderTop: "1px solid rgba(255, 255, 255, 0.08)", paddingTop: "1.25rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "1.5rem", alignItems: "end" }}>
+                      <div>
+                        <label className="form-label" style={{ marginBottom: "0.35rem", fontSize: "0.8rem" }}>Cambiar Estado</label>
+                        <div style={{ display: "flex", gap: "0.5rem" }}>
+                          <select 
+                            className="form-control" 
+                            value={lead.status} 
+                            onChange={(e) => updateLeadStatus(lead.id, e.target.value as any)}
+                            style={{ padding: "0.45rem 0.75rem", fontSize: "0.85rem" }}
+                          >
+                            <option value="nuevo">Nuevo</option>
+                            <option value="contactado">Contactado</option>
+                            <option value="archivado">Archivado</option>
+                          </select>
+                          <button className="btn btn-secondary btn-xs" onClick={() => deleteLead(lead.id)} style={{ padding: "0.45rem 0.95rem", backgroundColor: "#ff4d4d", color: "#fff", borderColor: "transparent" }}>
+                            Eliminar
+                          </button>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="form-label" style={{ marginBottom: "0.35rem", fontSize: "0.8rem" }}>Notas de Seguimiento Administrativo</label>
+                        <div style={{ display: "flex", gap: "0.5rem" }}>
+                          <input 
+                            type="text" 
+                            className="form-control" 
+                            placeholder="Notas de llamada, cotización, etc..." 
+                            value={activeLeadNotes[lead.id] || ""} 
+                            onChange={(e) => setActiveLeadNotes({ ...activeLeadNotes, [lead.id]: e.target.value })}
+                            style={{ fontSize: "0.85rem", padding: "0.45rem 0.75rem" }}
+                          />
+                          <button 
+                            className="btn btn-accent btn-xs" 
+                            onClick={() => updateLeadNotes(lead.id, activeLeadNotes[lead.id] || "")}
+                            style={{ padding: "0.45rem 0.95rem", flexShrink: 0 }}
+                          >
+                            Guardar
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="admin-grid mt-3">
         
         {/* Form Column */}
         <div className="form-panel glass-card card">
@@ -939,6 +1239,7 @@ export default function AdminPanel() {
         </div>
 
       </div>
+      )}
 
       <style jsx>{`
         .admin-dashboard {
@@ -1105,6 +1406,39 @@ export default function AdminPanel() {
 
         .mt-2 { margin-top: 1rem; }
         .mt-3 { margin-top: 1.5rem; }
+
+        /* Leads Dashboard Styles */
+        .status-badge {
+          display: inline-block;
+          padding: 0.2rem 0.6rem;
+          border-radius: var(--radius-sm);
+          font-size: 0.7rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          margin-right: 0.75rem;
+        }
+        .status-badge.status-nuevo {
+          background-color: rgba(29, 122, 110, 0.1);
+          color: var(--mint-accent);
+          border: 1px solid rgba(29, 122, 110, 0.2);
+        }
+        .status-badge.status-contactado {
+          background-color: rgba(93, 202, 165, 0.1);
+          color: var(--teal-primary);
+          border: 1px solid rgba(93, 202, 165, 0.2);
+        }
+        .status-badge.status-archivado {
+          background-color: rgba(0, 0, 0, 0.05);
+          color: var(--gris-texto);
+          border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .lead-card-item {
+          transition: var(--transition-fast);
+        }
+        .lead-card-item:hover {
+          border-color: rgba(29, 122, 110, 0.2) !important;
+          box-shadow: var(--shadow-md);
+        }
 
         @media (max-width: 992px) {
           .admin-grid {
