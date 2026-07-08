@@ -2086,11 +2086,11 @@ export default function Home() {
           }
           45% {
             z-index: 3;
-            transform: translate(-105%, 10px) scale(0.96) rotate(-6deg);
+            transform: translate(12px, 35%) scale(0.97) rotate(1deg);
           }
           50% {
             z-index: 1;
-            transform: translate(-105%, 10px) scale(0.92) rotate(-6deg);
+            transform: translate(12px, 35%) scale(0.95) rotate(1deg);
           }
           100% {
             z-index: 1;
@@ -2105,11 +2105,11 @@ export default function Home() {
           }
           45% {
             z-index: 3;
-            transform: translate(-105%, 10px) scale(0.96) rotate(-6deg);
+            transform: translate(10px, 35%) scale(0.97) rotate(1deg);
           }
           50% {
             z-index: 1;
-            transform: translate(-105%, 10px) scale(0.92) rotate(-6deg);
+            transform: translate(10px, 35%) scale(0.95) rotate(1deg);
           }
           100% {
             z-index: 1;
