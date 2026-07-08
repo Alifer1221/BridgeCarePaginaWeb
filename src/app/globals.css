@@ -123,8 +123,9 @@ a {
 }
 
 .section {
-  padding: 6rem 0;
+  padding: 8.5rem 0 6rem 0;
   position: relative;
+  scroll-margin-top: 100px;
 }
 
 .section-dark {
@@ -1031,10 +1032,12 @@ html.splash-hidden .home-container {
    Mi Proceso - Desarrollo MVP Section
    ========================================================================== */
 .proceso-section {
-  padding: 5rem 0 1.5rem 0;
+  padding-top: 8.5rem;
+  padding-bottom: 1.5rem;
   background-color: var(--negro-suave); /* Dark background matching the page */
   color: var(--blanco-hueso);
   width: 100%;
+  scroll-margin-top: 100px;
 }
 
 .proceso-container {
@@ -1468,8 +1471,10 @@ html.splash-hidden .home-container {
    ========================================================================== */
 .why-colombia-section {
   background-color: var(--negro-suave); /* Match page background */
-  padding: 3rem 0;
+  padding-top: 8.5rem;
+  padding-bottom: 3rem;
   width: 100%;
+  scroll-margin-top: 100px;
 }
 .why-col-header {
   display: grid;
