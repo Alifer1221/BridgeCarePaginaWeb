@@ -3,8 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import WhatsAppButton from "@/components/WhatsAppButton";
+import WhatsAppChat from "@/components/WhatsAppChat";
 import { LanguageProvider } from "@/context/LanguageContext";
+import StyledJsxRegistry from "./registry";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -24,27 +25,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={inter.variable}>
+    <html lang="es" className={inter.variable} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" />
-        <script dangerouslySetInnerHTML={{__html: `
-          (function() {
-            try {
-              var hasShown = sessionStorage.getItem("bc_splash_shown");
-              if (hasShown) {
-                document.documentElement.classList.add("splash-hidden");
-              }
-            } catch (e) {}
-          })();
-        `}} />
       </head>
       <body>
-        <LanguageProvider>
-          <Header />
-          <main style={{ flex: 1 }}>{children}</main>
-          <Footer />
-          <WhatsAppButton />
-        </LanguageProvider>
+        <StyledJsxRegistry>
+          <LanguageProvider>
+            <Header />
+            <main style={{ flex: 1 }}>{children}</main>
+            <Footer />
+            <WhatsAppChat />
+          </LanguageProvider>
+        </StyledJsxRegistry>
       </body>
     </html>
   );

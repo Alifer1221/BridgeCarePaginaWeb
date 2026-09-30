@@ -17,12 +17,15 @@ const translations: Record<Language, Record<string, string>> = {
     // Header & Footer
     "nav.specialties": "Especialidades",
     "nav.destinations": "Destinos",
+    "nav.blog": "Blog",
     "nav.about": "Nosotros",
     "nav.contact": "Contacto",
     "nav.book": "Agendar Cita",
     "footer.desc": "Tu puente de confianza hacia servicios médicos y odontológicos de primer nivel en Colombia. Cuidado experto, calidez humana y ahorros excepcionales.",
     "footer.rights": "Todos los derechos reservados.",
     "footer.guarantees": "Seguridad y Garantías",
+    "footer.privacy": "Política de Privacidad",
+    "footer.terms": "Términos y Condiciones",
     "footer.contact": "Contacto",
     "footer.support": "Soporte y Consultas:",
     "footer.whatsapp": "WhatsApp Internacional:",
@@ -60,7 +63,7 @@ const translations: Record<Language, Record<string, string>> = {
     "why.card3.title": "Hasta 70% de Ahorro",
     "why.card3.desc": "Costos de tratamientos altamente competitivos debido a la diferencia en el costo de vida y tasa cambiaria.",
     "why.card4.title": "Destinos y Recuperación",
-    "why.card4.desc": "Recupérate en climas templados o en el hermoso Caribe, con acompañamiento bilingüe las 24 horas.",
+    "why.card4.desc": "Recupérate en climas templados o en el hermoso Caribe, con especialistas que te atienden en tu idioma.",
     
     "spec.title": "Especialidades Médicas",
     "spec.subtitle": "Explora nuestro catálogo de tratamientos de alta gama y empieza a planificar tu cambio.",
@@ -74,7 +77,7 @@ const translations: Record<Language, Record<string, string>> = {
     "how.step1.title": "1. Valoración Virtual",
     "how.step1.desc": "Consultas iniciales gratuitas con cirujanos de primer nivel para evaluar tu caso y objetivos.",
     "how.step2.title": "2. Logística y Plan",
-    "how.step2.desc": "Coordinamos hospedaje premium, traslados bilingües y citas prequirúrgicas.",
+    "how.step2.desc": "Coordinamos hospedaje, traslados y citas prequirúrgicas.",
     "how.step3.title": "3. Tu Tratamiento",
     "how.step3.desc": "Intervenciones realizadas en clínicas acreditadas con tecnología médica de punta.",
     "how.step4.title": "4. Recuperación Guiada",
@@ -171,12 +174,15 @@ const translations: Record<Language, Record<string, string>> = {
     // Header & Footer
     "nav.specialties": "Specialties",
     "nav.destinations": "Destinations",
+    "nav.blog": "Blog",
     "nav.about": "About Us",
     "nav.contact": "Contact",
     "nav.book": "Book Now",
     "footer.desc": "Your trusted bridge to premier medical and dental services in Colombia. Expert care, human warmth, and exceptional savings.",
     "footer.rights": "All rights reserved.",
     "footer.guarantees": "Security & Guarantees",
+    "footer.privacy": "Privacy Policy",
+    "footer.terms": "Terms & Conditions",
     "footer.contact": "Contact",
     "footer.support": "Support & Inquiries:",
     "footer.whatsapp": "International WhatsApp:",
@@ -214,7 +220,7 @@ const translations: Record<Language, Record<string, string>> = {
     "why.card3.title": "Up to 70% Savings",
     "why.card3.desc": "Highly competitive treatment costs due to the lower cost of living and favorable exchange rates.",
     "why.card4.title": "Destinations & Recovery",
-    "why.card4.desc": "Recover in temperate climates or the beautiful Caribbean, with 24/7 bilingual assistance.",
+    "why.card4.desc": "Recover in temperate climates or the beautiful Caribbean, with specialists who treat you in your language.",
     
     "spec.title": "Medical Specialties",
     "spec.subtitle": "Explore our catalog of premium treatments and start planning your transformation.",
@@ -228,7 +234,7 @@ const translations: Record<Language, Record<string, string>> = {
     "how.step1.title": "1. Virtual Consultation",
     "how.step1.desc": "Free initial consultations with top-tier surgeons to evaluate your case and goals.",
     "how.step2.title": "2. Logistics & Plan",
-    "how.step2.desc": "We coordinate premium lodging, bilingual transfers, and pre-surgical appointments.",
+    "how.step2.desc": "We coordinate lodging, transfers, and pre-surgical appointments.",
     "how.step3.title": "3. Your Treatment",
     "how.step3.desc": "Procedures performed in accredited clinics equipped with state-of-the-art medical technology.",
     "how.step4.title": "4. Guided Recovery",
@@ -325,17 +331,62 @@ const translations: Record<Language, Record<string, string>> = {
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>("es");
+  // Set when the language was guessed from the browser rather than chosen:
+  // shows a small, dismissable note offering the other language.
+  const [hint, setHint] = useState<Language | null>(null);
 
   useEffect(() => {
-    const stored = localStorage.getItem("bc_language");
+    // Intentionally not lazy-initialized: the server always renders "es"
+    // (it has no access to this visitor's browser), so the very first client
+    // render must also be "es" to match it and hydrate cleanly. Then: a
+    // visitor's own earlier choice wins; otherwise the browser's language
+    // decides (English browsers get English, everyone else Spanish).
+    let stored: string | null = null;
+    try {
+      stored = localStorage.getItem("bc_language");
+    } catch {}
     if (stored === "es" || stored === "en") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLanguageState(stored);
+      return;
     }
+    const prefs = navigator.languages?.length ? navigator.languages : [navigator.language];
+    const first = prefs.map((l) => l.toLowerCase().slice(0, 2)).find((l) => l === "es" || l === "en");
+    const detected: Language = first === "en" ? "en" : "es";
+    setLanguageState(detected);
+    let seen = false;
+    try {
+      seen = !!localStorage.getItem("bc_language_hint");
+    } catch {}
+    if (seen) return;
+    setHint(detected);
+    // The note leaves on its own; it only ever shows once.
+    const id = window.setTimeout(() => {
+      setHint(null);
+      try {
+        localStorage.setItem("bc_language_hint", "1");
+      } catch {}
+    }, 9000);
+    return () => window.clearTimeout(id);
   }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
+
+  const closeHint = () => {
+    setHint(null);
+    try {
+      localStorage.setItem("bc_language_hint", "1");
+    } catch {}
+  };
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
-    localStorage.setItem("bc_language", lang);
+    try {
+      localStorage.setItem("bc_language", lang);
+    } catch {}
+    closeHint();
   };
 
   const t = (key: string): string => {
@@ -345,6 +396,17 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t }}>
       {children}
+      {hint && (
+        <div className="bc-lang-hint" role="status">
+          <span>{language === "en" ? "Viewing in English" : "Viendo en español"}</span>
+          <button type="button" className="bc-lang-switch" onClick={() => setLanguage(language === "en" ? "es" : "en")}>
+            {language === "en" ? "Ver en español" : "View in English"}
+          </button>
+          <button type="button" className="bc-lang-close" onClick={closeHint} aria-label={language === "en" ? "Close" : "Cerrar"}>
+            ×
+          </button>
+        </div>
+      )}
     </LanguageContext.Provider>
   );
 };

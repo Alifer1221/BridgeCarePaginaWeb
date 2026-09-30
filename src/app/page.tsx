@@ -1,372 +1,90 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useSyncExternalStore } from "react";
 import Link from "next/link";
-import { getStoredSpecialties, Specialty } from "@/lib/db";
 import { useLanguage } from "@/context/LanguageContext";
-const whySlides = [
-  {
-    image: "https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&q=80&w=800",
-    locationEs: "Cartagena, Colombia",
-    locationEn: "Cartagena, Colombia",
-    labelEs: "Lo que te espera",
-    labelEn: "What awaits you",
-    titleEs: "Especialistas de talla mundial en un entorno de clase mundial",
-    titleEn: "World-class specialists in a world-class environment",
-    descEs: "Colombia ha consolidado una generación de médicos con formación internacional que atienden pacientes exigentes de todo el mundo. No vendrás a conformarte — vendrás a sorprenderte.",
-    descEn: "Colombia has consolidated a generation of doctors with international training who care for demanding patients from all over the world. You won't come to settle — you'll come to be amazed.",
-    pillarsEs: [
-      {
-        icon: "✦",
-        title: "Colombia no es el camino. Es parte del viaje.",
-        desc: "Gastronomía, naturaleza, cultura y ciudades que enamoran. Tu recuperación sucede en uno de los destinos más fascinantes de América Latina."
-      },
-      {
-        icon: "◎",
-        title: "Un viaje diseñado alrededor de ti",
-        desc: "Bridge Care combina lo mejor de la medicina con lo mejor del turismo. Cada detalle pensado para que vivas una experiencia que va mucho más allá de un procedimiento."
-      }
-    ],
-    pillarsEn: [
-      {
-        icon: "✦",
-        title: "Colombia is not just the path. It is part of the journey.",
-        desc: "Gastronomy, nature, culture, and cities that make you fall in love. Your recovery happens in one of the most fascinating destinations in Latin America."
-      },
-      {
-        icon: "◎",
-        title: "A trip designed around you",
-        desc: "Bridge Care combines the best of medicine with the best of tourism. Every detail thought out for you to live an experience that goes far beyond a procedure."
-      }
-    ]
-  },
-  {
-    image: "https://images.unsplash.com/photo-1570114603079-42b0d122f16f?auto=format&fit=crop&q=80&w=800",
-    locationEs: "Medellín, Colombia",
-    locationEn: "Medellin, Colombia",
-    labelEs: "Innovación Médica",
-    labelEn: "Medical Innovation",
-    titleEs: "Medellín: El hub de salud e innovación de la región",
-    titleEn: "Medellin: The health and innovation hub of the region",
-    descEs: "Conocida como la 'Ciudad de la Eterna Primavera', Medellín ofrece clínicas de alta complejidad que lideran rankings latinoamericanos y un clima primaveral perfecto para tu recuperación.",
-    descEn: "Known as the 'City of Eternal Spring', Medellin offers high-complexity clinics that lead Latin American rankings and a perfect spring-like climate for your recovery.",
-    pillarsEs: [
-      {
-        icon: "✦",
-        title: "Clínicas Acreditadas JCI",
-        desc: "Nuestras clínicas aliadas cuentan con las certificaciones internacionales más estrictas del mundo."
-      },
-      {
-        icon: "◎",
-        title: "Clima templado todo el año",
-        desc: "Un entorno de 22°C (71°F) constante que favorece una recuperación posoperatoria cómoda y desinflamatoria."
-      }
-    ],
-    pillarsEn: [
-      {
-        icon: "✦",
-        title: "JCI Accredited Clinics",
-        desc: "Our allied clinics hold the strictest international quality certifications in the world."
-      },
-      {
-        icon: "◎",
-        title: "Temperate climate year-round",
-        desc: "A constant 22°C (71°F) environment that promotes a comfortable, swelling-reducing post-op recovery."
-      }
-    ]
-  },
-  {
-    image: "https://images.unsplash.com/photo-1590001155093-a3c66ab0c3ff?auto=format&fit=crop&q=80&w=800",
-    locationEs: "Bogotá, Colombia",
-    locationEn: "Bogota, Colombia",
-    labelEs: "Liderazgo Médico",
-    labelEn: "Medical Leadership",
-    titleEs: "Bogotá: Excelencia científica y tecnología de vanguardia",
-    titleEn: "Bogota: Scientific excellence and cutting-edge technology",
-    descEs: "La capital del país alberga los hospitales universitarios más prestigiosos y centros de investigación que son referentes de la medicina en toda América Latina.",
-    descEn: "The country's capital houses the most prestigious university hospitals and research centers that are benchmarks of medicine throughout Latin America.",
-    pillarsEs: [
-      {
-        icon: "✦",
-        title: "Tecnología de última generación",
-        desc: "Acceso a cirugía robótica, quirófanos inteligentes e infraestructura diagnóstica de primer nivel mundial."
-      },
-      {
-        icon: "◎",
-        title: "Los mejores cirujanos del país",
-        desc: "Especialistas adscritos a juntas médicas nacionales con entrenamientos avanzados en EE. UU. y Europa."
-      }
-    ],
-    pillarsEn: [
-      {
-        icon: "✦",
-        title: "State-of-the-art technology",
-        desc: "Access to robotic surgery, smart operating rooms, and world-class diagnostic infrastructure."
-      },
-      {
-        icon: "◎",
-        title: "The country's top surgeons",
-        desc: "Specialists certified by national medical boards with advanced fellowships in the US and Europe."
-      }
-    ]
-  },
-  {
-    image: "https://images.unsplash.com/photo-1598449356475-b9f71db7d847?auto=format&fit=crop&q=80&w=800",
-    locationEs: "Cali, Colombia",
-    locationEn: "Cali, Colombia",
-    labelEs: "Cuidado Humano",
-    labelEn: "Humane Care",
-    titleEs: "Cali: Pionera en tratamientos de bariatría y odontología",
-    titleEn: "Cali: Pioneer in bariatric and dental treatments",
-    descEs: "Famosa mundialmente por su cultura vibrante, Cali se destaca por sus centros especializados en pérdida de peso y rehabilitación oral con un trato humano insuperable.",
-    descEn: "World-famous for its vibrant culture, Cali stands out for its specialized weight loss and oral rehabilitation centers with unsurpassed human warmth.",
-    pillarsEs: [
-      {
-        icon: "✦",
-        title: "Calidez humana sin fronteras",
-        desc: "El personal médico y de enfermería te brindará un acompañamiento cálido y familiar, reduciendo el estrés del viaje."
-      },
-      {
-        icon: "◎",
-        title: "Precios competitivos incomparables",
-        desc: "Obtén tratamientos de la más alta calidad con ahorros que superan el 70% en comparación con EE. UU."
-      }
-    ],
-    pillarsEn: [
-      {
-        icon: "✦",
-        title: "Warmth without borders",
-        desc: "Allied medical and nursing staff provide warm, family-like support, reducing international travel stress."
-      },
-      {
-        icon: "◎",
-        title: "Unbeatable competitive pricing",
-        desc: "Receive top-tier medical and dental procedures with savings exceeding 70% compared to the US."
-      }
-    ]
-  }
+import ContactCta from "@/components/ContactCta";
+import HowItWorks from "@/components/HowItWorks";
+import SpecialtiesIndex from "@/components/SpecialtiesIndex";
+import WhyColombia from "@/components/WhyColombia";
+import SpotlightBand from "@/components/SpotlightBand";
+
+// Live OS "reduce motion" setting. useSyncExternalStore rather than an effect
+// + setState, so it is correct on the first client render and follows the
+// visitor if they flip the setting while the page is open.
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+function subscribeReducedMotion(onChange: () => void) {
+  const mq = window.matchMedia(REDUCED_MOTION_QUERY);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+function usePrefersReducedMotion() {
+  return useSyncExternalStore(
+    subscribeReducedMotion,
+    () => window.matchMedia(REDUCED_MOTION_QUERY).matches,
+    () => false
+  );
+}
+
+// Hero typewriter phrases. Module-level so render can show a static phrase
+// when motion is reduced, not only the effect that types them.
+const HERO_PHRASES_ES = [
+  "TU TRATAMIENTO MÉDICO, TODO GESTIONADO.",
+  "VUELO, CONSULTA Y HOTEL. TODO INCLUIDO.",
+  "MÉDICOS AVALADOS, RESULTADOS REALES.",
+  "DEL DIAGNÓSTICO A TU RECUPERACIÓN.",
+  "TURISMO MÉDICO SEGURO EN COLOMBIA."
+];
+const HERO_PHRASES_EN = [
+  "YOUR MEDICAL TREATMENT, ALL MANAGED.",
+  "FLIGHT, CONSULTATION, AND HOTEL. ALL INCLUDED.",
+  "CERTIFIED DOCTORS, REAL RESULTS.",
+  "FROM DIAGNOSIS TO YOUR RECOVERY.",
+  "SAFE MEDICAL TOURISM IN COLOMBIA."
 ];
 
-const specialtyData = {
-  "cirugia-plastica": {
-    badge: { es: "Cirugía Plástica", en: "Plastic Surgery" },
-    tagline: { es: "Resultados naturales para redescubrir tu confianza", en: "Natural results to rediscover your confidence" },
-    description: {
-      es: "Procedimientos estéticos y reconstructivos realizados por cirujanos certificados internacionalmente. Recupera tu confianza con técnicas avanzadas y resultados naturales.",
-      en: "Aesthetic and reconstructive procedures performed by internationally certified surgeons. Regain your confidence with advanced techniques and natural results."
-    },
-    link: "/specialties/cirugia-estetica",
-    procedures: [
-      {
-        title: { es: "Rinoplastia", en: "Rhinoplasty" },
-        image: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&q=80&w=800"
-      },
-      {
-        title: { es: "Liposucción", en: "Liposuction" },
-        image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800"
-      },
-      {
-        title: { es: "Aumento Mamario", en: "Breast Augmentation" },
-        image: "https://images.unsplash.com/photo-1522337360788-8b13edd793be?auto=format&fit=crop&q=80&w=800"
-      }
-    ]
-  },
-  "odontologia": {
-    badge: { es: "Odontología", en: "Dentistry" },
-    tagline: { es: "Una sonrisa saludable y radiante para toda la vida", en: "A healthy, radiant smile for a lifetime" },
-    description: {
-      es: "Cuida tu salud oral y diseña tu sonrisa perfecta con odontólogos especializados y tecnología dental de vanguardia. Te ofrecemos atención dental de primer nivel.",
-      en: "Take care of your oral health and design your perfect smile with specialized dentists and cutting-edge dental technology. We offer you world-class dental care."
-    },
-    link: "/specialties/odontologia",
-    procedures: [
-      {
-        title: { es: "Diseño de Sonrisa", en: "Smile Design" },
-        image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&q=80&w=800"
-      },
-      {
-        title: { es: "Implantes Dentales", en: "Dental Implants" },
-        image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=800"
-      },
-      {
-        title: { es: "Ortodoncia Invisible", en: "Invisible Orthodontics" },
-        image: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&q=80&w=800"
-      }
-    ]
-  },
-  "oftalmologia": {
-    badge: { es: "Oftalmología", en: "Ophthalmology" },
-    tagline: { es: "Una visión clara para disfrutar cada momento", en: "Clear vision to enjoy every moment" },
-    description: {
-      es: "Cuidamos de tu visión con diagnósticos precisos y tratamientos avanzados para diversas patologías oculares, realizados por oftalmólogos certificados.",
-      en: "We take care of your vision with precise diagnoses and advanced treatments for various ocular pathologies, performed by certified ophthalmologists."
-    },
-    link: "/contacto",
-    procedures: [
-      {
-        title: { es: "Cirugía Refractiva (LASIK)", en: "Refractive Surgery (LASIK)" },
-        image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800"
-      },
-      {
-        title: { es: "Cirugía de Cataratas", en: "Cataract Surgery" },
-        image: "https://images.unsplash.com/photo-1579684389782-64d84b5e901a?auto=format&fit=crop&q=80&w=800"
-      },
-      {
-        title: { es: "Tratamiento de Glaucoma", en: "Glaucoma Treatment" },
-        image: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&q=80&w=800"
-      }
-    ]
-  },
-  "estetica": {
-    badge: { es: "Medicina Estética", en: "Aesthetic Medicine" },
-    tagline: { es: "Realza tu belleza natural sin cirugía", en: "Enhance your natural beauty without surgery" },
-    description: {
-      es: "Realza tu belleza natural con tratamientos de medicina estética no invasivos. Rejuvenecimiento facial, remodelación corporal y cuidado integral de la piel.",
-      en: "Enhance your natural beauty with non-invasive medical aesthetic treatments. Facial rejuvenation, body contouring, and comprehensive skincare."
-    },
-    link: "/specialties/estetica",
-    procedures: [
-      {
-        title: { es: "Toxina Botulínica (Botox)", en: "Botulinum Toxin (Botox)" },
-        image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=800"
-      },
-      {
-        title: { es: "Ácido Hialurónico", en: "Hyaluronic Acid" },
-        image: "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=800"
-      },
-      {
-        title: { es: "Rejuvenecimiento Láser", en: "Laser Rejuvenation" },
-        image: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&q=80&w=800"
-      }
-    ]
-  }
-};
-
 export default function Home() {
-  const { language, setLanguage, t } = useLanguage();
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLHeadingElement>(null);
-  const [specialties, setSpecialties] = useState<Specialty[]>([]);
-  const [activeSpecialtyTab, setActiveSpecialtyTab] = useState("cirugia-plastica");
-  const [activeCardIndices, setActiveCardIndices] = useState<Record<string, number>>({
-    "cirugia-plastica": 0,
-    "odontologia": 0,
-    "oftalmologia": 0,
-    "estetica": 0
-  });
-  const [progress, setProgress] = useState(0);
+  const { language, t } = useLanguage();
+  const reducedMotion = usePrefersReducedMotion();
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
 
-  const cycleCard = (specialty: string) => {
-    setActiveCardIndices(prev => ({
-      ...prev,
-      [specialty]: (prev[specialty] + 1) % 3
-    }));
-    setProgress(0);
-  };
 
-  useEffect(() => {
-    if (!activeSpecialtyTab) return;
-
-    setProgress(0);
-
-    const intervalTime = 50;
-    const duration = 5000;
-    const increment = (100 * intervalTime) / duration;
-
-    const timer = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          cycleCard(activeSpecialtyTab);
-          return 0;
-        }
-        return prev + increment;
-      });
-    }, intervalTime);
-
-    return () => clearInterval(timer);
-  }, [activeSpecialtyTab]);
-
-  const [currentWhySlide, setCurrentWhySlide] = useState(0);
   const [mounted, setMounted] = useState(false);
-  const [videoPlaying, setVideoPlaying] = useState(false);
-  const [showSplash, setShowSplash] = useState(true);
-  const [splashFadeOut, setSplashFadeOut] = useState(false);
   const [typedPart2, setTypedPart2] = useState("");
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const [displayedWhyTitle, setDisplayedWhyTitle] = useState("");
-  const [displayedWhyDesc, setDisplayedWhyDesc] = useState("");
-
-  useEffect(() => {
-    if (!mounted) return;
-    const fullTitle = language === "es" ? whySlides[currentWhySlide].titleEs : whySlides[currentWhySlide].titleEn;
-    const fullDesc = language === "es" ? whySlides[currentWhySlide].descEs : whySlides[currentWhySlide].descEn;
-
-    setDisplayedWhyTitle("");
-    setDisplayedWhyDesc("");
-
-    let charIndex = 0;
-    let titleText = "";
-    let descText = "";
-
-    const interval = setInterval(() => {
-      if (charIndex < fullTitle.length) {
-        titleText += fullTitle[charIndex];
-        setDisplayedWhyTitle(titleText);
-        charIndex++;
-      } else if (charIndex - fullTitle.length < fullDesc.length) {
-        const descCharIndex = charIndex - fullTitle.length;
-        descText += fullDesc[descCharIndex];
-        setDisplayedWhyDesc(descText);
-        charIndex++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 10); // Uniform fluid typing speed
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [currentWhySlide, language, mounted]);
-
-  // Reset typewriter when language changes
-  useEffect(() => {
+  // Reset typewriter when language changes (during render, not in an effect
+  // — same reasoning as the other resets above).
+  const [lastTypewriterLang, setLastTypewriterLang] = useState(language);
+  if (lastTypewriterLang !== language) {
+    setLastTypewriterLang(language);
     setTypedPart2("");
     setIsDeleting(false);
     setPhraseIndex(0);
-  }, [language]);
+  }
 
-  // Auto-play for the "Why Colombia" slideshow (switches every 1 minute)
+  // Under reduced motion the hero shows its first phrase, static.
+  const heroText = reducedMotion
+    ? (language === "es" ? HERO_PHRASES_ES : HERO_PHRASES_EN)[0]
+    : typedPart2;
+
+  // The hero video is ambient motion: pause it (poster frame stays) when the
+  // visitor has asked the OS to reduce motion.
   useEffect(() => {
-    if (!mounted) return;
-    const interval = setInterval(() => {
-      setCurrentWhySlide((prev) => (prev === whySlides.length - 1 ? 0 : prev + 1));
-    }, 60000);
-
-    return () => clearInterval(interval);
-  }, [currentWhySlide, mounted]);
+    const video = heroVideoRef.current;
+    if (!video) return;
+    if (reducedMotion) {
+      video.pause();
+    } else {
+      video.play().catch(() => {});
+    }
+  }, [reducedMotion]);
 
   useEffect(() => {
-    if (!mounted) return;
+    if (!mounted || reducedMotion) return;
 
-    const phrasesEs = [
-      "TU TRATAMIENTO MÉDICO, TODO GESTIONADO.",
-      "VUELO, CONSULTA Y HOTEL. TODO INCLUIDO.",
-      "MÉDICOS AVALADOS, RESULTADOS REALES.",
-      "DEL DIAGNÓSTICO A TU RECUPERACIÓN.",
-      "TURISMO MÉDICO SEGURO EN COLOMBIA."
-    ];
-
-    const phrasesEn = [
-      "YOUR MEDICAL TREATMENT, ALL MANAGED.",
-      "FLIGHT, CONSULTATION, AND HOTEL. ALL INCLUDED.",
-      "CERTIFIED DOCTORS, REAL RESULTS.",
-      "FROM DIAGNOSIS TO YOUR RECOVERY.",
-      "SAFE MEDICAL TOURISM IN COLOMBIA."
-    ];
-
-    const currentPhrases = language === "es" ? phrasesEs : phrasesEn;
+    const currentPhrases = language === "es" ? HERO_PHRASES_ES : HERO_PHRASES_EN;
     const currentPhrase = currentPhrases[phraseIndex % currentPhrases.length];
     let timer: NodeJS.Timeout;
 
@@ -390,93 +108,29 @@ export default function Home() {
         setIsDeleting(true);
       }, 2500); // Wait 2.5s before deleting
     } else if (isDeleting && typedPart2 === "") {
-      setIsDeleting(false);
-      setPhraseIndex((prev) => (prev + 1) % currentPhrases.length);
+      // Wrapped in the same kind of timer as the branches above — keeps the
+      // state transition inside a callback instead of directly in the
+      // effect body, and there's no reason for it to be instantaneous
+      // anyway (mirrors the tiny pause a real typing cursor would have).
+      timer = setTimeout(() => {
+        setIsDeleting(false);
+        setPhraseIndex((prev) => (prev + 1) % currentPhrases.length);
+      }, 0);
     }
 
     return () => clearTimeout(timer);
-  }, [language, mounted, typedPart2, isDeleting, phraseIndex]);
+  }, [language, mounted, reducedMotion, typedPart2, isDeleting, phraseIndex]);
 
   useEffect(() => {
+    // Several effects below are gated on `mounted` so they only run
+    // client-side: the standard "hasMounted" exception to this lint rule.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
-    setSpecialties(getStoredSpecialties());
-
-    // Only show splash screen once per session to avoid annoying the user on navigation
-    const hasShown = sessionStorage.getItem("bc_splash_shown");
-    if (hasShown) {
-      setShowSplash(false);
-    }
-
-    // Failsafe timer: if video doesn't play or trigger events in 2.2s, force show it
-    const timer = setTimeout(() => {
-      setVideoPlaying(true);
-    }, 2200);
-
-    const handleUpdate = () => {
-      setSpecialties(getStoredSpecialties());
-    };
-    window.addEventListener("bc_db_update", handleUpdate);
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener("bc_db_update", handleUpdate);
-    };
   }, []);
 
 
 
-  useEffect(() => {
-    if (!mounted) return;
 
-    const handleScroll = () => {
-      const scrollContainer = scrollContainerRef.current;
-      const textElement = textRef.current;
-      if (!scrollContainer || !textElement) return;
-
-      const spans = textElement.querySelectorAll("span");
-      if (spans.length === 0) return;
-
-      const rect = scrollContainer.getBoundingClientRect();
-      const containerTop = rect.top;
-      const containerHeight = rect.height;
-      const windowHeight = window.innerHeight;
-      
-      // Start revealing when the container top is 45% down the viewport (text entering readable area)
-      // End revealing when the container top is 15% down the viewport (text is in the middle of the screen)
-      const startScroll = windowHeight * 0.45;
-      const endScroll = windowHeight * 0.15;
-      
-      const totalDistance = startScroll - endScroll;
-      const currentPosition = startScroll - containerTop;
-      
-      let scrollProgress = currentPosition / totalDistance;
-      scrollProgress = Math.max(0, Math.min(1, scrollProgress));
-      const charsToLight = Math.floor(scrollProgress * spans.length);
-      
-      for (let i = 0; i < spans.length; i++) {
-        if (i < charsToLight) {
-          spans[i].classList.add("active");
-        } else {
-          spans[i].classList.remove("active");
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [language, mounted]);
-
-  const selectLanguage = (lang: "es" | "en") => {
-    setLanguage(lang);
-    sessionStorage.setItem("bc_splash_shown", "true");
-    setSplashFadeOut(true);
-    setTimeout(() => {
-      setShowSplash(false);
-    }, 600);
-  };
 
   // Inline testimonials translation helper
   const testimonials = [
@@ -511,203 +165,20 @@ export default function Home() {
 
   return (
     <>
-      {showSplash && (
-        <div 
-          className={`splash-screen ${splashFadeOut ? "fade-out" : ""}`}
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            background: "radial-gradient(circle at center, #0e1212 0%, #080909 100%)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 100000,
-            transition: "opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
-            opacity: splashFadeOut ? 0 : 1,
-            pointerEvents: splashFadeOut ? "none" : "auto",
-          }}
-        >
-          <div 
-            className="splash-card"
-            style={{
-              background: "rgba(15, 17, 17, 0.75)",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-              border: "1px solid rgba(255, 255, 255, 0.08)",
-              borderRadius: "28px",
-              padding: "3.5rem 3rem",
-              maxWidth: "500px",
-              width: "90%",
-              textAlign: "center",
-              boxShadow: "0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(93, 202, 165, 0.05)",
-            }}
-          >
-            {/* Glowing Logo Icon */}
-            <div 
-              className="logo-container"
-              style={{
-                position: "relative",
-                width: "90px",
-                height: "90px",
-                margin: "0 auto 1.5rem auto",
-              }}
-            >
-              <div 
-                className="pulse-glow"
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  background: "#5DCAA5",
-                  borderRadius: "50%",
-                  filter: "blur(15px)",
-                  opacity: 0.15,
-                }}
-              ></div>
-              <div 
-                className="logo-icon-box"
-                style={{
-                  position: "relative",
-                  background: "linear-gradient(135deg, #1D7A6E 0%, #5DCAA5 100%)",
-                  width: "100%",
-                  height: "100%",
-                  borderRadius: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  border: "2px solid rgba(255, 255, 255, 0.1)",
-                  boxShadow: "0 8px 24px rgba(93, 202, 165, 0.3)",
-                }}
-              >
-                <svg 
-                  width="44" 
-                  height="44" 
-                  style={{
-                    width: "44px",
-                    height: "44px",
-                    color: "#080909",
-                    fill: "none",
-                    display: "block",
-                  }}
-                  xmlns="http://www.w3.org/2000/svg" 
-                  viewBox="0 0 24 24" 
-                  strokeWidth={1.5} 
-                  stroke="currentColor" 
-                  className="logo-svg"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
-                </svg>
-              </div>
-            </div>
-
-            <h2 
-              className="splash-title"
-              style={{
-                fontSize: "2.2rem",
-                fontWeight: 800,
-                letterSpacing: "0.15em",
-                marginBottom: "1.5rem",
-                background: "linear-gradient(135deg, #ffffff 30%, #A3B8B4 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              BRIDGE CARE
-            </h2>
-            
-            <div 
-              className="loader-container"
-              style={{
-                marginBottom: "2rem",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "0.75rem",
-              }}
-            >
-              <div 
-                className="spinner"
-                style={{
-                  width: "36px",
-                  height: "36px",
-                  border: "3px solid rgba(93, 202, 165, 0.1)",
-                  borderTopColor: "#5DCAA5",
-                  borderRadius: "50%",
-                }}
-              ></div>
-              <p 
-                className="loading-text"
-                style={{
-                  fontSize: "0.85rem",
-                  color: "#A3B8B4",
-                  opacity: 0.8,
-                  margin: 0,
-                  letterSpacing: "0.05em",
-                }}
-              >
-                Cargando servicios de salud... / Loading health services...
-              </p>
-            </div>
-
-            <div 
-              className="language-selector-section"
-              style={{
-                borderTop: "1px solid rgba(255, 255, 255, 0.08)",
-                paddingTop: "1.75rem",
-              }}
-            >
-              <p 
-                className="select-prompt"
-                style={{
-                  fontSize: "0.95rem",
-                  color: "#ffffff",
-                  marginBottom: "1.25rem",
-                  fontWeight: 500,
-                }}
-              >
-                Selecciona tu idioma / Select your language:
-              </p>
-              <div 
-                className="splash-buttons"
-                style={{
-                  display: "flex",
-                  gap: "1rem",
-                  justifyContent: "center",
-                }}
-              >
-                <button onClick={() => selectLanguage("es")} className="btn btn-accent btn-splash">
-                  Español
-                </button>
-                <button onClick={() => selectLanguage("en")} className="btn btn-secondary btn-splash">
-                  English
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      <div className="home-container" style={{ opacity: showSplash ? 0 : 1, transition: "opacity 0.8s ease" }}>
+      <div className="home-container">
       {/* 1. HERO SECTION */}
       <section className="hero-section">
         {/* Background media wrapper */}
         <div className="hero-bg-wrapper">
-          <video 
-            autoPlay 
-            loop 
-            muted 
-            playsInline 
-            onTimeUpdate={(e) => {
-              if (e.currentTarget.currentTime > 0.01) {
-                setVideoPlaying(true);
-              }
-            }}
-            className={`hero-video ${videoPlaying ? "playing" : ""}`}
-            style={{ opacity: videoPlaying ? 1 : 0 }}
+          <video
+            ref={heroVideoRef}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            poster="/hero-video-poster.jpg"
+            className="hero-video"
           >
             <source src="/hero-video.mp4" type="video/mp4" />
           </video>
@@ -721,23 +192,23 @@ export default function Home() {
             {/* LEFT COLUMN */}
             <div className="hero-column-left">
               {/* Top part: Main Title and Typewriter */}
-              <div className="hero-title-container">
+              <div className="hero-title-container animate-fade-in">
                 <h1>
                   {t("hero.title.part1")}
                   <span className="highlight-color">
-                    {typedPart2}
-                    <span className="cursor-blink">_</span>
+                    {heroText}
+                    <span className="cursor-blink" aria-hidden="true">_</span>
                   </span>
                 </h1>
               </div>
 
               {/* Bottom part: Three Vertical Features */}
-              <div className="hero-features-list">
-                
+              <div className="hero-features-list animate-fade-in" style={{ animationDelay: "0.15s", animationFillMode: "backwards" }}>
+
                 {/* Feature 1: Ahorro Promedio */}
                 <div className="hero-feature-item">
                   <div className="hero-feature-icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="hero-feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="hero-feature-icon" width={26} height={26}>
                       <line x1="12" y1="1" x2="12" y2="23"></line>
                       <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                     </svg>
@@ -751,7 +222,7 @@ export default function Home() {
                 {/* Feature 2: Procedimientos Gestionados */}
                 <div className="hero-feature-item">
                   <div className="hero-feature-icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="hero-feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="hero-feature-icon" width={26} height={26}>
                       <polyline points="9 11 12 14 22 4"></polyline>
                       <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
                     </svg>
@@ -765,7 +236,7 @@ export default function Home() {
                 {/* Feature 3: Acompañamiento 24/7 */}
                 <div className="hero-feature-item">
                   <div className="hero-feature-icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="hero-feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="hero-feature-icon" width={26} height={26}>
                       <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
                       <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
                     </svg>
@@ -782,7 +253,7 @@ export default function Home() {
             {/* RIGHT COLUMN */}
             <div className="hero-column-right">
               {/* Bottom part: Tagline and CTA Pill Button */}
-              <div className="hero-right-bottom">
+              <div className="hero-right-bottom animate-fade-in" style={{ animationDelay: "0.3s", animationFillMode: "backwards" }}>
                 <p className="hero-right-tagline">
                   {t("hero.right.tagline").split("\n").map((line, index) => (
                     <span key={index} className="tagline-span">
@@ -795,7 +266,7 @@ export default function Home() {
                   <Link href="/contacto" className="btn-pill-primary">
                     <span>{t("hero.cta.primary")}</span>
                     <div className="btn-pill-arrow-circle">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="pill-arrow-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="pill-arrow-icon" width={14} height={14}>
                         <line x1="7" y1="17" x2="17" y2="7"></line>
                         <polyline points="7 7 17 7 17 17"></polyline>
                       </svg>
@@ -810,536 +281,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* MI PROCESO - NUESTRO PROCESO */}
-      <section className="proceso-section">
-        <div className="proceso-container">
-          <div className="proceso-header">
-            <div className="proceso-tag">
-              <span className="proceso-tag-icon">✦</span>
-              {language === "es" ? "Nuestro Proceso" : "Our Process"}
-            </div>
-            
-            <div className="proceso-header-content">
-              <h4>{language === "es" ? "Cómo Funciona" : "How It Works"}</h4>
-              <h2>
-                {language === "es" ? (
-                  <>
-                    Así de simple es<br />
-                    <span>tu tratamiento en Colombia</span>
-                  </>
-                ) : (
-                  <>
-                    As simple as that:<br />
-                    <span>your treatment in Colombia</span>
-                  </>
-                )}
-              </h2>
-              <p>
-                {language === "es" 
-                  ? "Un proceso transparente y sin estrés desde tu primera consulta hasta tu recuperación completa. Así es exactamente como lo gestionamos."
-                  : "A transparent and stress-free process from your very first consultation to your complete recovery. That is exactly how we manage it."}
-              </p>
-            </div>
-          </div>
+      <HowItWorks es={language === "es"} />
 
-          <div className="proceso-cards-grid">
-            
-            <div className="proceso-card">
-              <div className="proceso-card-header">
-                <div className="proceso-dots">
-                  <span className="proceso-dot active"></span>
-                  <span className="proceso-dot"></span>
-                  <span className="proceso-dot"></span>
-                  <span className="proceso-dot"></span>
-                </div>
-                <span className="proceso-card-number">01</span>
-              </div>
-              <div className="proceso-card-body">
-                <div className="proceso-card-icon">
-                  <img src="/bridgecare_icon_01.svg" alt="Form" className="proceso-svg-icon" />
-                </div>
-                <div className="proceso-card-content">
-                  <h3 className="proceso-card-title">
-                    {language === "es" ? "Cuéntanos qué necesitas" : "Tell us what you need"}
-                  </h3>
-                  <p className="proceso-card-desc">
-                    {language === "es" 
-                      ? "Llena nuestro formulario en menos de 2 minutos. Sin compromisos ni costos."
-                      : "Fill out our form in under 2 minutes. No commitment, no fees."}
-                  </p>
-                </div>
-              </div>
-            </div>
+      <SpecialtiesIndex es={language === "es"} />
 
-            <div className="proceso-card">
-              <div className="proceso-card-header">
-                <div className="proceso-dots">
-                  <span className="proceso-dot"></span>
-                  <span className="proceso-dot active"></span>
-                  <span className="proceso-dot"></span>
-                  <span className="proceso-dot"></span>
-                </div>
-                <span className="proceso-card-number">02</span>
-              </div>
-              <div className="proceso-card-body">
-                <div className="proceso-card-icon">
-                  <img src="/bridgecare_icon_02.svg" alt="Plan" className="proceso-svg-icon" />
-                </div>
-                <div className="proceso-card-content">
-                  <h3 className="proceso-card-title">
-                    {language === "es" ? "Recibe tu plan personalizado" : "Receive your personalized plan"}
-                  </h3>
-                  <p className="proceso-card-desc">
-                    {language === "es" 
-                      ? "En menos de 24 horas tienes tu propuesta completa: especialista, procedimiento y costos."
-                      : "In less than 24 hours, you get your complete proposal: specialist, procedure, and costs."}
-                  </p>
-                </div>
-              </div>
-            </div>
+      <WhyColombia es={language === "es"} />
 
-            <div className="proceso-card">
-              <div className="proceso-card-header">
-                <div className="proceso-dots">
-                  <span className="proceso-dot"></span>
-                  <span className="proceso-dot"></span>
-                  <span className="proceso-dot active"></span>
-                  <span className="proceso-dot"></span>
-                </div>
-                <span className="proceso-card-number">03</span>
-              </div>
-              <div className="proceso-card-body">
-                <div className="proceso-card-icon">
-                  <img src="/bridgecare_icon_03.svg" alt="Travel" className="proceso-svg-icon" />
-                </div>
-                <div className="proceso-card-content">
-                  <h3 className="proceso-card-title">
-                    {language === "es" ? "Viaja con todo listo" : "Travel with everything ready"}
-                  </h3>
-                  <p className="proceso-card-desc">
-                    {language === "es" 
-                      ? "Vuelo, hotel y traslados ya coordinados. Tú solo llegas a Bogotá."
-                      : "Flights, hotel, and transfers all coordinated. You just arrive in Bogota."}
-                  </p>
-                </div>
-              </div>
-            </div>
+      <SpotlightBand es={language === "es"} />
 
-            <div className="proceso-card">
-              <div className="proceso-card-header">
-                <div className="proceso-dots">
-                  <span className="proceso-dot"></span>
-                  <span className="proceso-dot"></span>
-                  <span className="proceso-dot"></span>
-                  <span className="proceso-dot active"></span>
-                </div>
-                <span className="proceso-card-number">04</span>
-              </div>
-              <div className="proceso-card-body">
-                <div className="proceso-card-icon">
-                  <img src="/bridgecare_icon_04.svg" alt="Recovery" className="proceso-svg-icon" />
-                </div>
-                <div className="proceso-card-content">
-                  <h3 className="proceso-card-title">
-                    {language === "es" ? "Recupérate, nosotros seguimos contigo" : "Recover, we stay by your side"}
-                  </h3>
-                  <p className="proceso-card-desc">
-                    {language === "es" 
-                      ? "Acompañamiento post-procedimiento hasta que estés de vuelta en casa."
-                      : "Post-procedure support until you are safely back home."}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ESPECIALIDADES INTERACTIVAS */}
-      <section className="section esp-specialties-tabs-section">
-        <div className="container esp-main-wrapper">
-          <div className="section-header text-center">
-            <span className="section-subtitle">
-              {language === "es" ? "Atención Experta" : "Expert Care"}
-            </span>
-            <h2>{language === "es" ? "Especialidades" : "Specialties"}</h2>
-            <div className="header-bar"></div>
-            <p className="section-desc">
-              {language === "es"
-                ? "Atención experta internacional en tu propio idioma. Bridge Care te conecta con los mejores especialistas de Latinoamérica."
-                : "Expert international care in your own language. Bridge Care connects you with the best specialists in Latin America."}
-            </p>
-          </div>
-
-          <div className="esp-tabs-wrapper">
-            <button
-              className={`esp-tab-btn ${activeSpecialtyTab === "cirugia-plastica" ? "active" : ""}`}
-              onClick={() => setActiveSpecialtyTab("cirugia-plastica")}
-            >
-              {language === "es" ? "Cirugía Plástica" : "Plastic Surgery"}
-            </button>
-            <button
-              className={`esp-tab-btn ${activeSpecialtyTab === "odontologia" ? "active" : ""}`}
-              onClick={() => setActiveSpecialtyTab("odontologia")}
-            >
-              {language === "es" ? "Odontología" : "Dentistry"}
-            </button>
-            <button
-              className={`esp-tab-btn ${activeSpecialtyTab === "oftalmologia" ? "active" : ""}`}
-              onClick={() => setActiveSpecialtyTab("oftalmologia")}
-            >
-              {language === "es" ? "Oftalmología" : "Ophthalmology"}
-            </button>
-            <button
-              className={`esp-tab-btn ${activeSpecialtyTab === "estetica" ? "active" : ""}`}
-              onClick={() => setActiveSpecialtyTab("estetica")}
-            >
-              {language === "es" ? "Estética" : "Aesthetics"}
-            </button>
-          </div>
-
-          {Object.entries(specialtyData).map(([key, data]) => {
-            const isActive = activeSpecialtyTab === key;
-            const activeIndex = activeCardIndices[key] || 0;
-            
-            return (
-              <div key={key} className={`esp-specialty-pane ${isActive ? "active" : ""}`}>
-                {/* Columna de Texto - A la izquierda */}
-                <div className="esp-text-col">
-                  <span className="esp-badge">{language === "es" ? data.badge.es : data.badge.en}</span>
-                  <h3 className="esp-tagline">{language === "es" ? data.tagline.es : data.tagline.en}</h3>
-                  <p className="esp-desc">
-                    {language === "es" ? data.description.es : data.description.en}
-                  </p>
-                  <Link href={data.link} className="esp-cta-link">
-                    <span>{language === "es" ? "Ver detalles" : "View details"}</span>
-                    <span className="esp-cta-link-arrow">→</span>
-                  </Link>
-                </div>
-                
-                {/* Columna de Stack de Tarjetas - A la derecha */}
-                <div className="esp-stack-col" onClick={() => cycleCard(key)}>
-                  <div className="esp-card-stack">
-                    {data.procedures.map((proc, index) => {
-                      const position = (index - activeIndex + 3) % 3;
-                      
-                      return (
-                        <div 
-                          key={index} 
-                          className={`esp-stack-card esp-card-pos-${position}`}
-                        >
-                          <img src={proc.image} alt={language === "es" ? proc.title.es : proc.title.en} />
-                          <div className="esp-card-overlay"></div>
-                          <div className="esp-card-info">
-                            <h4>{language === "es" ? proc.title.es : proc.title.en}</h4>
-                          </div>
-                          <div className="esp-card-indicator">
-                            {position === 0 ? (
-                              <svg className="esp-progress-ring" width="24" height="24">
-                                <circle
-                                  className="esp-progress-ring-bg"
-                                  stroke="rgba(255, 255, 255, 0.25)"
-                                  strokeWidth="1.5"
-                                  fill="transparent"
-                                  r="9"
-                                  cx="12"
-                                  cy="12"
-                                />
-                                <circle
-                                  className="esp-progress-ring-circle"
-                                  stroke="#ffffff"
-                                  strokeWidth="2"
-                                  fill="transparent"
-                                  r="9"
-                                  cx="12"
-                                  cy="12"
-                                  strokeDasharray="56.54"
-                                  strokeDashoffset={56.54 - (56.54 * progress) / 100}
-                                  transform="rotate(-90 12 12)"
-                                  strokeLinecap="round"
-                                />
-                              </svg>
-                            ) : (
-                              <div className="esp-indicator-inner"></div>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* 2. POR QUÉ COLOMBIA */}
-      <section className="section why-colombia-section">
-        <div className="container">
-          <div className="why-col-header">
-            <div className="why-col-tag">
-              <span className="why-col-tag-icon">✦</span>
-              {language === "es" ? "¿Por qué Colombia?" : "Why Colombia?"}
-            </div>
-            
-            <div className="why-col-header-content">
-              <h4>{language === "es" ? "Excelencia e Innovación" : "Excellence & Innovation"}</h4>
-              <h2>
-                {language === "es" ? (
-                  <>
-                    Una decisión inteligente,<br />
-                    <span>una experiencia inolvidable</span>
-                  </>
-                ) : (
-                  <>
-                    A smart decision,<br />
-                    <span>an unforgettable experience</span>
-                  </>
-                )}
-              </h2>
-              <p>
-                {language === "es"
-                  ? "Colombia no es un destino de segunda opción — es la primera elección de quienes saben lo que quieren."
-                  : "Colombia is not a second-choice destination — it is the first choice for those who know what they want."}
-              </p>
-            </div>
-            
-            {/* Empty spacer to center header content relative to the 3-column grid on desktop */}
-            <div className="why-col-header-spacer"></div>
-          </div>
-
-          <article className="why-col-main-card">
-            <div className="why-col-img-col">
-              <div 
-                key={currentWhySlide}
-                className="why-col-img-bg" 
-                style={{ backgroundImage: `url(${whySlides[currentWhySlide].image})` }}
-              />
-              
-              <button 
-                className="why-col-carousel-arrow left" 
-                onClick={() => setCurrentWhySlide((prev) => (prev === 0 ? whySlides.length - 1 : prev - 1))}
-                aria-label="Previous slide"
-              >
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-              </button>
-              <button 
-                className="why-col-carousel-arrow right" 
-                onClick={() => setCurrentWhySlide((prev) => (prev === whySlides.length - 1 ? 0 : prev + 1))}
-                aria-label="Next slide"
-              >
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </button>
-
-              <div className="why-col-img-tag" key={`tag-${currentWhySlide}`}>
-                <div className="why-col-img-tag-dot"></div>
-                <span className="why-col-img-tag-text">
-                  {language === "es" ? whySlides[currentWhySlide].locationEs : whySlides[currentWhySlide].locationEn}
-                </span>
-              </div>
-
-              <div className="why-col-carousel-dots">
-                {whySlides.map((_, idx) => (
-                  <button
-                    key={idx}
-                    className={`why-col-carousel-dot ${idx === currentWhySlide ? "active" : ""}`}
-                    onClick={() => setCurrentWhySlide(idx)}
-                    aria-label={`Go to slide ${idx + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className="why-col-content-col" key={currentWhySlide}>
-              <span className="why-col-label">
-                {language === "es" ? whySlides[currentWhySlide].labelEs : whySlides[currentWhySlide].labelEn}
-              </span>
-              <h3 className="why-col-title">
-                {displayedWhyTitle}
-                {displayedWhyTitle.length < (language === "es" ? whySlides[currentWhySlide].titleEs : whySlides[currentWhySlide].titleEn).length && (
-                  <span className="why-col-cursor">|</span>
-                )}
-              </h3>
-              <p className="why-col-desc">
-                {displayedWhyDesc}
-                {displayedWhyDesc.length > 0 && displayedWhyDesc.length < (language === "es" ? whySlides[currentWhySlide].descEs : whySlides[currentWhySlide].descEn).length && (
-                  <span className="why-col-cursor">|</span>
-                )}
-              </p>
-              
-              <div className="why-col-pillars">
-                {(language === "es" ? whySlides[currentWhySlide].pillarsEs : whySlides[currentWhySlide].pillarsEn).map((pillar, idx) => (
-                  <div className="why-col-pillar" key={idx}>
-                    <div className="why-col-pillar-icon">{pillar.icon}</div>
-                    <div className="why-col-pillar-text">
-                      <h4 className="why-col-pillar-title">{pillar.title}</h4>
-                      <p className="why-col-pillar-desc">{pillar.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </article>
-
-          <div className="why-col-bottom-grid">
-            <div className="why-col-stat-card glass-card">
-              <div className="why-col-stat-line"></div>
-              <div className="why-col-stat-num">50k<span>+</span></div>
-              <h5 className="why-col-stat-title">
-                {language === "es" ? "Pacientes internacionales al año" : "International patients per year"}
-              </h5>
-              <p className="why-col-stat-desc">
-                {language === "es"
-                  ? "Colombia recibe miles de pacientes internacionales cada año que eligen sus especialistas por calidad, no por precio."
-                  : "Colombia receives thousands of international patients each year who choose their specialists for quality, not for price."}
-              </p>
-            </div>
-            
-            <div className="why-col-stat-card glass-card">
-              <div className="why-col-stat-line"></div>
-              <div className="why-col-stat-num">Top<span> 3</span></div>
-              <h5 className="why-col-stat-title">
-                {language === "es" ? "Destino médico en Latinoamérica" : "Medical destination in Latin America"}
-              </h5>
-              <p className="why-col-stat-desc">
-                {language === "es"
-                  ? "Reconocido por Patients Beyond Borders como uno de los destinos de turismo médico más destacados de la región."
-                  : "Recognized by Patients Beyond Borders as one of the region's most prominent medical tourism destinations."}
-              </p>
-            </div>
-            
-            <div className="why-col-stat-card glass-card">
-              <div className="why-col-stat-line"></div>
-              <div className="why-col-stat-num">JCI</div>
-              <h5 className="why-col-stat-title">
-                {language === "es" ? "Estándares internacionales" : "International standards"}
-              </h5>
-              <p className="why-col-stat-desc">
-                {language === "es"
-                  ? "Las principales instituciones médicas de Colombia cuentan con acreditaciones internacionales que garantizan los más altos estándares."
-                  : "Colombia's leading medical institutions hold international accreditations guaranteeing the highest safety standards."}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* TEXT REVEAL ON SCROLL SECTION */}
-      <div className="reveal-scroll-container" id="reveal-scroll-container" ref={scrollContainerRef}>
-        <div className="reveal-sticky-content">
-          <div className="reveal-subtitle">
-            {language === "es" ? "[ Tu bienestar en las mejores manos ]" : "[ Your wellness in the best hands ]"}
-          </div>
-          <h2 className="reveal-text-content" id="text-to-reveal" ref={textRef}>
-            {mounted ? (
-              (language === "es"
-                ? "Tu transformación, diseñada sin que muevas un dedo.\nEspecialistas de primer nivel, clínica, hotel, traslados y seguimiento — todo resuelto."
-                : "Your transformation, designed without you lifting a finger.\nTop-tier specialists, clinic, hotel, transfers, and follow-up — everything solved."
-              ).split("").map((char, index) => (
-                <span key={index}>{char}</span>
-              ))
-            ) : (
-              language === "es"
-                ? "Tu transformación, diseñada sin que muevas un dedo.\nEspecialistas de primer nivel, clínica, hotel, traslados y seguimiento — todo resuelto."
-                : "Your transformation, designed without you lifting a finger.\nTop-tier specialists, clinic, hotel, transfers, and follow-up — everything solved."
-            )}
-          </h2>
-          <Link href="/contacto" className="btn btn-primary">
-            {language === "es" ? "Iniciar Consulta" : "Start Consultation"}
-          </Link>
-        </div>
-      </div>
-
-      {/* 3. ESPECIALIDADES VISTA RÁPIDA */}
-      <section className="section specialties-section">
-        <div className="container">
-          <div className="section-header text-center">
-            <span className="section-subtitle">
-              {language === "es" ? "Nuestros Procedimientos" : "Our Procedures"}
-            </span>
-            <h2>{t("spec.title")}</h2>
-            <div className="header-bar"></div>
-            <p className="section-desc">{t("spec.subtitle")}</p>
-          </div>
-
-          <div className="grid grid-4 specialties-grid">
-            {mounted && specialties.map((spec) => (
-              <div key={spec.id} className="specialty-card glass-card">
-                <div 
-                  className="spec-card-img" 
-                  style={{ backgroundImage: `url(${spec.image})` }}
-                >
-                  <div className="spec-card-overlay"></div>
-                </div>
-                <div className="spec-card-content">
-                  <h3>{language === "es" ? spec.name : spec.nameEn}</h3>
-                  <p>{language === "es" ? spec.description : spec.descriptionEn}</p>
-                  <Link href={`/specialties/${spec.id}`} className="spec-link">
-                    {language === "es" ? "Saber más" : "Learn more"}{" "}
-                    <span className="spec-link-arrow">&rarr;</span>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 4. CÓMO FUNCIONA */}
-      <section className="section-dark section workflow-section">
-        <div className="container">
-          <div className="section-header text-center">
-            <span className="section-subtitle">
-              {language === "es" ? "Paso a Paso" : "Step by Step"}
-            </span>
-            <h2>{t("how.title")}</h2>
-            <div className="header-bar"></div>
-            <p className="section-desc">{t("how.subtitle")}</p>
-          </div>
-
-          <div className="workflow-steps">
-            <div className="step-item">
-              <div className="step-num">1</div>
-              <div className="step-content">
-                <h3>{t("how.step1.title")}</h3>
-                <p>{t("how.step1.desc")}</p>
-              </div>
-            </div>
-
-            <div className="step-item">
-              <div className="step-num">2</div>
-              <div className="step-content">
-                <h3>{t("how.step2.title")}</h3>
-                <p>{t("how.step2.desc")}</p>
-              </div>
-            </div>
-
-            <div className="step-item">
-              <div className="step-num">3</div>
-              <div className="step-content">
-                <h3>{t("how.step3.title")}</h3>
-                <p>{t("how.step3.desc")}</p>
-              </div>
-            </div>
-
-            <div className="step-item">
-              <div className="step-num">4</div>
-              <div className="step-content">
-                <h3>{t("how.step4.title")}</h3>
-                <p>{t("how.step4.desc")}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. TESTIMONIOS */}
+      {/* 3. TESTIMONIOS */}
       <section className="section testimonials-section">
         <div className="container">
           <div className="section-header text-center">
@@ -1370,239 +320,24 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 4. CONTACTO — cierre de la home */}
+      <ContactCta />
+
       <style jsx>{`
-        /* Hero Styling */
-        .hero-section {
-          position: relative;
-          z-index: 1;
-          overflow: hidden;
-          background-color: var(--negro-suave);
-          color: var(--white);
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .hero-bg-wrapper {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 1;
-          pointer-events: none;
-        }
-        .hero-video {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          opacity: 0;
-          transition: opacity 0.3s ease-in-out;
-        }
-        .hero-video.playing {
-          opacity: 0.25; /* Soft watermark video on white */
-        }
-        .hero-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: radial-gradient(circle at 70% 30%, rgba(250, 246, 240, 0.15) 0%, rgba(250, 246, 240, 0.8) 100%), 
-                      linear-gradient(to bottom, rgba(250, 246, 240, 0.4) 0%, rgba(250, 246, 240, 0.1) 50%, rgba(250, 246, 240, 0.98) 100%);
-          z-index: 2;
-          pointer-events: none;
-        }
-        .hero-content-wrapper {
-          position: relative;
-          z-index: 10;
-          width: 100%;
-          padding: 9.5rem 0 4.5rem 0;
-        }
-        .hero-content-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 4.5rem;
-          align-items: flex-end;
-          min-height: 72vh;
-          position: relative;
-          margin-left: 0 !important;
-        }
-        
-        /* Column Left Styling */
-        .hero-column-left {
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          height: 100%;
-          min-height: 520px;
-        }
-        .hero-title-container h1 {
-          font-size: 3.2rem;
-          line-height: 1.1;
-          margin-bottom: 2.5rem;
-          font-weight: 800;
-          letter-spacing: -0.03em;
-          text-align: left;
-          max-width: 600px;
-        }
-        .highlight-color {
-          color: var(--white);
-          -webkit-text-fill-color: var(--white);
-          display: block;
-          margin-top: 0.25rem;
-          font-weight: 700;
-        }
-        .cursor-blink {
-          animation: blink 0.9s infinite;
-          color: var(--mint-accent);
-          font-weight: 400;
-        }
-        @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0; }
-        }
+        /* Hero styling now lives in globals.css (a real stylesheet, present
+           before any JS runs) instead of here — see the comment there for
+           why. Everything below is unchanged. */
 
-        /* Features List Styling */
-        .hero-features-list {
-          display: flex;
-          flex-direction: column;
-          gap: 1.55rem;
-          margin-top: auto;
-          text-align: left;
-        }
-        .hero-feature-item {
-          display: flex;
-          align-items: flex-start;
-          gap: 1.15rem;
-          transition: transform 0.2s ease;
-        }
-        .hero-feature-item:hover {
-          transform: translateX(4px);
-        }
-        .hero-feature-icon-box {
-          color: var(--white);
-          width: 28px;
-          height: 28px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          margin-top: 0.15rem;
-        }
-        .hero-feature-icon {
-          width: 26px;
-          height: 26px;
-          stroke-width: 1.75px;
-        }
-        .hero-feature-content {
-          display: flex;
-          flex-direction: column;
-          gap: 0.15rem;
-        }
-        .hero-feature-title {
-          font-size: 0.98rem;
-          font-weight: 700;
-          color: var(--white);
-          margin: 0;
-          letter-spacing: -0.01em;
-        }
-        .hero-feature-desc {
-          font-size: 0.84rem;
-          color: var(--gris-texto);
-          margin: 0;
-          line-height: 1.4;
-          max-width: 320px;
-        }
-
-        /* Column Right Styling */
-        .hero-column-right {
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-end;
-          height: 100%;
-        }
-        .hero-right-bottom {
-          display: flex;
-          flex-direction: column;
-          gap: 1.75rem;
-          max-width: 520px;
-          text-align: left;
-        }
-        .hero-right-tagline {
-          font-size: clamp(1.35rem, 2.1vw, 1.65rem);
-          font-weight: 600;
-          color: var(--white);
-          line-height: 1.25;
-          letter-spacing: -0.02em;
-          margin: 0;
-          display: flex;
-          flex-direction: column;
-        }
-        .tagline-span {
-          display: block;
-          white-space: nowrap;
-        }
-        .hero-ctas-pill {
-          display: flex;
-          justify-content: flex-start;
-          margin-top: 0.5rem;
-        }
-        
         /* Buttons moved to globals.css */
 
-        /* Text Reveal on Scroll */
-        .reveal-scroll-container {
-          height: 100vh; 
-          position: relative;
-          background-color: var(--negro-suave); /* Match page background */
-          width: 100%;
+        /* Same 72px top inset as the other home sections (the generic
+           .section default is 136px, which read as a hole after the reveal
+           block), and 40px header → cards like the rest of the page. */
+        .testimonials-section {
+          padding-top: 2.25rem;
         }
-        .reveal-sticky-content {
-          position: sticky;
-          top: 12vh;
-          height: 70vh;
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-          align-items: center;
-          text-align: center;
-          padding: 3rem 24px 0 24px;
-          overflow: hidden;
-        }
-        .reveal-subtitle {
-          font-size: 0.9rem;
-          color: var(--mint-accent);
-          font-weight: 700;
-          margin-bottom: 2rem;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-        }
-        .reveal-text-content {
-          font-size: clamp(1.3rem, 2vw, 1.85rem);
-          font-weight: 500;
-          max-width: 1200px;
-          line-height: 1.6;
-          margin-bottom: 3.5rem;
-          text-align: center;
-          letter-spacing: -0.01em;
-          white-space: pre-line;
-          /* Reset background gradient clip from global h1 just in case */
-          background: none !important;
-          -webkit-background-clip: initial !important;
-          background-clip: initial !important;
-          -webkit-text-fill-color: initial !important;
-        }
-        .reveal-text-content span {
-          color: var(--blanco-hueso) !important;
-          -webkit-text-fill-color: var(--blanco-hueso) !important;
-          opacity: 0.25;
-          filter: blur(1.2px);
-          transition: opacity 0.35s ease, filter 0.35s ease;
-        }
-        .reveal-text-content span.active {
-          opacity: 1 !important;
-          filter: blur(0px) !important;
+        .testimonials-section .section-header {
+          margin-bottom: 2.5rem;
         }
 
         /* Section Headers */
@@ -1613,12 +348,68 @@ export default function Home() {
           z-index: 10;
         }
         .esp-specialties-tabs-section {
-          padding-top: 9.5rem;
-          padding-bottom: 6rem;
+          padding-top: 4.5rem;
+          padding-bottom: 3.5rem;
           scroll-margin-top: 100px;
         }
+        /* Header scaled to match the "¿Por qué Colombia?" header: 2rem title,
+           0.95rem copy, 28px to the tabs — one consistent type scale. */
+        /* Header → tabs (36px) is wider than tabs → panel (28px, set on
+           .esp-tabs-wrapper): the tabs are the panel's control, so they sit
+           with the panel rather than floating between the two. */
         .esp-specialties-tabs-section .section-header {
-          margin-bottom: 2.5rem;
+          margin-bottom: 2.25rem;
+        }
+        /* Side tag in the left margin, mirroring .proceso-header and
+           .why-col-header, so all three sections share one header rhythm. */
+        .esp-header-row {
+          display: grid;
+          grid-template-columns: 250px 1fr 250px;
+          gap: 20px;
+          align-items: start;
+        }
+        .esp-header-tag {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          height: fit-content;
+          padding-top: 0.4rem; /* optical: sits level with the h2 cap height */
+          font-size: 0.7rem;
+          font-weight: 600;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          color: var(--mint-accent);
+        }
+        .esp-header-tag-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background-color: var(--mint-accent);
+          color: var(--negro-suave);
+          font-size: 10px;
+          font-weight: 800;
+        }
+        @media (max-width: 992px) {
+          .esp-header-row {
+            grid-template-columns: 1fr;
+            gap: 12px;
+          }
+          .esp-header-spacer {
+            display: none;
+          }
+          .esp-header-tag {
+            justify-content: center;
+            padding-top: 0;
+          }
+        }
+        .esp-specialties-tabs-section .section-header h2 {
+          font-size: 2rem;
+          line-height: 1.1;
+          margin-bottom: 0;
         }
         .text-center {
           text-align: center;
@@ -1627,21 +418,25 @@ export default function Home() {
           color: var(--mint-accent);
           font-weight: 700;
           text-transform: uppercase;
-          font-size: 0.85rem;
-          letter-spacing: 0.15em;
+          font-size: 0.75rem;
+          letter-spacing: 0.14em;
           margin-bottom: 0.5rem;
           display: block;
         }
         .header-bar {
-          width: 50px;
+          width: 40px;
           height: 3px;
           background: linear-gradient(90deg, var(--teal-primary), var(--mint-accent));
-          margin: 1.25rem auto 1.75rem auto;
+          margin: 0.85rem auto 1rem auto;
           border-radius: 2px;
         }
         .section-desc {
-          font-size: 1.1rem;
+          font-size: 0.95rem;
+          line-height: 1.5;
           color: var(--gris-texto);
+          max-width: 560px;
+          margin-left: auto;
+          margin-right: auto;
         }
 
 
@@ -1680,6 +475,43 @@ export default function Home() {
           margin-bottom: 1.75rem;
           flex-grow: 1;
           color: var(--gris-texto);
+        }
+        .spec-card-price {
+          display: flex;
+          align-items: center;
+          gap: 0.85rem;
+          margin: -0.5rem 0 1.5rem;
+          padding-top: 1.1rem;
+          border-top: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        .spec-card-price .price-col {
+          display: flex;
+          flex-direction: column;
+          gap: 0.15rem;
+          line-height: 1.2;
+        }
+        .spec-card-price .price-col strong {
+          font-size: 1.02rem;
+          font-weight: 700;
+          color: var(--white);
+        }
+        .spec-card-price .price-col-us strong {
+          color: var(--gris-texto);
+          font-weight: 600;
+          text-decoration: line-through;
+          text-decoration-color: rgba(81, 88, 86, 0.4);
+        }
+        .spec-card-price .price-col em {
+          font-size: 0.7rem;
+          font-style: normal;
+          color: var(--gris-texto);
+          white-space: nowrap;
+        }
+        .spec-card-price .price-vs {
+          font-size: 0.7rem;
+          font-weight: 600;
+          color: var(--gris-texto);
+          opacity: 0.55;
         }
         .spec-link {
           color: var(--mint-accent);
@@ -1786,49 +618,9 @@ export default function Home() {
           margin-top: 0.15rem;
         }
 
-        /* Mobile adaptation */
+        /* Mobile adaptation — hero-related rules moved to globals.css
+           alongside the rest of the hero styling. */
         @media (max-width: 992px) {
-          .hero-section {
-            min-height: auto;
-            height: auto;
-            padding: 0;
-          }
-          .hero-content-wrapper {
-            padding: 8.5rem 0 4.5rem 0;
-          }
-          .hero-content-grid {
-            grid-template-columns: 1fr;
-            gap: 3.5rem;
-            min-height: auto;
-          }
-          .hero-column-left {
-            min-height: auto;
-          }
-          .hero-column-right {
-            justify-content: flex-start;
-          }
-          .hero-title-container h1 { 
-            font-size: 2.5rem; 
-            max-width: 100%;
-            margin-bottom: 2rem;
-          }
-          .hero-right-bottom {
-            max-width: 100%;
-          }
-          .hero-right-tagline {
-            font-size: 1.35rem;
-          }
-          .tagline-span {
-            white-space: normal;
-          }
-          .hero-packages-badge-container {
-            position: relative;
-            bottom: auto;
-            right: auto;
-            display: flex;
-            justify-content: flex-start;
-            margin-top: 1rem;
-          }
           .workflow-steps {
             grid-template-columns: 1fr;
             gap: 3.5rem;
@@ -1847,114 +639,91 @@ export default function Home() {
             flex-shrink: 0;
           }
         }
-        @media (max-width: 768px) {
-          .hero-content-wrapper {
-            padding: 7.5rem 0 3.5rem 0;
-          }
-          .hero-title-container h1 {
-            font-size: 1.85rem;
-          }
-          .hero-right-tagline {
-            font-size: 1.1rem;
-          }
-
-          .hero-features-list {
-            gap: 1.35rem;
-          }
-          .hero-feature-desc {
-            max-width: 100%;
-          }
-        }
 
         /* ==========================================================
            Specialties Interactive 3D Card Stack Styles (Ultra-Minimalist)
            ========================================================== */
+        /* Text + card stack travel together as one centred block under the
+           header (max 1040px), instead of being flung to opposite edges with
+           a void in between. */
         .esp-specialty-pane.active {
           display: flex;
-          justify-content: space-between;
+          justify-content: center;
           align-items: center;
           width: 100%;
-          gap: 80px;
+          max-width: 1095px;
+          margin: 0 auto;
+          gap: 125px;
         }
 
         .esp-text-col {
-          max-width: 550px;
-          flex: 1;
+          max-width: 520px;
+          flex: 0 1 520px;
         }
 
         .esp-badge {
           display: inline-block;
-          background-color: rgba(0, 0, 0, 0.05); /* very light gray */
-          color: #111827; /* dark gray/black */
+          /* Brand teal tint, not a stray Tailwind gray. Square-ish corners keep
+             it reading as a label, not as another pill tab. */
+          background-color: rgba(29, 122, 110, 0.08);
+          color: var(--teal-primary);
           padding: 4px 10px;
-          border-radius: 6px; /* slightly rounded, not pill */
+          border-radius: 6px;
           font-size: 0.78rem;
           font-weight: 600;
           text-transform: none; /* sentence case */
           letter-spacing: -0.01em;
-          margin-bottom: 1.5rem;
+          /* It labels the title, so it sits tight to it (12px) — tighter than
+             title → body (20px) and body → action (28px). */
+          margin-bottom: 0.75rem;
         }
 
         .esp-tagline {
-          font-size: 3.2rem; /* larger, bold */
+          /* The stack (400px) sets the pane height, so the text column has
+             room to breathe without making the section taller. */
+          font-size: 2.3rem;
           font-weight: 800;
           line-height: 1.1;
           color: var(--white);
-          margin-bottom: 1.5rem;
+          margin-bottom: 1.25rem;
           letter-spacing: -0.03em;
         }
 
         .esp-desc {
           font-size: 0.98rem; /* slightly smaller and cleaner */
-          color: #4b5563; /* gray-600 */
-          line-height: 1.6;
-          margin-bottom: 2rem;
-          max-width: 520px;
+          color: var(--gris-texto); /* the site's paragraph gray, not Tailwind's bluish gray-600 */
+          line-height: 1.65;
+          margin-bottom: 1.75rem;
+          max-width: 480px;
         }
 
-        /* Minimalist text link instead of pill button */
-        .esp-cta-link {
-          display: inline-flex;
-          align-items: center;
-          color: #000000;
-          font-weight: 700;
-          font-size: 0.95rem;
-          text-decoration: none;
-          gap: 0.5rem;
-          transition: all 0.2s ease;
-          border-bottom: 2px solid transparent;
-          padding-bottom: 2px;
-        }
-
-        .esp-cta-link:hover {
-          color: var(--teal-primary);
-          border-bottom-color: var(--teal-primary);
-        }
-
-        .esp-cta-link-arrow {
-          transition: transform 0.2s ease;
-        }
-
-        .esp-cta-link:hover .esp-cta-link-arrow {
-          transform: translateX(4px);
-        }
+        /* .esp-cta-link lives in globals.css: it is a <Link>, and next/link
+           anchors never receive styled-jsx's scope class, so rules here never
+           matched it (it rendered unstyled, with the arrow jammed against the
+           text). */
 
         .esp-stack-col {
-          flex: 1;
+          flex: 0 0 auto;
           display: flex;
-          justify-content: flex-end;
+          justify-content: center;
           align-items: center;
           cursor: pointer;
           user-select: none;
-          padding-right: 30px;
+          border-radius: 14px;
+        }
+
+        .esp-stack-col:focus-visible {
+          outline: 2px solid var(--teal-primary);
+          outline-offset: 6px;
         }
 
         .esp-card-stack {
           position: relative;
-          width: 380px;
-          height: 460px;
-          margin-right: 20px;
-          margin-bottom: 20px;
+          width: 340px;
+          height: 400px;
+          /* Room for the two offset cards peeking out behind (24px, 24px) */
+          margin-right: 24px;
+          margin-bottom: 24px;
         }
 
         .esp-stack-card {
@@ -1966,9 +735,14 @@ export default function Home() {
           border-radius: 12px; /* cleaner, sharper radius */
           overflow: hidden;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02); /* soft shadow */
-          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-                      z-index 0.6s step-end,
-                      opacity 0.6s ease;
+          /* z-index is deliberately NOT transitioned: the incoming cards must
+             take their new stacking order on the very first frame, otherwise
+             two cards tie at the same z-index mid-animation and their titles
+             overlap. Only the outgoing card (pos-2) handles z-index, inside its
+             own keyframes. */
+          transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                      opacity 0.7s ease,
+                      box-shadow 0.4s ease;
           border: 1px solid rgba(0, 0, 0, 0.04);
         }
 
@@ -2056,8 +830,19 @@ export default function Home() {
         }
 
         .esp-card-pos-2 {
-          animation: sendToBack 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          opacity: 0.9;
+          z-index: 1;
+          animation: sendToBack 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        /* Both titles sit bottom-center, so while the outgoing card crossfades
+           its title would read as doubled text over the incoming one. Drop the
+           outgoing title almost instantly; the card itself keeps fading. */
+        .esp-card-info {
+          transition: opacity 0.3s ease 0.15s;
+        }
+        .esp-card-pos-2 .esp-card-info {
+          opacity: 0;
+          transition: opacity 0.12s ease;
         }
 
         /* Hover animation fanning out */
@@ -2080,46 +865,85 @@ export default function Home() {
           display: block;
         }
 
+        /* The ring's own animationend advances the stack (see cycleCard), so
+           anything that pauses this animation pauses the advance with it. */
         .esp-progress-ring-circle {
-          transition: stroke-dashoffset 0.05s linear;
+          stroke-dashoffset: 56.54;
+          animation: ringFill 5s linear forwards;
         }
 
+        /* Hold the stack while it is being looked at or used. Hover only on
+           real pointers: touch browsers keep :hover stuck after a tap. */
+        @media (hover: hover) {
+          .esp-stack-col:hover .esp-progress-ring-circle {
+            animation-play-state: paused;
+          }
+        }
+        .esp-stack-col:focus-visible .esp-progress-ring-circle {
+          animation-play-state: paused;
+        }
+
+        @keyframes ringFill {
+          from { stroke-dashoffset: 56.54; }
+          to   { stroke-dashoffset: 0; }
+        }
+
+        /* Outgoing card: lifts and fades out ON TOP of the deck (z 4), then —
+           while fully transparent — teleports to the back slot and fades back
+           in there. Nothing ever crosses through another card, so there is no
+           frame where two cards fight for the same layer. */
         @keyframes sendToBack {
           0% {
-            z-index: 3;
+            z-index: 4;
+            opacity: 1;
             transform: translate(0, 0) scale(1) rotate(0deg);
           }
           45% {
-            z-index: 3;
-            transform: translate(12px, 35%) scale(0.97) rotate(1deg);
+            z-index: 4;
+            opacity: 0;
+            transform: translate(0, -28px) scale(0.98) rotate(0deg);
           }
-          50% {
+          46% {
             z-index: 1;
-            transform: translate(12px, 35%) scale(0.95) rotate(1deg);
+            opacity: 0;
+            transform: translate(24px, 24px) scale(0.94) rotate(-1.5deg);
           }
           100% {
             z-index: 1;
+            opacity: 0.9;
             transform: translate(24px, 24px) scale(0.94) rotate(-1.5deg);
           }
         }
 
         @keyframes sendToBackMobile {
           0% {
-            z-index: 3;
+            z-index: 4;
+            opacity: 1;
             transform: translate(0, 0) scale(1) rotate(0deg);
           }
           45% {
-            z-index: 3;
-            transform: translate(10px, 35%) scale(0.97) rotate(1deg);
+            z-index: 4;
+            opacity: 0;
+            transform: translate(0, -22px) scale(0.98) rotate(0deg);
           }
-          50% {
+          46% {
             z-index: 1;
-            transform: translate(10px, 35%) scale(0.95) rotate(1deg);
+            opacity: 0;
+            transform: translate(20px, 20px) scale(0.94) rotate(-1.5deg);
           }
           100% {
             z-index: 1;
+            opacity: 0.9;
             transform: translate(20px, 20px) scale(0.94) rotate(-1.5deg);
           }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .esp-stack-card { transition-duration: 0.01ms; }
+          .esp-card-pos-2 { animation-duration: 0.01ms; }
+          /* No ring animation means no auto-advance; the stack still cycles
+             on click and keyboard. */
+          .esp-progress-ring-circle { animation: none; }
         }
 
         @media (max-width: 900px) {
@@ -2133,9 +957,16 @@ export default function Home() {
             display: flex;
             flex-direction: column;
             align-items: center;
+            /* Stacked layout: the desktop flex-basis (520px) would become a
+               520px HEIGHT here and leave a void above the cards. */
+            flex: 0 0 auto;
+            max-width: 100%;
           }
           .esp-tagline {
-            font-size: 2.4rem;
+            /* Stacked on a phone, this title reads right after the section's
+               own "Especialidades" heading — keep it under that (32px) so the
+               hierarchy holds, and at 3 lines instead of 4. */
+            font-size: 1.85rem;
           }
           .esp-card-stack {
             width: 280px;
@@ -2147,7 +978,7 @@ export default function Home() {
             transform: translate(10px, 10px) scale(0.97) rotate(1.5deg);
           }
           .esp-card-pos-2 {
-            animation: sendToBackMobile 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: sendToBackMobile 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
           }
         }
       `}</style>
