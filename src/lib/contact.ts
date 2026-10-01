@@ -30,9 +30,9 @@ export const TEAM = {
  *  we'll e-mail to agree on a time. */
 export const CALENDLY_URL: string = "";
 
-/** ⚠️ Pending: the final domain. Used for the Google and LinkedIn previews in
- *  the blog dashboard (and later for canonical URLs and the sitemap). */
-export const SITE_HOST = "bridgecare.co";
+/** The live domain. Used for the Google and LinkedIn previews in the blog
+ *  dashboard (and later for canonical URLs and the sitemap). */
+export const SITE_HOST = "wearebridgecare.com";
 
 /** ⚠️ Pending: the organization's LinkedIn page. While empty, the blog shows
  *  its "follow on LinkedIn" band without the button. */

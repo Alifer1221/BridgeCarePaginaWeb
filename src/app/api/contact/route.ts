@@ -38,8 +38,8 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           // Resend's shared test sender — works without verifying a domain,
           // but only delivers to the email address tied to the Resend
-          // account. Once bridgecare.co is a verified domain in Resend,
-          // switch this to something like "Bridge Care <leads@bridgecare.co>".
+          // account. Once wearebridgecare.com is a verified domain in Resend,
+          // switch this to something like "Bridge Care <leads@wearebridgecare.com>".
           from: "Bridge Care <onboarding@resend.dev>",
           to: [TO_EMAIL],
           reply_to: email,
