@@ -8,7 +8,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { useFitBoard } from "@/lib/useFitBoard";
 import { CALENDLY_URL, CONTACT_EMAIL, WHATSAPP_DISPLAY, waHref } from "@/lib/contact";
 
-const serif = Newsreader({ subsets: ["latin"], weight: ["400"], display: "swap" });
+const serif = Newsreader({ subsets: ["latin"], weight: ["400"], display: "swap", preload: false });
 
 /* Contacto (design board CT1, "dos pasos"): the path on the left, a short
    form on the right, WhatsApp and e-mail as the other doors. Sending the form

@@ -8,8 +8,8 @@ import { useLanguage } from "@/context/LanguageContext";
 import { FOUNDER_NAME, FOUNDER_ROLE, FOUNDER_ROLE_EN, TEAM, waHref } from "@/lib/contact";
 import { PARTNER_DOCTORS } from "@/lib/doctors";
 
-const serif = Newsreader({ subsets: ["latin"], weight: ["400"], display: "swap" });
-const hand = Caveat({ subsets: ["latin"], weight: ["500"], display: "swap" });
+const serif = Newsreader({ subsets: ["latin"], weight: ["400"], display: "swap", preload: false });
+const hand = Caveat({ subsets: ["latin"], weight: ["500"], display: "swap", preload: false });
 
 /* Nosotros, rebuilt section by section around trust. First: "why we exist"
    (design board N5), the founder's real story told from the patient's side.

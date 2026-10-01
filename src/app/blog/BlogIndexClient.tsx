@@ -8,7 +8,7 @@ import { LINKEDIN_URL } from "@/lib/contact";
 import { useBlogPosts, useSpecialties } from "@/lib/useStoredData";
 import { useLanguage } from "@/context/LanguageContext";
 
-const serif = Newsreader({ subsets: ["latin"], weight: ["400", "500"], display: "swap" });
+const serif = Newsreader({ subsets: ["latin"], weight: ["400", "500"], display: "swap", preload: false });
 
 /* The blog as a magazine, design board BL1+, kept simple:
    1. Lead story: the post marked featured, else the newest.
