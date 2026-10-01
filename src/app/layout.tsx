@@ -26,9 +26,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={inter.variable} suppressHydrationWarning>
-      <head>
-        <link rel="icon" href="/favicon.ico" />
-      </head>
       <body>
         <StyledJsxRegistry>
           <LanguageProvider>
