@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useFitBoard } from "@/lib/useFitBoard";
 
 /* Inicio · "Cómo funciona" (design board H1b, "ruta de vuelo"): the four steps
    ride a flight arc from "tu ciudad" to "casa"; the reached stretch is drawn
-   solid, the rest dotted, and the open step shows below as a wide card. It
-   moves on by itself and follows hover, click and keyboard focus. Only the
-   real process, no time promises. */
+   solid, the rest dotted, and the open step shows below as a wide card.
+   Desktop: the section pins while you scroll through it and the scroll flies
+   the plane along the arc, step by step. Phones: it moves on by itself. Click
+   and keyboard focus work on both. Only the real process, no time promises. */
 
 const photo = (id: string) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&q=80&w=1200`;
 
@@ -68,20 +69,87 @@ const partial = (t: number) => {
 
 export default function HowItWorks({ es }: { es: boolean }) {
   const boardRef = useFitBoard<HTMLDivElement>({ minH: 600, maxH: 900 });
+  const sectionRef = useRef<HTMLElement>(null);
+  const planeRef = useRef<HTMLSpanElement>(null);
+  const doneRef = useRef<SVGPathElement>(null);
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [scrollMode, setScrollMode] = useState(false);
+
+  // Where the plane sits on the arc (t between the first and last stop).
+  const placePlane = (t: number) => {
+    const [x, y] = at(t);
+    if (planeRef.current) {
+      planeRef.current.style.left = `${(x / W) * 100}%`;
+      planeRef.current.style.top = `${(y / H) * 100}%`;
+    }
+    doneRef.current?.setAttribute("d", partial(t));
+  };
+
+  // Desktop: the pinned section's scroll progress drives the plane and the step.
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 901px)");
+    const sync = () => setScrollMode(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
 
   useEffect(() => {
-    if (paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!scrollMode) return;
+    let raf = 0;
+    const update = () => {
+      const el = sectionRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const travel = Math.max(1, r.height - window.innerHeight);
+      const p = Math.min(1, Math.max(0, -r.top / travel));
+      placePlane(STOP_T[0] + p * (STOP_T[3] - STOP_T[0]));
+      setActive(Math.min(STEPS.length - 1, Math.floor(p * STEPS.length)));
+    };
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [scrollMode]);
+
+  // Phones: it moves on by itself, and the plane jumps stop to stop.
+  useEffect(() => {
+    if (scrollMode) return;
+    placePlane(STOP_T[active]);
+  }, [scrollMode, active]);
+
+  useEffect(() => {
+    if (scrollMode || paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const id = window.setInterval(() => setActive((a) => (a + 1) % STEPS.length), 5000);
     return () => window.clearInterval(id);
-  }, [paused]);
+  }, [scrollMode, paused]);
+
+  /** Click / focus on a stop: on desktop, scroll to that step's stretch. */
+  const goTo = (i: number) => {
+    const el = sectionRef.current;
+    if (scrollMode && el) {
+      const top = el.getBoundingClientRect().top + window.scrollY;
+      const travel = el.offsetHeight - window.innerHeight;
+      window.scrollTo({ top: top + ((i + 0.5) / STEPS.length) * travel, behavior: "smooth" });
+    } else {
+      setActive(i);
+    }
+  };
 
   const step = STEPS[active];
-  const plane = at(STOP_T[active]);
 
   return (
-    <section className="hw" aria-labelledby="hw-title">
+    <section className="hw" ref={sectionRef} aria-labelledby="hw-title">
+      <div className="hw-sticky">
       <div className="hw-board" ref={boardRef} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
         <div className="hw-head">
           <div>
@@ -100,11 +168,11 @@ export default function HowItWorks({ es }: { es: boolean }) {
         <div className="hw-route">
           <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true">
             <path d={`M${P0[0]} ${P0[1]} Q ${P1[0]} ${P1[1]} ${P2[0]} ${P2[1]}`} className="hw-arc" vectorEffect="non-scaling-stroke" />
-            <path d={partial(STOP_T[active])} className="hw-arc-done" vectorEffect="non-scaling-stroke" />
+            <path ref={doneRef} d={partial(STOP_T[0])} className="hw-arc-done" vectorEffect="non-scaling-stroke" />
           </svg>
           <span className="hw-end hw-end-a">{es ? "TU CIUDAD" : "YOUR CITY"}</span>
           <span className="hw-end hw-end-b">{es ? "CASA" : "HOME"}</span>
-          <span className="hw-plane" style={{ left: `${(plane[0] / W) * 100}%`, top: `${(plane[1] / H) * 100}%` }} aria-hidden="true">
+          <span className="hw-plane" ref={planeRef} aria-hidden="true">
             ✈
           </span>
           <div className="hw-stops" role="tablist" aria-label={es ? "Pasos" : "Steps"}>
@@ -118,9 +186,9 @@ export default function HowItWorks({ es }: { es: boolean }) {
                   aria-selected={i === active}
                   className={`hw-stop${i === active ? " is-on" : ""}${i < active ? " is-done" : ""}`}
                   style={{ left: `${(x / W) * 100}%`, top: `${(y / H) * 100}%` }}
-                  onMouseEnter={() => setActive(i)}
-                  onFocus={() => setActive(i)}
-                  onClick={() => setActive(i)}
+                  onMouseEnter={() => !scrollMode && setActive(i)}
+                  onFocus={() => !scrollMode && setActive(i)}
+                  onClick={() => goTo(i)}
                 >
                   <span className="hw-dot" aria-hidden="true" />
                   <span className="hw-label">
@@ -145,15 +213,24 @@ export default function HowItWorks({ es }: { es: boolean }) {
           </div>
         </div>
       </div>
+      </div>
 
       <style jsx>{`
+        /* Tall track: the board stays pinned while the page scrolls ~one
+           screen per step, and that scroll flies the plane. */
         .hw {
+          position: relative;
+          height: 380svh;
+          background: var(--negro-suave);
+        }
+        .hw-sticky {
+          position: sticky;
+          top: 0;
           display: flex;
           align-items: center;
           justify-content: center;
-          min-height: 100svh;
+          height: 100svh;
           overflow: hidden;
-          background: var(--negro-suave);
         }
         /* Design board H1b at its 1440 px; its height follows the screen (--bh). */
         .hw-board {
@@ -233,7 +310,6 @@ export default function HowItWorks({ es }: { es: boolean }) {
           stroke: #0a4a42;
           stroke-width: 2.5;
           stroke-linecap: round;
-          transition: d 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .hw-end {
           position: absolute;
@@ -255,7 +331,6 @@ export default function HowItWorks({ es }: { es: boolean }) {
           color: #0a4a42;
           font-size: 22px;
           transform: translate(-50%, -150%) rotate(8deg);
-          transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1), top 0.8s cubic-bezier(0.4, 0, 0.2, 1);
           pointer-events: none;
         }
         .hw-stop {
@@ -401,7 +476,11 @@ export default function HowItWorks({ es }: { es: boolean }) {
         }
         @media (max-width: 900px) {
           .hw {
-            min-height: 0;
+            height: auto;
+          }
+          .hw-sticky {
+            position: static;
+            height: auto;
           }
           .hw-board {
             --h: 760px;
